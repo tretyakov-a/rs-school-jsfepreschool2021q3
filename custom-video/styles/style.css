@@ -43,7 +43,6 @@ video::-webkit-media-controls-enclosure {
 }
 
 .main {
-  height: 100vh;
   position: relative;
 }
 
@@ -62,11 +61,12 @@ video::-webkit-media-controls-enclosure {
 .container {
   z-index: 2;
   position: relative;
-  height: 100%;
+  height: 100vh;
   max-width: calc(var(--player-width) + var(--container-h-padding) * 2);
   margin: 0 auto;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
   padding: 0 10px;
 }
@@ -312,4 +312,50 @@ video::-webkit-media-controls-enclosure {
   font-size: 0.9rem;
   text-shadow: 0px 0px 4px var(--dark-color);
   display: none;
+}
+
+.footer {
+  height: 60px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer__github-link {
+  text-align: right;
+  margin-top: 10px;
+  text-shadow: 0px 0px 2px var(--main-text-color);
+  color: var(--main-color);
+}
+
+.footer__github-link a {
+  text-decoration: underline;
+  color: var(--main-color);
+}
+
+.logo {
+  display: block;
+  width: 120px;
+  margin-right: 40px;
+}
+
+.st0, .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9 {
+  fill: var(--main-color);
+  stroke: var(--main-color);
+}
+
+.logo-path {
+  fill: var(--main-text-color);
+  stroke: var(--main-color);
+  stroke-width: 4px;
+}
+
+.header {
+  margin-top: 10px;
+}
+
+.header h1 {
+  text-shadow: 0px 0px 2px var(--main-text-color);
+  color: var(--main-color);
 }

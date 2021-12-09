@@ -236,8 +236,7 @@ progressBar.addEventListener('mousemove', throttleDelayed(handleProgressBarMouse
 document.addEventListener('click', hideSettingsMenu);
 
 controlPanel.addEventListener('click', e => {
-  console.log(e);
-  
+
   if (e.target.classList.contains('volume-slider')) {
     handleVolumeSliderChange(e);
     return;
