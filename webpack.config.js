@@ -53,14 +53,15 @@ module.exports = (env) => {
     output: {
       filename: fileName('js'),
       path: path.resolve(__dirname, 'dist'),
-      publicPath: ''
+      assetModuleFilename: 'images/[name]-[hash:8].[ext]',
+      publicPath: '/'
     },
     mode: isProd ? 'production' : isDev && 'development',
     optimization: {
       minimize: false
    },
     devServer: {
-      hot: true
+      hot: false
     },
     module: {
       rules: [
@@ -90,7 +91,7 @@ module.exports = (env) => {
             {
               loader: 'handlebars-loader',
               options: {
-                inlineRequires: '/pictures/'
+                inlineRequires: '/(pictures|assets)/'
               }
             }
           ]
@@ -98,16 +99,17 @@ module.exports = (env) => {
         // Loading images
         {
           test: /\.(jpg|png|svg|gif|ico)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                esModule: false,
-                outputPath: 'images',
-                name: '[name]-[sha1:hash:7].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource'
+          // use: [
+          //   {
+          //     loader: 'file-loader',
+          //     options: {
+          //       esModule: false,
+          //       outputPath: 'images',
+          //       name: '[name]-[sha1:hash:7].[ext]'
+          //     }
+          //   }
+          // ]
         },
         // Loading fonts
         {

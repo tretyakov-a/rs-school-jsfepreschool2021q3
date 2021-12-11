@@ -1,0 +1,56 @@
+.contacts {
+  background: no-repeat url("../pictures/contacts/bg-contacts.jpg");
+  padding: 60px $container-padding 195px;
+  
+  &__content {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  &__container {
+    width: 450px;
+    text-align: left;
+    justify-self: right;
+  }
+
+  &__title {
+    font-family: $headers-font;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 80px;
+    color: $theme-color;
+  }
+
+  &__form {
+    margin-top: 40px;
+  }
+}
+
+.contacts-form {
+  input, textarea {
+    display: block;
+    width: 100%;
+    border: 2px solid $theme-color;
+    font-size: 20px;
+    line-height: 40px;
+    padding: 3px 20px;
+    color: $theme-color;
+    background: rgba($bg-color, 0.4);
+  }
+  
+  input::placeholder, textarea::placeholder {
+    color: rgba($theme-color, 0.4)
+  }
+
+  textarea {
+    height: 100px;
+  }
+
+  &__row:not(:last-child) {
+    margin-bottom: 20px;
+  }
+
+  &__submit {
+    margin-top: 10px;
+  }
+}

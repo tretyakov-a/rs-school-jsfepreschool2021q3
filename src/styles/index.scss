@@ -1,12 +1,12 @@
-@use 'normalize.css';
+@import 'normalize.css';
 
-@use "constants";
-@use "general";
-@use "header";
-@use "footer";
-@use "hero";
-@use "portfolio";
-@use "price";
-@use "skills";
-@use "video";
-@use "contacts";
+@import "constants";
+@import "general";
+@import "header";
+@import "footer";
+@import "hero";
+@import "portfolio";
+@import "price";
+@import "skills";
+@import "video";
+@import "contacts";

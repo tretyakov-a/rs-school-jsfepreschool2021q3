@@ -1,0 +1,25 @@
+.hero {
+  padding-top: 250px;
+  height: 910px;
+  text-align: left;
+  padding-left: 80px;
+  background: url("../pictures/bg.jpg") no-repeat;
+  background-position: top center;
+  
+  &__inner {
+    max-width: 470px;
+  }
+  
+  &__title {
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 120px;
+  }
+
+  &__text {
+    font-size: 20px;
+    line-height: 40px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+  }
+}
