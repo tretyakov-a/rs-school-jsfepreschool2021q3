@@ -10,6 +10,32 @@
   z-index: 10;
   padding: 0 $container-padding;
   background: transparent;
+
+  &__nav {
+    display: flex;
+    align-items: center;
+  }
+
+  &__menu-hamburger {
+    display: none;
+  }
+}
+
+.menu-hamburger {
+  width: 40px;
+  height: 40px;
+  padding: 11px 4px;
+  cursor: pointer;
+  justify-content: space-between;
+  flex-direction: column;
+  z-index: 1;
+  position: relative;
+
+  &__line {
+    width: 32px;
+    height: 2px;
+    background: $text-color;
+  }
 }
 
 .logo {
@@ -22,11 +48,6 @@
     height: 100%;
     object-fit: contain;
   }
-}
-
-.header-nav {
-  display: flex;
-  align-items: center;
 }
 
 .header-menu {
@@ -64,4 +85,116 @@
     color: $theme-color;
   }
 
+}
+
+@media (max-width: 768px) {
+  .header {
+    &__nav {
+      flex-direction: row-reverse;
+    }
+
+    &__menu-container {
+      margin-left: 36px;
+    }
+  }
+
+  .menu-hamburger {
+    display: flex;
+    
+    &_close {
+      display: block;
+      position: relative;
+
+      @keyframes rotateClockwise {
+        from {
+          transform: rotate(0deg);
+          top: 11px;
+        }
+        to {
+          transform: rotate(45deg);
+          left: 6px;
+          top: 6px;
+          width: 37px;
+        }
+      }
+      @keyframes rotateAntiClockwise {
+        from {
+          transform: rotate(0deg);
+          bottom: 11px;
+        }
+        to {
+          transform: rotate(-45deg);
+          left: 6px;
+          bottom: 6px;
+          width: 37px;
+        }
+      }
+      .menu-hamburger {
+        &__line {
+          transform-origin: top left;
+          position: absolute;
+          left: 6px;
+          width: 32px;
+        }
+
+        &__line:nth-child(1) {
+          top: 6px;
+          animation: rotateClockwise 0.2s linear forwards;
+        }
+  
+        &__line:nth-child(2) {
+          display: none;
+        }
+  
+        &__line:nth-child(3) {
+          bottom: 6px;
+          animation: rotateAntiClockwise 0.2s linear forwards;
+        }
+      }
+    }
+  }
+
+  .header-menu {
+    display: none;
+    position: absolute;
+    padding: $header-height;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    background: rgba($bg-color, 0.8);
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    &_show {
+      display: flex;
+      transform: translateX(100%);
+      animation: slideIn 0.2s linear forwards;
+    }
+
+    &_hide {
+      display: flex;
+      opacity: 1;
+      animation: fadeOut 0.2s linear forwards;
+    }
+  }
+  
 }
