@@ -108,37 +108,30 @@
       @keyframes rotateClockwise {
         from {
           transform: rotate(0deg);
-          top: 11px;
+          top: 4px;
         }
         to {
           transform: rotate(45deg);
-          left: 6px;
-          top: 6px;
-          width: 37px;
+          top: 20px;
         }
       }
       @keyframes rotateAntiClockwise {
         from {
           transform: rotate(0deg);
-          bottom: 11px;
+          top: 34px
         }
         to {
           transform: rotate(-45deg);
-          left: 6px;
-          bottom: 6px;
-          width: 37px;
+          top: 20px;
         }
       }
       .menu-hamburger {
         &__line {
-          transform-origin: top left;
           position: absolute;
-          left: 6px;
-          width: 32px;
+          left: 4px;
         }
 
         &__line:nth-child(1) {
-          top: 6px;
           animation: rotateClockwise 0.2s linear forwards;
         }
   
@@ -147,7 +140,6 @@
         }
   
         &__line:nth-child(3) {
-          bottom: 6px;
           animation: rotateAntiClockwise 0.2s linear forwards;
         }
       }

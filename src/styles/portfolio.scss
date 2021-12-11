@@ -1,6 +1,5 @@
 
 .portfolio {
-  // because of works-item bottom margin
   margin-bottom: -$works-item-gap;
 
   &__buttons-group {
@@ -8,6 +7,9 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 55px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   &__button {
@@ -24,8 +26,14 @@
   }
 
   &__works-item {
-    flex: 1 1 calc((100% - 2 * #{$works-item-gap}) / 3);
+    flex-basis: calc((100% - 2 * #{$works-item-gap}) / 3);
     margin-bottom: $works-item-gap;
+    transition: 0.2s;
+    transform: scale(1);
+  }
+
+  &__works-item:hover {
+    transform: scale(1.05);
   }
   
   &__works-item-link {
@@ -45,15 +53,67 @@
 
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .portfolio {
     &__works-item {
-      flex: 1 1 calc((100% - #{$works-item-gap}) / 2);
+      flex-basis: calc((100% - #{$works-item-gap}) / 2);
     }
-    
-    &__works-item:not(:nth-child(2n)) {
+    &__works-item:not(:nth-child(3n)) {
+      margin-right: 0px;
+    }
+    &__works-item:nth-child(2n + 1) {
       margin-right: $works-item-gap;
     }
-  
+
+    &__buttons-group {
+      width: 445px;
+    }
+
+    &__button {
+      flex-basis: 220px;  
+    }
+
+    &__button:not(:last-child) {
+      margin-right: 0px;
+    }
+
+    &__button:nth-child(2n + 1) {
+      margin-right: 5px;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .portfolio {
+    &__works {
+      flex-direction: column;
+      align-items: center;
+    }
+    &__works-item {
+      flex-basis: 450px;
+    }
+    
+    &__works-item:nth-child(2n + 1) {
+      margin-right: 0px;
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .portfolio {
+    &__works-item {
+      flex-basis: 100%;
+    }
+    &__button {
+      flex-basis: 100%;  
+    }
+    &__buttons-group {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    &__button:nth-child(2n + 1) {
+      margin-right: 0px;
+    }
   }
 }

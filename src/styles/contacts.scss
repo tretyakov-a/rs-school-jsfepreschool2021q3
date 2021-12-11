@@ -1,5 +1,5 @@
 .contacts {
-  background: no-repeat url("../pictures/contacts/bg-contacts.jpg");
+  background: no-repeat center url("../pictures/contacts/bg-contacts.jpg");
   padding: 60px $container-padding 195px;
   
   &__content {
@@ -44,6 +44,7 @@
 
   textarea {
     height: 100px;
+    resize: none;
   }
 
   &__row:not(:last-child) {
@@ -52,5 +53,34 @@
 
   &__submit {
     margin-top: 10px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .contacts {
+    padding-bottom: 110px;
+    
+    &__title {
+      font-size: 32px;
+      line-height: 64px;
+    }
+
+    &__content {
+      justify-content: center;
+    }
+
+    &__container {
+      width: 450px;
+      text-align: center;
+    }
+
+  }
+}
+
+@media (max-width: 540px) {
+  &__container {
+    width: 100%;
+    text-align: center;
   }
 }
