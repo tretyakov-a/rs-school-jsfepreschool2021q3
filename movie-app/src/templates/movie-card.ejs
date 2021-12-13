@@ -1,0 +1,24 @@
+<li class="movies-list__item movie-card">
+  <div class="movie-card__poster-container">
+    <div class="movie-card__movie-type"><%= locals.Type %></div>
+    <img class="movie-card__poster" src="<%= locals.Poster %>" alt="<%= locals.Title %>">
+  </div>
+  <div class="movie-card__info">
+    <span class="movie-card__country"><%= locals.Country %></span>,&nbsp;
+    <span class="movie-card__year"><%= locals.Year %></span>
+  </div>
+  <h2 class="movie-card__title"><%= locals.Title %></h2>
+  <div class="movie-card__ratings">
+    <span class="movie-card__imdb">
+      <img src="<%= require('../assets/imdb.png') %>" alt="imdb" width="35" height="17">
+      <%= locals.imdbRating %>&nbsp;/&nbsp;10
+    </span>
+    <span class="movie-card__metascore">
+      <img src="<%= require('../assets/rotten.png') %>" alt="rotten tomatoes" width="16" height="17">
+      <%= locals.Metascore %>%
+    </span>
+  </div>
+  <div class="movie-card__info">
+    <span class="movie-card__genre"><%= locals.Genre %></span>
+  </div>
+</li>
