@@ -12,7 +12,7 @@ export default class DummyService {
         resolve(dummySearch);
       }, this.delay);
     });
-    return data.Search;
+    return data;
   }
 
   async fetchMovieByTitle() {

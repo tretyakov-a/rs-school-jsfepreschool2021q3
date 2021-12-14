@@ -35,7 +35,7 @@ export default class OmdbApiService {
   }
   async search(str) {
     const data =  await this._fetch(this._getSearchQuery(str));
-    return data.Search;
+    return data;
   }
 
   async fetchMovieByTitle(title) {

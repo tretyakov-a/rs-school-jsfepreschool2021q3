@@ -1,7 +1,9 @@
 import movieCardTemplate from './templates/movie-card.ejs';
 
 export default function renderMovies(items) {
-  return items.reduce((movies, item) => movies + renderListItem(item), '');
+  return items.reduce((movies, item) => {
+    return movies + renderListItem(item);
+  }, '');
 }
 
 function renderListItem(item) {
