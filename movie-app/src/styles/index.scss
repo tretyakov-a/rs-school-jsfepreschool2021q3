@@ -1,3 +1,4 @@
+@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 @import 'normalize.css';
 
 @import "constants";
@@ -5,3 +6,5 @@
 @import "header";
 @import "footer";
 @import "movies-list";
+@import "movie-card-full";
+@import "popup";

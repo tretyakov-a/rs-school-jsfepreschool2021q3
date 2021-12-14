@@ -11,6 +11,9 @@
   },
   "author": "Tretyakov Alexander (tpetyakov@gmail.com)",
   "license": "ISC",
+  "browserslist": [
+    "last 1 chrome version"
+  ],
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
@@ -36,6 +39,7 @@
     "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "core-js": "^3.19.3",
     "normalize.css": "^8.0.1"
   }

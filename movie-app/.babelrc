@@ -8,13 +8,6 @@
         "debug": false, // output debug information
         "modules": false // dont transpile 'import' constructions
       }
-    ],
-    [
-      "minify",
-      {
-        "keepFnName": true,
-        "simplify": false
-      }
     ]
   ]
 }

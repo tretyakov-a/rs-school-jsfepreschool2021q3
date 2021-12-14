@@ -12,9 +12,11 @@
   </title>
 </head>
 <body>
+  <%- require('./templates/popup.ejs')() %>
   <div class="container">
     <%- require('./templates/header.ejs')() %>
     <main class="main">
+      <ul class="movies-list"></ul>
     </main>
     <%- require('./templates/footer.ejs')() %>
   </div>

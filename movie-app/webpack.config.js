@@ -49,7 +49,6 @@ module.exports = (env) => {
     output: {
       filename: fileName('js'),
       path: path.resolve(__dirname, 'dist'),
-      assetModuleFilename: 'images/[name]-[hash:8][ext]',
       publicPath: '/'
     },
     mode: isProd ? 'production' : isDev && 'development',
@@ -102,21 +101,18 @@ module.exports = (env) => {
         // Loading images
         {
           test: /\.(jpg|png|svg|gif|ico)$/,
-          type: 'asset/resource'
+          type: 'asset/resource',
+          generator: {
+            filename: 'images/[name]-[hash:8][ext]'
+          }
         },
         // Loading fonts
         {
           test: /\.(ttf|otf|eot|woff|woff2)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                esModule: false,
-                outputPath: 'fonts',
-                name: '[name].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name]-[hash:8][ext]'
+          }
         },
         // Loading scss/sass
         {

@@ -15,6 +15,11 @@
     a {
       display: inline-flex;
       align-items: center;
+      transition: 0.2s;
+
+      i {
+        margin-right: 5px;
+      }
 
       img {
         width: 16px;
@@ -22,6 +27,10 @@
         display: inline-block;
         margin-right: 5px;
       }
+    }
+
+    a:hover {
+      color: var(--light-text-color);
     }
   }
 

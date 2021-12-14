@@ -1,0 +1,65 @@
+<div class="movie-card-full">
+  <div class="movie-card-full__poster-container">
+    <img class="movie-card-full__poster" src="<%= locals.Poster %>" alt="<%= locals.Title %>">
+  </div>
+  <div class="movie-card-full__info-block">
+    <h2 class="movie-card-full__title"><%= locals.Title %></h2>
+    <div class="movie-card-full__content">
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-content"><%= locals.Plot %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Country:</span>
+        <span class="movie-card-full__row-content">
+          <%= locals.Country %>,&nbsp;<%= locals.Year %>
+        </span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Director:</span>
+        <span class="movie-card-full__row-content"><%= locals.Director %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Writer:</span>
+        <span class="movie-card-full__row-content"><%= locals.Writer %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Actors:</span>
+        <span class="movie-card-full__row-content"><%= locals.Actors %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Release date:</span>
+        <span class="movie-card-full__row-content"><%= locals.Released %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Runtime:</span>
+        <span class="movie-card-full__row-content"><%= locals.Runtime %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Box office:</span>
+        <span class="movie-card-full__row-content"><%= locals.BoxOffice %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Awards:</span>
+        <span class="movie-card-full__row-content"><%= locals.Awards %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">DVD:</span>
+        <span class="movie-card-full__row-content"><%= locals.DVD %></span>
+      </div>
+      <div class="movie-card-full__row">
+        <span class="movie-card-full__row-title">Rated:</span>
+        <span class="movie-card-full__row-content"><%= locals.Rated %></span>
+      </div>
+      <div class="movie-card-full__ratings">
+        <span class="movie-card-full__ratings-item">
+          <img src="<%= require('../assets/imdb.png') %>" alt="imdb" width="35" height="17">
+          <%= locals.imdbRating %>&nbsp;/&nbsp;10
+        </span>
+        <span class="movie-card-full__ratings-item">
+          <img src="<%= require('../assets/rotten.png') %>" alt="rotten tomatoes" width="16" height="17">
+          <%= locals.Metascore %>%
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
