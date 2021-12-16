@@ -26,7 +26,7 @@ export default class DummyService {
   async fetchMovieById(id) {
     return await new Promise(resolve => {
       setTimeout(() => {
-        resolve(dummyData[1]);
+        resolve(dummyData.find(el => el.imdbID === id));
       }, this.delay);
     });
   }

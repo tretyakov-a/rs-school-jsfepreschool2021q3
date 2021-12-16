@@ -3,6 +3,7 @@
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  height: var(--search-form-height);
 
   &__input {
     width: 100%;
@@ -21,6 +22,34 @@
 
   &__input:focus {
     box-shadow: 0px 0px 4px 2px var(--main-light-color);
+  }
+  
+  &__search-list {
+    position: absolute;
+    z-index: 100;
+    top: var(--search-form-height);
+    left: 0;
+    right: 0;
+    color: var(--main-light-color);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 0;
+    border-radius: 6px;
+    display: none;
+
+    &_show {
+      display: block;
+    }
+
+    li {
+      padding: 10px 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    li:hover {
+      background: var(--light-text-color);
+      color: black;
+    }
   }
 
   &__button {
