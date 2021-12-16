@@ -4,6 +4,7 @@ import DummyService from './services/dummyService';
 import renderMovies from './movies';
 import movieFullCardTemplate from './templates/movie-card-full.ejs';
 import searchListItemTemplate from './templates/search-list-item.ejs';
+import loaderTemaplate from './templates/loader.ejs';
 import { debounce } from './helpers';
 
 import imagePlaceholder from './assets/img-placeholder.svg';
@@ -14,8 +15,8 @@ const searchList = searchForm.querySelector('.search-form__search-list')
 const moviesList = document.querySelector('.movies-list');
 const popup = document.querySelector('.popup');
 
-const apiService = new OmdbApiService();
-// const apiService = new DummyService();
+// const apiService = new OmdbApiService();
+const apiService = new DummyService();
 
 let currentLoadedData = {
   search: null,
@@ -26,13 +27,14 @@ let currentSearchData = null;
 const errorMessage = '<p style="padding-left: 10px;">No movies found</p>';
 
 async function handleSearchFormSubmit(e) {
-  console.log('handleSearchFormSubmit', e)
   e && e.preventDefault();
   const searchInputValue = searchInput.value;
   hideSearchList();
   if (searchInputValue === '') {
     return;
   }
+  
+  moviesList.innerHTML = loaderTemaplate();
 
   let searchData = null;
   if (searchInputValue === currentSearch) {
@@ -108,6 +110,7 @@ async function handleSearchInput(e) {
   }
   
   searchList.classList.add('search-form__search-list_show');
+  searchList.innerHTML = loaderTemaplate();
 
   let searchData = null;
   if (searchInputValue === currentSearch) {
@@ -129,6 +132,9 @@ async function handleSearchInput(e) {
 
 async function handleSearchListClick(e) {
   console.log(e);
+
+  moviesList.innerHTML = loaderTemaplate();
+
   if (e.target.dataset) {
     hideSearchList();
     const id = e.target.dataset.id;

@@ -31,7 +31,7 @@
     left: 0;
     right: 0;
     color: var(--main-light-color);
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--bg-color-rgba);
     padding: 10px 0;
     border-radius: 6px;
     display: none;
@@ -47,8 +47,8 @@
     }
 
     li:hover {
-      background: var(--light-text-color);
-      color: black;
+      background: var(--main-light-color);
+      color: var(--dark-text-color);
     }
   }
 

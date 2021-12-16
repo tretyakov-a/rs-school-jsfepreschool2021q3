@@ -4,6 +4,7 @@
   --light-text-color: #9ca3af;
   --dark-text-color: #111827;
   --bg-color: white;
+  --bg-color-rgba: rgba(0, 0, 0, 0.9);
 
   --main-font: 'DM Sans', sans-serif;
 
@@ -12,6 +13,7 @@
   --list-item-gap: 30px;
   --header-height: 80px;
   --search-form-height: 36px;
+  --loader-size: 40px;
 
   &.light {
     --dark-text-color: tomato;
