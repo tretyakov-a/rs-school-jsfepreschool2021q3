@@ -1,9 +1,12 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
+require('dotenv').config();
 
 module.exports = (env) => {
   const { mode = 'development', submode='build' } = env;
@@ -23,6 +26,9 @@ module.exports = (env) => {
   
   const getPlugins = () => {
     const plugins = [
+      new webpack.DefinePlugin({
+        OMDB_API_KEY: JSON.stringify(process.env.OMDB_API_KEY)
+      }),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         minify: false,
@@ -61,6 +67,7 @@ module.exports = (env) => {
       minimize: isProd,
       minimizer: [
         new CssMinimizerPlugin(),
+        new TerserPlugin()
       ]
     },
     target: 'web',

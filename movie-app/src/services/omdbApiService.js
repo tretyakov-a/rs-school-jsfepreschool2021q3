@@ -1,11 +1,7 @@
-// Omdb key 2b2733ee
-// search - http://www.omdbapi.com/?apikey=2b2733ee&s=Dune
-// by title - http://www.omdbapi.com/?apikey=2b2733ee&t=Dune
-
 export default class OmdbApiService {
   constructor() {
-
-    this.baseQuery = 'http://www.omdbapi.com/?apikey=2b2733ee&';
+    this.apiKey = OMDB_API_KEY;
+    this.baseQuery = `http://www.omdbapi.com/?apikey=${this.apiKey}&`;
     this.searchQuery = `${this.baseQuery}s=`;
     this.titleQuery = `${this.baseQuery}t=`;
     this.idQuery = `${this.baseQuery}i=`;
