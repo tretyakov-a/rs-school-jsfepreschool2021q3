@@ -10,6 +10,7 @@
     font-size: 23px;
     line-height: 38px;
     margin-bottom: 10px;
+    padding-right: 30px;
   }
 
   &__info-block {
@@ -26,6 +27,7 @@
     max-height: 440px;
     margin-right: 20px;
     flex-basis: 30%;
+    background: var(--main-light-color);
   }
 
   &__poster {

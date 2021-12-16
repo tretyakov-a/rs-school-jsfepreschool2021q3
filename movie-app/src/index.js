@@ -4,10 +4,14 @@ import DummyService from './services/dummyService';
 import renderMovies from './movies';
 import movieFullCardTemplate from './templates/movie-card-full.ejs';
 import searchListItemTemplate from './templates/search-list-item.ejs';
-import loaderTemaplate from './templates/loader.ejs';
+import loaderTemplate from './templates/loader.ejs';
 import { debounce } from './helpers';
 
 import imagePlaceholder from './assets/img-placeholder.svg';
+
+// TODO: add pagination
+// TODO: add some animations for: popup, search-list
+// TODO: refactor index.js
 
 const searchForm = document.querySelector('.search-form');
 const searchInput = searchForm.querySelector('.search-form__input');
@@ -15,8 +19,8 @@ const searchList = searchForm.querySelector('.search-form__search-list')
 const moviesList = document.querySelector('.movies-list');
 const popup = document.querySelector('.popup');
 
-// const apiService = new OmdbApiService();
-const apiService = new DummyService();
+const apiService = new OmdbApiService();
+// const apiService = new DummyService();
 
 let currentLoadedData = {
   search: null,
@@ -28,26 +32,18 @@ const errorMessage = '<p style="padding-left: 10px;">No movies found</p>';
 
 async function handleSearchFormSubmit(e) {
   e && e.preventDefault();
-  const searchInputValue = searchInput.value;
+
   hideSearchList();
+  const searchInputValue = searchInput.value;
   if (searchInputValue === '') {
     return;
   }
-  
-  moviesList.innerHTML = loaderTemaplate();
-
-  let searchData = null;
-  if (searchInputValue === currentSearch) {
-    searchData = currentSearchData;
-  } else {
-    searchData = await apiService.search(searchInputValue);
-    currentSearch = searchInputValue;
-    currentSearchData = searchData;
-  }
+  const searchData = await search(searchInputValue);
 
   if (currentLoadedData.search !== currentSearch) {
     let html = null;
     if (searchData.Search) {
+      moviesList.innerHTML = loaderTemplate();
       const ids = searchData.Search.map(({ imdbID }) => imdbID);
       const data = await apiService.fetchMoviesById(ids);
       currentLoadedData.search = currentSearch;
@@ -81,11 +77,12 @@ function handleMovieListClick(e) {
     if (!currentLoadedData.data) {
       return;
     }
-    const movieData = currentLoadedData.data.find(el => el.imdbID === movieCard.dataset.id);
-    const movieHTML = movieFullCardTemplate(movieData);
     popup.classList.add('popup_show');
     const inner = popup.querySelector('.popup__card');
-    inner.innerHTML = movieHTML;
+
+    const movieData = currentLoadedData.data.find(el => el.imdbID === movieCard.dataset.id);
+    const html = movieFullCardTemplate(movieData);
+    inner.innerHTML = html;
 
     handleImgLoadErrors(inner);
   }
@@ -101,25 +98,29 @@ function handlePopupClick(e) {
   }
 }
 
-async function handleSearchInput(e) {
-  console.log('Searching for', e.target.value);
-  const searchInputValue = e.target.value;
-  hideSearchList();
-  if (searchInputValue === '') {
-    return;
-  }
-  
-  searchList.classList.add('search-form__search-list_show');
-  searchList.innerHTML = loaderTemaplate();
-
+async function search(value) {
   let searchData = null;
-  if (searchInputValue === currentSearch) {
+  if (value === currentSearch) {
     searchData = currentSearchData;
   } else {
-    searchData = await apiService.search(searchInputValue);
-    currentSearch = searchInputValue;
+    searchData = await apiService.search(value);
+    currentSearch = value;
     currentSearchData = searchData;
   }
+  return searchData;
+}
+
+async function handleSearchInput(e) {
+  const searchInputValue = e.target.value;
+
+  if (searchInputValue === '') {
+    hideSearchList();
+    return;
+  }
+  searchList.classList.add('search-form__search-list_show');
+  searchList.innerHTML = loaderTemplate();
+  
+  const searchData = await search(searchInputValue);
 
   let html = null;
   if (searchData.Search) {
@@ -131,14 +132,11 @@ async function handleSearchInput(e) {
 }
 
 async function handleSearchListClick(e) {
-  console.log(e);
-
-  moviesList.innerHTML = loaderTemaplate();
+  moviesList.innerHTML = loaderTemplate();
 
   if (e.target.dataset) {
     hideSearchList();
     const id = e.target.dataset.id;
-    console.log(id)
     searchInput.value = '';
 
     const data = [await apiService.fetchMovieById(id)];
@@ -168,9 +166,9 @@ popup.addEventListener('click', handlePopupClick);
 document.addEventListener('click', handleDocumentCLick);
 
 function init() {
-  // searchInput.value = 'star wars';
+  searchInput.value = 'star wars';
   searchInput.focus();
-  // handleSearchFormSubmit();
+  handleSearchFormSubmit();
 }
 
 init();
