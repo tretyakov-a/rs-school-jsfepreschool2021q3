@@ -9,6 +9,11 @@
 
   --container-width: 1024px;
   --container-padding: 20px;
-  --list-item-gap: 20px;
+  --list-item-gap: 30px;
   --header-height: 80px;
+
+  &.light {
+    --dark-text-color: tomato;
+  }
 }
+

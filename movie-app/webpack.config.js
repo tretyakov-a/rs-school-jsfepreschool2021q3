@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 module.exports = (env) => {
   const { mode = 'development', submode='build' } = env;
@@ -35,11 +36,15 @@ module.exports = (env) => {
             to: path.resolve(__dirname, 'dist'),
           },
         ],
-      }),
-      new MiniCssExtractPlugin({
-        filename: fileName('css')
       })
     ];
+    if (isProd || isBuildDev) {
+      plugins.push(
+        new MiniCssExtractPlugin({
+          filename: fileName('css')
+        })
+      )
+    }
     return plugins;
   };
 
@@ -53,13 +58,16 @@ module.exports = (env) => {
     },
     mode: isProd ? 'production' : isDev && 'development',
     optimization: {
-      minimize: isProd
+      minimize: isProd,
+      minimizer: [
+        new CssMinimizerPlugin(),
+      ]
     },
     target: 'web',
     devServer: {
       hot: isDev,
       liveReload: isDev,
-      static: true,
+      static: isDev,
       watchFiles: [
         './src/templates',
         './src/index.ejs'

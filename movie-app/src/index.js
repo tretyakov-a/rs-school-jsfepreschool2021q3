@@ -11,12 +11,19 @@ const searchInput = searchForm.querySelector('[name="search"]');
 const moviesList = document.querySelector('.movies-list');
 const popup = document.querySelector('.popup');
 
-const apiService = new DummyService();
+const apiService = new OmdbApiService();
+// const apiService = new DummyService();
+
 let currentData = [];
+let currentSearch = '';
 
 async function handleSearchFormSubmit(e) {
   e && e.preventDefault();
+  if (searchInput.value === currentSearch) {
+    return;
+  }
   const searchData = await apiService.search(searchInput.value);
+  currentSearch = searchInput.value;
 
   if (searchData.Search) {
     const ids = searchData.Search.map(({ imdbID }) => imdbID);
@@ -74,7 +81,8 @@ popup.addEventListener('click', handlePopupClick);
 
 function init() {
   searchInput.value = 'star wars';
-  handleSearchFormSubmit();
+  searchInput.focus();
+  // handleSearchFormSubmit();
 }
 
 init();
