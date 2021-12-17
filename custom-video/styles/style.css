@@ -1,5 +1,5 @@
 :root {
-  --main-color: #0075ff;
+  --main-color: #bdae92;
   --main-text-color: white;
   --dark-color: black;
   --controls-bg-color: rgba(0, 0, 0, 0.6);
@@ -86,12 +86,9 @@ video::-webkit-media-controls-enclosure {
   height: 100%;
 }
 
-.player:hover .player__control-panel {
+/* .player:hover .player__control-panel {
   transform: translateY(0px);
-}
-.player__viewport:hover + .player__control-panel {
-  transform: translateY(0px);
-}
+} */
 
 .player__action-popup {
   position: absolute;
@@ -103,6 +100,7 @@ video::-webkit-media-controls-enclosure {
   opacity: 1;
   transform: scale(0.2);
   transition: all 0.4s ease-out;
+  pointer-events: none;
 }
 
 .player__action-popup::before {
