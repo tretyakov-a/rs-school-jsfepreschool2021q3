@@ -10,8 +10,6 @@ function handleTranslateLinkClick(e) {
   if (language === currentLanguage) {
     return;
   }
-  currentLanguage = language;
-  localStorage.setItem('language', currentLanguage);
   translate(language);
 }
 
@@ -25,6 +23,8 @@ function setActiveLink(language) {
 }
 
 function translate(language) {
+  currentLanguage = language;
+  localStorage.setItem('language', currentLanguage);
   setActiveLink(language);
   for (const el of translatedElements) {
     const translationKey = el.dataset.translate;
@@ -34,10 +34,12 @@ function translate(language) {
 
 export default function init() {
   const language = localStorage.getItem('language');
-  if (language !== undefined && languages.includes(language)) {
-    currentLanguage = language;
+  if (language &&
+      currentLanguage !== language &&
+      languages.includes(language)) {
+
+    translate(language);
   }
-  translate(currentLanguage);
   for (const link of links) {
     link.addEventListener('click', handleTranslateLinkClick);
   }

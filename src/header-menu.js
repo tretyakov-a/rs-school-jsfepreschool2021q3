@@ -25,7 +25,6 @@ function hide(e) {
   if (e && isClickOnHamburger(e)) {
     return;
   }
-  console.log('hide')
   hamburger.classList.replace(humburgerCloseModificator, humburgerHideModificator);
   headerMenu.classList.replace(showModificator, hideModificator);
   setTimeout(() => {
