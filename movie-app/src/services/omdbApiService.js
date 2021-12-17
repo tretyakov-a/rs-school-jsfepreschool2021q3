@@ -1,7 +1,7 @@
 export default class OmdbApiService {
   constructor() {
     this.apiKey = OMDB_API_KEY;
-    this.baseQuery = `http://www.omdbapi.com/?apikey=${this.apiKey}&`;
+    this.baseQuery = `https://www.omdbapi.com/?apikey=${this.apiKey}&`;
     this.searchQuery = `${this.baseQuery}s=`;
     this.titleQuery = `${this.baseQuery}t=`;
     this.idQuery = `${this.baseQuery}i=`;

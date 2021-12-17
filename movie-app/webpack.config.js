@@ -6,6 +6,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const RemovePlugin = require("remove-files-webpack-plugin");
+
 require('dotenv').config();
 
 module.exports = (env) => {
@@ -42,7 +44,20 @@ module.exports = (env) => {
             to: path.resolve(__dirname, 'dist'),
           },
         ],
-      })
+      }),
+      new RemovePlugin({
+        after: {
+          test: [
+            {
+              folder: 'dist/images',
+              method: (absoluteItemPath) => {
+                  return new RegExp(/fa-.*\.svg$/, 'm').test(absoluteItemPath);
+              },
+              recursive: true
+            }
+          ]
+        }
+      }),
     ];
     if (isProd || isBuildDev) {
       plugins.push(
@@ -60,14 +75,20 @@ module.exports = (env) => {
     output: {
       filename: fileName('js'),
       path: path.resolve(__dirname, 'dist'),
-      publicPath: '/'
+      publicPath: ''
     },
     mode: isProd ? 'production' : isDev && 'development',
     optimization: {
       minimize: isProd,
       minimizer: [
         new CssMinimizerPlugin(),
-        new TerserPlugin()
+        new TerserPlugin({
+          terserOptions: {
+            mangle: false, // Note `mangle.properties` is `false` by default.
+            keep_classnames: true,
+            keep_fnames: true,
+          },
+        })
       ]
     },
     target: 'web',
