@@ -62,6 +62,17 @@ ul {
 
   &:hover {
     color: $text-color;
+    
+    transform: translatey(-5px);
+    // box-shadow: 0 0.5em 0.5em -0.4em $theme-color;
+    box-shadow: 0 0 0 20px transparent;
+    animation: pulse 0.8s;
+  }
+
+  @keyframes pulse{
+    0% {
+      box-shadow: 0 0 0 0 $theme-color
+    }
   }
 
   &_filled {
@@ -137,9 +148,6 @@ ul {
 }
 
 @media (max-width: 768px) {
-  :root {
-    --container-padding: 64px;
-  }
   .section {
     margin-top: 80px;
 
@@ -154,9 +162,7 @@ ul {
 }
 
 @media (max-width: 540px) {
-  :root {
-    --container-padding: 20px;
-  }
+  
   .section {
     margin-top: 20px;
 

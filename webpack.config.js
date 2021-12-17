@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = (env) => {
   const { mode = 'development', submode='build' } = env;
@@ -26,6 +28,7 @@ module.exports = (env) => {
       new HtmlWebpackPlugin({
         minify: false,
         template: './index.hbs',
+        filename: 'index.html'
       }),
       new CopyPlugin({
         patterns: [
@@ -35,15 +38,14 @@ module.exports = (env) => {
           },
         ],
       }),
-      new MiniCssExtractPlugin({
-        filename: fileName('css')
-      })
     ];
-    // isProd && plugins.push(
-    //   new MiniCssExtractPlugin({
-    //     filename: fileName('css')
-    //   })
-    // );
+    if (isProd || isBuildDev) {
+      plugins.push(
+        new MiniCssExtractPlugin({
+          filename: fileName('css')
+        })
+      )
+    }
     return plugins;
   };
 
@@ -53,15 +55,31 @@ module.exports = (env) => {
     output: {
       filename: fileName('js'),
       path: path.resolve(__dirname, 'dist'),
-      assetModuleFilename: 'images/[name]-[hash:8].[ext]',
-      publicPath: '/'
+      publicPath: ''
     },
     mode: isProd ? 'production' : isDev && 'development',
     optimization: {
-      minimize: false
-   },
+      minimize: isProd,
+      minimizer: [
+        new CssMinimizerPlugin(),
+        new TerserPlugin({
+          terserOptions: {
+            mangle: false,
+            keep_classnames: true,
+            keep_fnames: true,
+          },
+        })
+      ]
+    },
+    target: 'web',
     devServer: {
-      hot: false
+      hot: isDev,
+      liveReload: isDev,
+      static: isDev,
+      watchFiles: [
+        './src/templates',
+        './src/index.ejs'
+      ]
     },
     module: {
       rules: [
@@ -99,31 +117,18 @@ module.exports = (env) => {
         // Loading images
         {
           test: /\.(jpg|png|svg|gif|ico)$/,
-          type: 'asset/resource'
-          // use: [
-          //   {
-          //     loader: 'file-loader',
-          //     options: {
-          //       esModule: false,
-          //       outputPath: 'images',
-          //       name: '[name]-[sha1:hash:7].[ext]'
-          //     }
-          //   }
-          // ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'images/[name]-[hash:8][ext]'
+          }
         },
         // Loading fonts
         {
           test: /\.(ttf|otf|eot|woff|woff2)$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                esModule: false,
-                outputPath: 'fonts',
-                name: '[name].[ext]'
-              }
-            }
-          ]
+          type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name]-[hash:8][ext]'
+          }
         },
         // Loading scss/sass
         {
@@ -141,6 +146,10 @@ module.exports = (env) => {
         {
           test: /\.(md)$/,
           type: 'asset/source'
+        },
+        {
+          test: /\.(ejs)/,
+          loader: 'ejs-compiled-loader'
         }
       ]
     },

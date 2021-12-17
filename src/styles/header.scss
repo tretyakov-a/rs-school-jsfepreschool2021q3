@@ -24,7 +24,7 @@
 .menu-hamburger {
   $vertical-padding: 11px;
   $line-height: 3px;
-  $cross-line-size: 63.6px;
+  $cross-line-size: 62px;
 
   width: $hamburger-size;
   height: $hamburger-size;
@@ -46,11 +46,13 @@
     from {
       transform: rotate(45deg);
       top: $hamburger-size / 2;
+      left: -6px;
       width: $cross-line-size;
     }
     to {
       transform: rotate(0deg);
       top: $vertical-padding;
+      left: 0;
       width: $hamburger-size;
     }
   }
@@ -59,11 +61,13 @@
     from {
       transform: rotate(-45deg);
       top: $hamburger-size / 2;
+      left: -6px;
       width: $cross-line-size;
     }
     to {
       transform: rotate(0deg);
       top: $hamburger-size - $vertical-padding - $line-height;
+      left: 0;
       width: $hamburger-size;
     }
   }
@@ -72,11 +76,13 @@
     from {
       transform: rotate(0deg);
       top: $vertical-padding;
+      left: 0;
       width: $hamburger-size;
     }
     to {
       transform: rotate(45deg);
       top: $hamburger-size / 2;
+      left: -6px;
       width: $cross-line-size;
     }
   }
@@ -85,23 +91,32 @@
     from {
       transform: rotate(0deg);
       top: $hamburger-size - $vertical-padding - $line-height;
+      left: 0;
       width: $hamburger-size;
     }
     to {
       transform: rotate(-45deg);
       top: $hamburger-size / 2;
+      left: -6px;
       width: 63.6px;
     }
   }
 
-  @keyframes lineSlideIn {
+  @keyframes lineScaleIn {
     from {
-      transform: translateX(-100%);
-      opacity: 0;
+      transform: scaleX(0);
     }
     to {
-      transform: translateX(0);
-      opacity: 1;
+      transform: scaleX(100%);
+    }
+  }
+
+  @keyframes lineScaleOut {
+    from {
+      transform: scaleX(100%);
+    }
+    to {
+      transform: scaleX(0);
     }
   }
 }
@@ -151,6 +166,8 @@
 
 @media (max-width: 768px) {
   .header {
+    padding: 0 64px;
+
     &__nav {
       flex-direction: row-reverse;
     }
@@ -182,7 +199,7 @@
         &__line:nth-child(2) {
           display: block;
           top: 25px;
-          @include anim(lineSlideIn);
+          @include anim(lineScaleIn);
         }
   
         &__line:nth-child(3) {
@@ -198,7 +215,8 @@
         }
   
         &__line:nth-child(2) {
-          display: none;
+          top: 25px;
+          @include anim(lineScaleOut);
         }
   
         &__line:nth-child(3) {
@@ -214,13 +232,14 @@
     padding: $header-height;
     top: 0;
     right: 0;
-    width: 75%;
-    height: 100vh;
+    width: 80%;
+    min-height: 100vh;
     flex-direction: column;
     align-items: flex-start;
     background: $bg-color;
 
     &__item-link {
+      background: $bg-color;
       font-size: 34.8235px;
       line-height: 73px;
     }
@@ -256,4 +275,10 @@
     }
   }
   
+}
+
+@media (max-width: 540px) {
+  .header {
+    padding: 0 $container-padding;
+  }
 }
