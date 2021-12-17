@@ -2,12 +2,14 @@
   --bg-color: black;
   --text-color: white;
   --theme-color: #bdae82;
+  --text-with-bg-image: white;
   --container-padding: 20px;
 
   &.light {
     --bg-color: white;
     --text-color: black;
     --theme-color: #bdae82;
+    --text-with-bg-image: white;
   }
 }
 
@@ -23,6 +25,7 @@ $animation-duration: 0.2s;
 $bg-color: var(--bg-color);
 $text-color: var(--text-color);
 $theme-color: var(--theme-color);
+$text-with-bg-image: var(--text-with-bg-image);
 
 $main-font: 'Inter', sans-serif;
 $headers-font: 'Merriweather', serif;

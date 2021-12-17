@@ -139,6 +139,7 @@
     font-weight: normal;
     font-size: 20px;
     line-height: 50px;
+    color: $text-with-bg-image;
   } 
   &__item-link:hover {
     color: $theme-color
@@ -151,6 +152,7 @@
   font-weight: bold;
   font-size: 20px;
   line-height: 50px;
+  color: $text-with-bg-image;
 }
 
 .theme-switcher {
@@ -190,7 +192,8 @@
 
 .language-switcher {
   &__link {
-
+    color: $text-with-bg-image;
+    
     &_active {
       color: $theme-color;
     }
