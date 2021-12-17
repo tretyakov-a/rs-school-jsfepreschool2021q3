@@ -4,42 +4,144 @@
   </div>
   <div class="section__content">
     <div class="portfolio__buttons-group">
-      <button class="portfolio__button button">Winter</button>
-      <button class="portfolio__button button">Spring</button>
-      <button class="portfolio__button button">Summer</button>
-      <button class="portfolio__button button button_filled">Autumn</button>
+      <button class="portfolio__button button" data-folder="winter">Winter</button>
+      <button class="portfolio__button button" data-folder="spring">Spring</button>
+      <button class="portfolio__button button" data-folder="summer">Summer</button>
+      <button class="portfolio__button button button_filled" data-folder="autumn">Autumn</button>
     </div>
-    <div class="portfolio__works">
-      <div class="portfolio__works-item">
-        <a class="portfolio__works-item-link" href="#">
-          <img src="../pictures/portfolio/portfolio-img-0.jpg" alt="portfolio item 0">
-        </a>
+    <div class="portfolio__works-container">
+      {{!-- winter --}}
+      <div class="portfolio__works" data-folder="winter">
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/winter/1.jpg" alt="portfolio item 0">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/winter/2.jpg" alt="portfolio item 1">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/winter/3.jpg" alt="portfolio item 2">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/winter/4.jpg" alt="portfolio item 3">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/winter/5.jpg" alt="portfolio item 4">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/winter/6.jpg" alt="portfolio item 5">
+          </a>
+        </div>                              
       </div>
-      <div class="portfolio__works-item">
-        <a class="portfolio__works-item-link" href="#">
-          <img src="../pictures/portfolio/portfolio-img-1.jpg" alt="portfolio item 1">
-        </a>
+      {{!-- spring --}}
+      <div class="portfolio__works" data-folder="spring">
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/spring/1.jpg" alt="portfolio item 0">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/spring/2.jpg" alt="portfolio item 1">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/spring/3.jpg" alt="portfolio item 2">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/spring/4.jpg" alt="portfolio item 3">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/spring/5.jpg" alt="portfolio item 4">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/spring/6.jpg" alt="portfolio item 5">
+          </a>
+        </div>                              
       </div>
-      <div class="portfolio__works-item">
-        <a class="portfolio__works-item-link" href="#">
-          <img src="../pictures/portfolio/portfolio-img-2.jpg" alt="portfolio item 2">
-        </a>
+      {{!-- summer --}}
+      <div class="portfolio__works" data-folder="summer">
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/summer/1.jpg" alt="portfolio item 0">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/summer/2.jpg" alt="portfolio item 1">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/summer/3.jpg" alt="portfolio item 2">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/summer/4.jpg" alt="portfolio item 3">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/summer/5.jpg" alt="portfolio item 4">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/summer/6.jpg" alt="portfolio item 5">
+          </a>
+        </div>                              
       </div>
-      <div class="portfolio__works-item">
-        <a class="portfolio__works-item-link" href="#">
-          <img src="../pictures/portfolio/portfolio-img-3.jpg" alt="portfolio item 3">
-        </a>
+      {{!-- autumn --}}
+      <div class="portfolio__works portfolio__works_active" data-folder="autumn">
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/autumn/1.jpg" alt="portfolio item 0">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/autumn/2.jpg" alt="portfolio item 1">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/autumn/3.jpg" alt="portfolio item 2">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/autumn/4.jpg" alt="portfolio item 3">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/autumn/5.jpg" alt="portfolio item 4">
+          </a>
+        </div>
+        <div class="portfolio__works-item">
+          <a class="portfolio__works-item-link" href="#portfolio">
+            <img src="../pictures/portfolio/autumn/6.jpg" alt="portfolio item 5">
+          </a>
+        </div>                              
       </div>
-      <div class="portfolio__works-item">
-        <a class="portfolio__works-item-link" href="#">
-          <img src="../pictures/portfolio/portfolio-img-4.jpg" alt="portfolio item 4">
-        </a>
-      </div>
-      <div class="portfolio__works-item">
-        <a class="portfolio__works-item-link" href="#">
-          <img src="../pictures/portfolio/portfolio-img-5.jpg" alt="portfolio item 5">
-        </a>
-      </div>                              
     </div>
   </div>
 </section>

@@ -19,10 +19,30 @@
   &__button:not(:last-child) {
     margin-right: 5px;
   }
+  
+  &__works-container {
+    display: block;
+  }
 
   &__works {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
+
+    &_active {
+      animation: 1s fadeOut forwards;
+      display: flex;
+    }
+  }
+
+  @keyframes fadeOut {
+    from {
+      transform: scale(0.9);
+      opacity: 0.3;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   &__works-item {
