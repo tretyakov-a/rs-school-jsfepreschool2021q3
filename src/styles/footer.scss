@@ -31,16 +31,6 @@
   }
 }
 
-.socials {
-  &-item {
-    img {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-    }
-  }
-}
-
 @media (max-width: 768px) {
   .footer {
     height: 190px;

@@ -24,24 +24,24 @@
     display: block;
   }
 
+  @keyframes worksFadeOut {
+    from {
+      transform: scale(0.9);
+      opacity: 0.4;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
   &__works {
     display: none;
     flex-wrap: wrap;
 
     &_active {
-      animation: 1s fadeOut forwards;
+      @include anim(worksFadeOut, ease-in, $animation-duration * 2);
       display: flex;
-    }
-  }
-
-  @keyframes fadeOut {
-    from {
-      transform: scale(0.9);
-      opacity: 0.3;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
     }
   }
 

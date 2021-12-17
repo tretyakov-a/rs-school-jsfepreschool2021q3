@@ -2,6 +2,7 @@ let currentLanguage = 'en';
 const languages = ['en', 'ru'];
 const links = document.querySelectorAll('.language-switcher__link');
 const translatedElements = document.querySelectorAll('[data-translate]');
+const activeModificator = 'language-switcher__link_active';
 
 function handleTranslateLinkClick(e) {
   e.preventDefault();
@@ -16,9 +17,9 @@ function handleTranslateLinkClick(e) {
 
 function setActiveLink(language) {
   for (const link of links) {
-    link.classList.remove('language-switcher__link_active');
+    link.classList.remove(activeModificator);
     if (link.dataset.language === language) {
-      link.classList.add('language-switcher__link_active');
+      link.classList.add(activeModificator);
     }
   }
 }

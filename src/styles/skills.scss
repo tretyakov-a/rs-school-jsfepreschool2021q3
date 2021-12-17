@@ -63,6 +63,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .skills {
+    &__list-item {
+      &-text {
+        padding: 0;
+      }
+    }
+  }
+}
+
 @media (max-width: 540px) {
   .skills {
     &__list {

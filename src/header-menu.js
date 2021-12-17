@@ -3,7 +3,8 @@ const hamburger = document.querySelector('.menu-hamburger');
 const headerMenu = document.querySelector('.header-menu');
 const showModificator = 'header-menu_show';
 const hideModificator = 'header-menu_hide';
-const closeModificator = 'menu-hamburger_close';
+const humburgerCloseModificator = 'menu-hamburger_close';
+const humburgerHideModificator = 'menu-hamburger_hide';
 const animationDuration = 200;
 
 function toggle() {
@@ -11,9 +12,8 @@ function toggle() {
   if (isShow) {
     hide();
   } else {
-    hamburger.classList.add(closeModificator);
+    hamburger.classList.add(humburgerCloseModificator);
     headerMenu.classList.add(showModificator);
-    
   }
 }
 
@@ -25,10 +25,12 @@ function hide(e) {
   if (e && isClickOnHamburger(e)) {
     return;
   }
-  hamburger.classList.remove(closeModificator);
+  console.log('hide')
+  hamburger.classList.replace(humburgerCloseModificator, humburgerHideModificator);
   headerMenu.classList.replace(showModificator, hideModificator);
   setTimeout(() => {
     headerMenu.classList.remove(hideModificator);
+    hamburger.classList.remove(humburgerHideModificator);
   }, animationDuration);
 }
 

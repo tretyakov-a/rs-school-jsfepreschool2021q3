@@ -1,14 +1,28 @@
+:root {
+  --bg-color: black;
+  --text-color: white;
+  --theme-color: #bdae82;
+  --container-padding: 20px;
 
+  &.light {
+    --bg-color: white;
+    --text-color: black;
+    --theme-color: #bdae82;
+  }
+}
+
+$hamburger-size: 50px;
 $container-width: 1440px;
-$container-padding: 20px;
+$container-padding: var(--container-padding);
 $header-height: 90px;
 $works-item-gap: 25px;
 $price-list-item-gap: 25px;
 $skills-list-item-gap: 40px;
+$animation-duration: 0.2s;
 
-$bg-color: black;
-$text-color: white;
-$theme-color: #bdae82;
+$bg-color: var(--bg-color);
+$text-color: var(--text-color);
+$theme-color: var(--theme-color);
 
 $main-font: 'Inter', sans-serif;
 $headers-font: 'Merriweather', serif;
