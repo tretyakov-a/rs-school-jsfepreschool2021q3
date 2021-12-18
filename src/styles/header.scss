@@ -38,7 +38,7 @@
   &__line {
     width: $hamburger-size;
     height: $line-height;
-    background: $text-color;
+    background: $text-with-bg-image;
     transition: 0.2s;
   }
 
@@ -227,6 +227,7 @@
 
       .menu-hamburger__line {
         position: absolute;
+        background: $text-color;
       }
     }
 
@@ -279,9 +280,9 @@
     background: $bg-color;
 
     &__item-link {
-      background: $bg-color;
       font-size: 34.8235px;
       line-height: 73px;
+      color: $text-color;
     }
 
     @keyframes menuSlideIn {
