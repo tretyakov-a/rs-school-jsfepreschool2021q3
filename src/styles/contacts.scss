@@ -1,6 +1,8 @@
 .contacts {
   background: no-repeat center url("../pictures/contacts/bg-contacts.jpg");
   padding: 60px $container-padding 195px;
+  margin-left: calc(-1 * #{$container-padding});
+  margin-right: calc(-1 * #{$container-padding});
   
   &__content {
     display: flex;
