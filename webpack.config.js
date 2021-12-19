@@ -13,7 +13,8 @@ module.exports = (env) => {
   const isDev = mode === 'development';
   const isBuildDev = submode === 'build';
 
-  const fileName = ext => isDev ? `main.${ext}` : `main-[hash:8].${ext}`;
+  // const fileName = ext => isDev ? `main.${ext}` : `main-[hash:8].${ext}`;
+  const fileName = ext => isDev ? `main.${ext}` : `main.${ext}`;
 
   const getStyleLoaders = () => [
     isProd || isBuildDev
@@ -119,7 +120,8 @@ module.exports = (env) => {
           test: /\.(jpg|png|svg|gif|ico)$/,
           type: 'asset/resource',
           generator: {
-            filename: 'images/[name]-[hash:8][ext]'
+            // filename: 'images/[name]-[hash:8][ext]'
+            filename: 'images/[path][name][ext]'
           }
         },
         // Loading fonts
@@ -127,7 +129,8 @@ module.exports = (env) => {
           test: /\.(ttf|otf|eot|woff|woff2)$/,
           type: 'asset/resource',
           generator: {
-            filename: 'fonts/[name]-[hash:8][ext]'
+            // filename: 'fonts/[name]-[hash:8][ext]'
+            filename: 'fonts/[name][ext]'
           }
         },
         // Loading scss/sass
