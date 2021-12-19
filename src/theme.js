@@ -9,7 +9,6 @@ function handleThemeSwitcherClick(e) {
 }
 
 function changeTheme(theme) {
-  console.log('changeTheme to', theme)
   currentTheme = theme;
   localStorage.setItem('theme', theme);
   const prevTheme = currentTheme === 'dark' ? 'light' : 'dark';
