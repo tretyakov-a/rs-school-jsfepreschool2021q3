@@ -11,7 +11,7 @@
   --player-popup-size: 80px;
   --control-panel-height: 45px;
   --control-panel-padding: 2px;
-  --progressbar-height: 10px;
+  --progressbar-height: 6px;
   --button-size: calc(var(--control-panel-height) - var(--progressbar-height));
   --volume-slider-width: 60px;
 }
@@ -76,6 +76,11 @@ video::-webkit-media-controls-enclosure {
   position: relative;
   box-shadow: 0px 0px 5px 2px var(--dark-color);
   background: var(--controls-bg-color);
+  cursor: pointer;
+}
+
+.player_no-cursor {
+  cursor: none;
 }
 
 .player__viewport {
@@ -85,10 +90,6 @@ video::-webkit-media-controls-enclosure {
   width: 100%;
   height: 100%;
 }
-
-/* .player:hover .player__control-panel {
-  transform: translateY(0px);
-} */
 
 .player__action-popup {
   position: absolute;
@@ -131,6 +132,11 @@ video::-webkit-media-controls-enclosure {
   background: var(--controls-bg-color);
   transition: transform 0.3s;
   z-index: 4;
+  padding-top: var(--progressbar-height);
+}
+
+.player__control-panel_show {
+  transform: translateY(0px);
 }
 
 .control-panel {
@@ -146,6 +152,7 @@ video::-webkit-media-controls-enclosure {
   display: flex;
   justify-content: space-between;
 }
+
 .control-panel__buttons-group {
   display: flex;
 }
@@ -286,19 +293,28 @@ video::-webkit-media-controls-enclosure {
 }
 
 .progress-bar {
-  position: relative;
+  position: absolute;
+  top: 0;
+  width: 100%;
   height: var(--progressbar-height);
-  border: 1px solid var(--main-text-color);
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .progress-bar:hover {
+  /* outline: 1px solid khaki; */
+  height: calc(var(--progressbar-height) + 20px);
+  top: -10px;
+}
+
+.progress-bar:hover .progress-bar__filler {
   outline: 1px solid khaki;
 }
 
 .progress-bar__filler {
   background-color: var(--main-color);
-  height: 100%;
+  height: var(--progressbar-height);
   width: 0;
   pointer-events: none;
 }
@@ -306,7 +322,7 @@ video::-webkit-media-controls-enclosure {
 .progress-bar__time-label {
   position: absolute;
   left: 0;
-  top: -23px;
+  top: -13px;
   font-size: 0.9rem;
   text-shadow: 0px 0px 4px var(--dark-color);
   display: none;
