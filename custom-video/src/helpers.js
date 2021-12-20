@@ -39,3 +39,10 @@ function isElementClicked(event, className) {
     return pathEl.classList && classes.find(el => pathEl.classList.contains(el));
   });
 }
+
+export {
+  throttle,
+  throttleDelayed,
+  timeToText,
+  isElementClicked
+}

@@ -1,0 +1,21 @@
+:root {
+  --main-color: #bdae92;
+  --main-text-color: white;
+  --dark-color: black;
+  --dark-text-color: black;
+  --bg-color: black;
+  --controls-bg-color: rgba(0, 0, 0, 0.6);
+  --controls-menu-bg-color:rgba(0, 0, 0, 0.9);
+
+  --player-width: 640px;
+  --player-height: 480px;
+  --container-h-padding: 10px;
+  --player-popup-size: 80px;
+  --control-panel-height: 45px;
+  --control-panel-padding: 2px;
+  --progressbar-height: 6px;
+  --button-size: calc(var(--control-panel-height) - var(--progressbar-height));
+  --volume-slider-width: 60px;
+
+  --main-font: 'Cambria', 'sans-serif';
+}

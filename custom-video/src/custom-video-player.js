@@ -1,5 +1,12 @@
+import {
+  throttleDelayed,
+  timeToText,
+  isElementClicked
+} from './helpers';
 
-class CustomVideoPlayer {
+import playerControls from './templates/player-controls.ejs';
+
+export default class CustomVideoPlayer {
   constructor(video) {
     this.player = document.createElement('div');
     this.player.classList.add('player');
@@ -9,7 +16,7 @@ class CustomVideoPlayer {
     video.setAttribute('muted', true);
     this.video = video;
     this.player.appendChild(this.video);
-    this.player.insertAdjacentHTML('beforeend', videoControls);
+    this.player.insertAdjacentHTML('beforeend', playerControls());
 
     this.playerActionPopup = this.player.querySelector('.player__action-popup');
     this.controlPanel = this.player.querySelector('.player__control-panel');
@@ -36,6 +43,7 @@ class CustomVideoPlayer {
     
     this.player.addEventListener('mouseenter', this.showControlPanel);
     this.player.addEventListener('mouseleave', this.hideControlPanel);
+
     this.video.addEventListener('click', this.toggleVideoPlay);
     this.video.addEventListener('play', this.handleVideoPlay);
     this.video.addEventListener('pause', this.handleVideoPause);
@@ -68,6 +76,7 @@ class CustomVideoPlayer {
 
   hideControlPanel = () => {
     this.controlPanel.classList.remove('player__control-panel_show');
+    this.hideSettingsMenu();
   }
 
   controlPanelClickHandler = (e) => {
@@ -156,7 +165,6 @@ class CustomVideoPlayer {
 
   handleDocumentMouseMove = () => {
     if (this.isFullscreen) {
-      console.log(this.isFullscreen)
       this.isUserAfk = false;
       this.showControlPanel();
       this.player.classList.remove('player_no-cursor');
@@ -199,11 +207,11 @@ class CustomVideoPlayer {
   }
 
   handleVolumeChange = () => {
-    if (video.muted) {
+    if (this.video.muted) {
       this.volumeSlider.value = 0;
       this.volumeBtn.classList.replace('button_volume-up', 'button_volume-mute');
     } else {
-      this.volumeSlider.value = video.volume;
+      this.volumeSlider.value = this.video.volume;
       this.volumeBtn.classList.replace('button_volume-mute', 'button_volume-up');
     }
   }
@@ -282,88 +290,3 @@ class CustomVideoPlayer {
     this.isVolumeSliderMouseDown = false;
   }
 }
-
-this.videoControls = `
-  <div class="player__action-popup player__action-popup_play"></div>
-  <div class="player__control-panel control-panel">
-    <ul class="control-panel__settings-menu settings-menu">
-      <li class="settings-menu__item">
-        <div>Playback speed</div>
-        <div class="settings-menu__options">
-          <label>
-            <input type="radio" name="playback" value="0.5">
-            <span>0.25x</span>
-          </label> 
-          <label>
-            <input type="radio" name="playback" value="0.5">
-            <span>0.5x</span>
-          </label>        
-          <label>
-            <input type="radio" name="playback" value="1" checked>
-            <span>normal</span>
-          </label>
-          <label>
-            <input type="radio" name="playback" value="1.5">
-            <span>1.5x</span>
-          </label>
-          <label>
-            <input type="radio" name="playback" value="2">
-            <span>2x</span>
-          </label>
-        </div>
-      </li>
-      <li class="settings-menu__item">
-        <div>Skip interval</div>
-        <div class="settings-menu__options">
-          <label>
-            <input type="radio" name="skip" value="10">
-            <span>10s</span>
-          </label>
-          <label>
-            <input type="radio" name="skip" value="20" checked>
-            <span>20s</span>
-          </label>
-          <label>
-            <input type="radio" name="skip" value="30">
-            <span>30s</span>
-          </label>
-        </div>
-      </li>
-    </ul>
-    <div class="control-panel__progress progress-bar">
-      <div class="progress-bar__time-label"></div>
-      <div class="progress-bar__filler"></div>
-    </div>
-    <div class="control-panel__buttons">
-      <div class="control-panel__buttons-group">
-        <button class="control-panel__play button button_play" data-fn="play" title="play">
-          <div class="button__icon">
-          </div>
-        </button>
-        <button class="control-panel__step-backward button button_backward" data-fn="backward" title="step backward">
-          <div class="button__icon">
-          </div>
-        </button>
-        <button class="control-panel__step-forward button button_forward" data-fn="forward" title="step forward">
-          <div class="button__icon">
-          </div>
-        </button>
-        <button class="control-panel__volume button button_volume-up" data-fn="mute" title="click: mute">
-          <div class="button__icon">
-          </div>
-          <input class="control-panel__volume-slider volume-slider" type="range" name="volume" min="0" max="1" step="0.05" value="1" tabindex="-1" />
-        </button>
-        <div class="control-panel__duration"></div>
-      </div>
-      <div class="control-panel__buttons-group">
-        <button class="control-panel__settings button button_settings" data-fn="settings">
-          <div class="button__icon">
-          </div>
-        </button>
-        <button class="control-panel__toggle-fullscreen button button_expand" data-fn="toggle-fullscreen">
-          <div class="button__icon">
-          </div>
-        </button>
-      </div>
-    </div>
-  </div>`

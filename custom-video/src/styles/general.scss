@@ -1,36 +1,43 @@
-:root {
-  --main-color: #bdae92;
-  --main-text-color: white;
-  --dark-color: black;
-  --controls-bg-color: rgba(0, 0, 0, 0.6);
-  --controls-menu-bg-color:rgba(0, 0, 0, 0.9);
-
-  --player-width: 640px;
-  --player-height: 480px;
-  --container-h-padding: 10px;
-  --player-popup-size: 80px;
-  --control-panel-height: 45px;
-  --control-panel-padding: 2px;
-  --progressbar-height: 6px;
-  --button-size: calc(var(--control-panel-height) - var(--progressbar-height));
-  --volume-slider-width: 60px;
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+body {
+  font-family: var(--main-font);
+  color: var(--dark-text-color);
+  background-color: var(--bg-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--dark-text-color);
+  transition: 0.2s;
+}
+
+a:hover {
+  color: var(--main-color);
+}
+
+img {
+  display: block;
+}
+
+ul {
+  list-style: none;
+}
+
+.container {
+  max-width: calc(var(--container-width) + 2 * var(--container-padding));
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+}
+
 
 .player:fullscreen {
   --control-panel-height: 65px;
   --button-size: calc(var(--control-panel-height) - var(--progressbar-height));
-}
-
-body {
-  font-family: "Century Gothic", sans-serif;
-  color: var(--main-text-color);
-}
-*,
-::after,
-::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 /* Hide native controls in fullscreen mode */
@@ -309,7 +316,7 @@ video::-webkit-media-controls-enclosure {
 }
 
 .progress-bar:hover .progress-bar__filler {
-  outline: 1px solid khaki;
+  outline: 1px solid var(--main-text-color);
 }
 
 .progress-bar__filler {
@@ -328,48 +335,11 @@ video::-webkit-media-controls-enclosure {
   display: none;
 }
 
-.footer {
-  height: 60px;
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.footer__github-link {
-  text-align: right;
-  margin-top: 10px;
-  text-shadow: 0px 0px 2px var(--main-text-color);
-  color: var(--main-color);
-}
-
-.footer__github-link a {
-  text-decoration: underline;
-  color: var(--main-color);
-}
-
-.logo {
-  display: block;
-  width: 120px;
-  margin-right: 40px;
-}
-
-.st0, .st1, .st2, .st3, .st4, .st5, .st6, .st7, .st8, .st9 {
-  fill: var(--main-color);
-  stroke: var(--main-color);
-}
-
-.logo-path {
-  fill: var(--main-text-color);
-  stroke: var(--main-color);
-  stroke-width: 4px;
-}
-
 .header {
   margin-top: 10px;
 }
 
 .header h1 {
-  text-shadow: 0px 0px 2px var(--main-text-color);
+  text-shadow: 1px 1px 1px var(--dark-text-color);
   color: var(--main-color);
 }
