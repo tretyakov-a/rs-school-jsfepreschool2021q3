@@ -1,12 +1,14 @@
 {
-  "name": "project-name",
+  "name": "custom-video",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "custom interface for html video",
+  "main": "dist/main.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "start": "webpack serve --env mode=development submode=serve",
     "build": "webpack --env mode=production",
-    "build-dev": "webpack --env mode=development submode=build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tretyakov Alexander (tpetyakov@gmail.com)",

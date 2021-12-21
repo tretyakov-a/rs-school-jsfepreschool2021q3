@@ -1,0 +1,308 @@
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+:root {
+  --player-width: 640px;
+  --player-height: 480px;
+  --player-popup-size: 80px;
+  --player-control-panel-height: 45px;
+  --player-control-panel-padding: 2px;
+  --player-progressbar-height: 6px;
+  --player-button-size: calc(var(--player-control-panel-height) - var(--player-progressbar-height));
+  --player-volume-slider-width: 60px;
+}
+
+/* Hide native controls in fullscreen mode */
+video::-webkit-media-controls {
+  display:none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display:none !important;
+}
+
+.player {
+  overflow: hidden;
+  position: relative;
+  background: var(--controls-bg-color);
+  cursor: pointer;
+
+  &:fullscreen {
+    --player-control-panel-height: 65px;
+    --player-button-size: calc(var(--player-control-panel-height) - var(--player-progressbar-height));
+  }
+  
+  &_no-cursor {
+    cursor: none;
+  }
+
+  &__viewport {
+    object-fit: contain;
+    display: block;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__action-popup {
+    position: absolute;
+    width: var(--player-popup-size);
+    height: var(--player-popup-size);
+    top: calc(50% - var(--player-popup-size) / 2);
+    left: calc(50% - var(--player-popup-size) / 2);
+    color: var(--main-color);
+    opacity: 1;
+    transform: scale(0.2);
+    transition: all 0.4s ease-out;
+    pointer-events: none;
+
+    &::before {
+      font-size: var(--player-popup-size);
+    }
+
+    &_play,
+    &_pause,
+    &_volume-mute,
+    &_volume-up {
+      opacity: 0.6;
+      transform: scale(1.4);
+    }
+  }
+
+  &__control-panel {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    color: var(--main-text-color);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--player-control-panel-height);
+    transform: translateY(var(--player-button-size));
+    background: var(--controls-bg-color);
+    transition: transform 0.3s;
+    z-index: 4;
+    padding-top: var(--player-progressbar-height);
+  
+    &_show {
+      transform: translateY(0px);
+    }
+  }
+
+  &__action-popup::before,
+  &__button &__button-icon::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "";
+  }
+  &__buttons {
+    height: var(--player-button-size);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__buttons-group {
+    display: flex;
+  }
+
+  &__volume {
+    position: relative;
+    overflow: hidden;
+    &:hover {
+      width: calc(var(--player-button-size) + var(--player-volume-slider-width) + 2px);
+    }
+  }
+
+  &__volume-slider {
+    position: absolute;
+    cursor: pointer;
+    width: var(--player-volume-slider-width);
+    left: var(--player-button-size);
+    top: calc((var(--player-button-size) - var(--player-progressbar-height)) / 2 - 4px);
+  }
+
+  &__settings-menu {
+    position: absolute;
+    list-style: none;
+    right: 0;
+    bottom: calc(100% + 5px);
+    background-color: var(--controls-menu-bg-color);
+    display: none;
+    opacity: 0;
+    animation: 0.4s settingsMenuFadeIn forwards;
+
+    &-item {
+      cursor: pointer;
+      padding: 8px;
+      font-size: 0.8rem;
+      position: relative;
+    }
+  
+    &-options {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  @keyframes settingsMenuFadeIn {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+
+  &__duration {
+    margin-left: 10px;
+    text-shadow: 0px 0px 2px var(--dark-color);
+    font-size: 0.8rem;
+    align-self: center;
+  }
+
+  &__custom-radio {
+    cursor: pointer;
+    display: block;
+    padding: 2px;
+    padding-left: 15px;
+    position: relative;
+  
+    &:hover {
+      color: var(--main-color);
+    }
+    
+    &-checkbox {
+      position: absolute;
+      left: 0px;
+      top: 3px;
+      width: 10px;
+      height: 10px;
+      border: 1px solid var( --main-text-color);
+      background: transparent;
+      border-radius: 50%;
+    }
+  
+    input {
+      display: none;
+    }
+  
+    input:checked + &-checkbox {
+      background: var(--main-color);
+    }
+  }
+
+  &__button {
+    height: 100%;
+    width: var(--player-button-size);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    position: relative;
+    color: var(--main-text-color);
+    border: none;
+    background: none;
+    font: inherit;
+  
+    &:hover {
+      color: var(--main-color);
+    }
+  
+    &-icon {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: var(--player-button-size);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      &::before {
+        font-size: calc(var(--player-button-size) / 2.2);
+      }
+  
+      i {
+        margin-top: 50%;
+        transform: translateY(-50%);
+      }
+  
+    }
+  }
+
+  &__button_play &__button-icon::before,
+  &__action-popup_play::before {
+    content: "\f04b";
+  }
+  
+  &__button_pause &__button-icon::before,
+  &__action-popup_pause::before {
+    content: "\f04c";
+  }
+  
+  &__button_forward &__button-icon::before {
+    content: "\f04e";
+  }
+  
+  &__button_backward &__button-icon::before {
+    content: "\f04a";
+  }
+  
+  &__button_volume-mute &__button-icon::before,
+  .player__action-popup_volume-mute::before {
+    content: "\f6a9";
+  }
+  
+  &__button_volume-up &__button-icon::before,
+  .player__action-popup_volume-up::before {
+    content: "\f028";
+  }
+  
+  &__button_settings &__button-icon::before {
+    content: "\f013";
+  }
+  
+  &__button_expand &__button-icon::before {
+    content: "\f065";
+  }
+  
+  &__button_compress &__button-icon::before {
+    content: "\f066";
+  }
+
+  &__progress-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: var(--player-progressbar-height);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  
+    &:hover {
+      height: calc(var(--player-progressbar-height) + 20px);
+      top: -10px;
+  
+      .player__progress-bar-filler {
+        outline: 1px solid var(--main-text-color);
+      }
+    }
+  
+    &-filler {
+      background-color: var(--main-color);
+      height: var(--player-progressbar-height);
+      width: 0;
+      pointer-events: none;
+    }
+  
+    &-time-label {
+      position: absolute;
+      left: 0;
+      top: -13px;
+      font-size: 0.9rem;
+      text-shadow: 0px 0px 4px var(--dark-color);
+      display: none;
+    }
+  }
+}

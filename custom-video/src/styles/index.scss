@@ -1,7 +1,8 @@
-@import '../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
 @import 'normalize.css';
 
 @import "constants";
 @import "general";
 @import "header";
 @import "footer";
+@import "custom-video-player.scss";

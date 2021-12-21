@@ -4,31 +4,31 @@ import {
   isElementClicked
 } from './helpers';
 
-import playerControls from './templates/player-controls.ejs';
+import './styles/custom-video-player.scss';
+import playerControlsTemplate from './templates/player-controls.ejs';
 
 export default class CustomVideoPlayer {
   constructor(video) {
-    this.player = document.createElement('div');
-    this.player.classList.add('player');
-    video.parentNode.insertBefore(this.player, video);
-    video.classList.add('player__viewport');
-    video.removeAttribute('controls');
-    video.setAttribute('muted', true);
+    if (!video) {
+      throw new Error('Video is undefined');
+    }
+    this.prefix = 'player';
     this.video = video;
-    this.player.appendChild(this.video);
-    this.player.insertAdjacentHTML('beforeend', playerControls());
+    this.player = this._createPlayer();
 
-    this.playerActionPopup = this.player.querySelector('.player__action-popup');
-    this.controlPanel = this.player.querySelector('.player__control-panel');
-    this.settingsMenu = this.controlPanel.querySelector('.control-panel__settings-menu');
-    this.playBtn = this.controlPanel.querySelector('[data-fn="play"]');
-    this.volumeBtn = this.controlPanel.querySelector('[data-fn="mute"]');
-    this.fullscreenBtn = this.controlPanel.querySelector('[data-fn="toggle-fullscreen"]');
-    this.volumeSlider = this.controlPanel.querySelector('.volume-slider');
-    this.durationLabel = this.controlPanel.querySelector('.control-panel__duration')
-    this.progressBar = this.controlPanel.querySelector('.progress-bar');
-    this.progressBarFiller = this.progressBar.querySelector('.progress-bar__filler');
-    this.progressBarTimeLabel = this.progressBar.querySelector('.progress-bar__time-label');
+    const select = s => this.player.querySelector(this.selector(s));
+    
+    this.playerActionPopup = select('action-popup');
+    this.controlPanel = select('control-panel');
+    this.settingsMenu = select('settings-menu');
+    this.playBtn = select('play');
+    this.volumeBtn = select('volume');
+    this.fullscreenBtn = select('toggle-fullscreen');
+    this.volumeSlider = select('volume-slider');
+    this.durationLabel = select('duration')
+    this.progressBar = select('progress-bar');
+    this.progressBarFiller = select('progress-bar-filler');
+    this.progressBarTimeLabel = select('progress-bar-time-label');
 
     this.isSettingsMenuVisible = false;
     this.isProgressBarMouseDown = false;
@@ -69,35 +69,55 @@ export default class CustomVideoPlayer {
     this.video.volume = 0.1;
     this.video.pause();
   }
+  
+  _createPlayer = () => {
+    const player = document.createElement('div');
+    player.classList.add(this.prefix);
+    this.video.parentNode.insertBefore(player, this.video);
+    this.video.classList.add(this.className('viewport'));
+    this.video.removeAttribute('controls');
+    this.video.setAttribute('muted', true);
+
+    player.appendChild(this.video);
+    player.insertAdjacentHTML('beforeend', playerControlsTemplate());
+    return player;
+  }
+
+  selector = (name) => '.' + this.className(name);
+
+  className = (name) => `${this.prefix}__${name}`
 
   showControlPanel = () => {
-    this.controlPanel.classList.add('player__control-panel_show');
+    this.controlPanel.classList.add(this.className('control-panel_show'));
   }
 
   hideControlPanel = () => {
-    this.controlPanel.classList.remove('player__control-panel_show');
+    this.controlPanel.classList.remove(this.className('control-panel_show'));
     this.hideSettingsMenu();
   }
 
   controlPanelClickHandler = (e) => {
-    if (e.target.classList.contains('volume-slider')) {
+    const hasClass = (e, name) => e.target.classList.contains(this.className(name));
+    
+    if (hasClass(e, 'volume-slider')) {
       this.handleVolumeSliderChange(e);
       return;
     }
-    if (e.target.classList.contains('progress-bar')) {
+    if (hasClass(e, 'progress-bar')) {
       this.handleProgressBarClick(e);
       return;
     }
-
-    if (e.target.nodeName === 'INPUT') {
-      switch (e.target.name) {
-        case 'playback': this.changePlaybackRate(e.target.value); return;
-        case 'skip': this.changeSkipInterval(e.target.value); return;
+    const radio = e.target.closest(this.selector('custom-radio'));
+    if (radio) {
+      const input = radio.querySelector('input');
+      switch (input.name) {
+        case 'playback': this.changePlaybackRate(input.value); return;
+        case 'skip': this.changeSkipInterval(input.value); return;
         default: return;
       }
     }
     
-    const btn = e.target.closest('.button');
+    const btn = e.target.closest(this.selector('button'));
     if (btn) {
       switch (btn.dataset.fn) {
         case 'play': this.toggleVideoPlay(); return;
@@ -128,15 +148,19 @@ export default class CustomVideoPlayer {
   }
 
   toggleFullscreen = () => {
+    const [ compress, expand ] = [
+      this.className('button_compress'),
+      this.className('button_expand')
+    ];
     if (this.isFullscreen && document.exitFullscreen) {
       document.exitFullscreen();
       this.isFullscreen = false;
-      this.fullscreenBtn.classList.replace('button_compress', 'button_expand');
+      this.fullscreenBtn.classList.replace(compress, expand);
       clearTimeout(this.afkTimer);
     } else if (this.player.requestFullscreen) {
       this.player.requestFullscreen();
       this.isFullscreen = true;
-      this.fullscreenBtn.classList.replace('button_expand', 'button_compress');
+      this.fullscreenBtn.classList.replace(expand, compress);
     }
   }
 
@@ -157,23 +181,24 @@ export default class CustomVideoPlayer {
   }
 
   handleDocumentClick = (e) => {
-    if (isElementClicked(e, ['control-panel__settings-menu', 'control-panel__settings'])) {
+    if (isElementClicked(e, [this.className('settings-menu'), this.className('settings')])) {
       return;
     }
     this.hideSettingsMenu();
   }
 
   handleDocumentMouseMove = () => {
+    const noCursor = this.className('_no-cursor');
     if (this.isFullscreen) {
       this.isUserAfk = false;
       this.showControlPanel();
-      this.player.classList.remove('player_no-cursor');
+      this.player.classList.remove(noCursor);
       clearTimeout(this.afkTimer);
 
       this.afkTimer = setTimeout(() => {
         this.isUserAfk = true;
         this.hideControlPanel();
-        this.player.classList.add('player_no-cursor');
+        this.player.classList.add(noCursor);
       }, this.afkDelay);
     }
   }
@@ -188,7 +213,7 @@ export default class CustomVideoPlayer {
   }
 
   showPlayerActionPopup = (modificator) => {
-    const className = `player__action-popup_${modificator}`;
+    const className = this.className(`action-popup_${modificator}`);
     this.playerActionPopup.classList.add(className);
     setTimeout(() => {
       this.playerActionPopup.classList.remove(className);
@@ -197,22 +222,22 @@ export default class CustomVideoPlayer {
 
   handleVideoPlay = () => {
     this.showPlayerActionPopup('play');
-    this.playBtn.classList.replace('button_play', 'button_pause');
+    this.playBtn.classList.replace(this.className('button_play'), this.className('button_pause'));
 
   }
 
   handleVideoPause = () => {
     this.showPlayerActionPopup('pause');
-    this.playBtn.classList.replace('button_pause', 'button_play');
+    this.playBtn.classList.replace(this.className('button_pause'), this.className('button_play'));
   }
 
   handleVolumeChange = () => {
     if (this.video.muted) {
       this.volumeSlider.value = 0;
-      this.volumeBtn.classList.replace('button_volume-up', 'button_volume-mute');
+      this.volumeBtn.classList.replace(this.className('button_volume-up'), this.className('button_volume-mute'));
     } else {
       this.volumeSlider.value = this.video.volume;
-      this.volumeBtn.classList.replace('button_volume-mute', 'button_volume-up');
+      this.volumeBtn.classList.replace(this.className('button_volume-mute'), this.className('button_volume-up'));
     }
   }
 

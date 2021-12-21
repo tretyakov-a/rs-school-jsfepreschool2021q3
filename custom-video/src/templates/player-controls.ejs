@@ -1,89 +1,89 @@
 <div class="player__action-popup player__action-popup_play"></div>
-<div class="player__control-panel control-panel">
-  <ul class="control-panel__settings-menu settings-menu">
-    <li class="settings-menu__item">
+<div class="player__control-panel">
+  <ul class="player__settings-menu">
+    <li class="player__settings-menu-item">
       <div>Playback speed</div>
-      <div class="settings-menu__options">
-        <label class="custom-radio">
+      <div class="player__settings-menu-options">
+        <label class="player__custom-radio">
           <input type="radio" name="playback" value="0.25">
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>0.25x</span>
         </label> 
-        <label class="custom-radio">
+        <label class="player__custom-radio">
           <input type="radio" name="playback" value="0.5">
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>0.5x</span>
         </label>        
-        <label class="custom-radio">
+        <label class="player__custom-radio">
           <input type="radio" name="playback" value="1" checked>
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>normal</span>
         </label>
-        <label class="custom-radio">
+        <label class="player__custom-radio">
           <input type="radio" name="playback" value="1.5">
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>1.5x</span>
         </label>
-        <label class="custom-radio">
+        <label class="player__custom-radio">
           <input type="radio" name="playback" value="2">
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>2x</span>
         </label>
       </div>
     </li>
-    <li class="settings-menu__item">
+    <li class="player__settings-menu-item">
       <div>Skip interval</div>
-      <div class="settings-menu__options">
-        <label class="custom-radio">
+      <div class="player__settings-menu-options">
+        <label class="player__custom-radio">
           <input type="radio" name="skip" value="10">
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>10s</span>
         </label>
-        <label class="custom-radio">
+        <label class="player__custom-radio">
           <input type="radio" name="skip" value="20" checked>
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>20s</span>
         </label>
-        <label class="custom-radio">
+        <label class="player__custom-radio">
           <input type="radio" name="skip" value="30">
-          <span class="custom-radio__checkbox"></span>
+          <span class="player__custom-radio-checkbox"></span>
           <span>30s</span>
         </label>
       </div>
     </li>
   </ul>
-  <div class="control-panel__progress progress-bar">
-    <div class="progress-bar__time-label"></div>
-    <div class="progress-bar__filler"></div>
+  <div class="player__progress-bar">
+    <div class="player__progress-bar-time-label"></div>
+    <div class="player__progress-bar-filler"></div>
   </div>
-  <div class="control-panel__buttons">
-    <div class="control-panel__buttons-group">
-      <button class="control-panel__play button button_play" data-fn="play" title="play">
-        <div class="button__icon">
+  <div class="player__buttons">
+    <div class="player__buttons-group">
+      <button class="player__play player__button player__button_play" data-fn="play" title="play">
+        <div class="player__button-icon">
         </div>
       </button>
-      <button class="control-panel__step-backward button button_backward" data-fn="backward" title="step backward">
-        <div class="button__icon">
+      <button class="player__step-backward player__button player__button_backward" data-fn="backward" title="step backward">
+        <div class="player__button-icon">
         </div>
       </button>
-      <button class="control-panel__step-forward button button_forward" data-fn="forward" title="step forward">
-        <div class="button__icon">
+      <button class="player__step-forward player__button player__button_forward" data-fn="forward" title="step forward">
+        <div class="player__button-icon">
         </div>
       </button>
-      <button class="control-panel__volume button button_volume-up" data-fn="mute" title="click: mute">
-        <div class="button__icon">
+      <button class="player__volume player__button player__button_volume-up" data-fn="mute" title="click: mute">
+        <div class="player__button-icon">
         </div>
-        <input class="control-panel__volume-slider volume-slider" type="range" name="volume" min="0" max="1" step="0.05" value="1" tabindex="-1" />
+        <input class="player__volume-slider" type="range" name="volume" min="0" max="1" step="0.05" value="1" tabindex="-1" />
       </button>
-      <div class="control-panel__duration"></div>
+      <div class="player__duration"></div>
     </div>
-    <div class="control-panel__buttons-group">
-      <button class="control-panel__settings button button_settings" data-fn="settings">
-        <div class="button__icon">
+    <div class="player__buttons-group">
+      <button class="player__settings player__button player__button_settings" data-fn="settings">
+        <div class="player__button-icon">
         </div>
       </button>
-      <button class="control-panel__toggle-fullscreen button button_expand" data-fn="toggle-fullscreen">
-        <div class="button__icon">
+      <button class="player__toggle-fullscreen player__button player__button_expand" data-fn="toggle-fullscreen">
+        <div class="player__button-icon">
         </div>
       </button>
     </div>
