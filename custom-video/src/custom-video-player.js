@@ -13,6 +13,7 @@ const defaultColors = {
   darkText: 'black',
   controlsBg: 'rgba(0, 0, 0, 0.6)',
   settingsBg: 'rgba(0, 0, 0, 0.9)',
+  fillerBg: 'rgba(255, 255, 255, 0.2)',
 };
 
 export default class CustomVideoPlayer {
@@ -55,6 +56,7 @@ export default class CustomVideoPlayer {
     this.player.addEventListener('mouseenter', this.showControlPanel);
     this.player.addEventListener('mouseleave', this.hideControlPanel);
 
+    this.playerActionPopup.addEventListener('click', this.toggleVideoPlay);
     this.video.addEventListener('click', this.toggleVideoPlay);
     this.video.addEventListener('play', this.handleVideoPlay);
     this.video.addEventListener('pause', this.handleVideoPause);
@@ -83,15 +85,14 @@ export default class CustomVideoPlayer {
   
   setColors = ( ) => {
     const colors = this.options.colors || {};
-    const { theme, mainText, darkText, controlsBg, settingsBg } = {...defaultColors, ...colors };
-      
-    // const root = document.querySelector(':root');
+    const { theme, mainText, darkText, controlsBg, settingsBg, fillerBg } = {...defaultColors, ...colors };
     const set = (prop, color) => this.player.style.setProperty(prop, color);
     set('--player-main-color', theme);
     set('--player-main-text-color', mainText);
     set('--player-dark-text-color', darkText);
     set('--player-controls-bg-color', controlsBg);
-    set('--player-menu-bg-color', settingsBg)
+    set('--player-menu-bg-color', settingsBg);
+    set('--player-filler-bg', fillerBg);
   }
 
   _createPlayer = () => {
@@ -196,8 +197,8 @@ export default class CustomVideoPlayer {
     if (muted && volume === 0) {
       return;
     }
-    const popupModificator = muted ? 'volume-up' : 'volume-mute';
-    this.showPlayerActionPopup(popupModificator);
+    // const popupModificator = muted ? 'volume-up' : 'volume-mute';
+    // this.showPlayerActionPopup(popupModificator);
     this.video.muted = !muted;
     this.handleVolumeChange();
   }
@@ -248,13 +249,16 @@ export default class CustomVideoPlayer {
   }
 
   handleVideoPlay = () => {
-    this.showPlayerActionPopup('play');
+    // this.showPlayerActionPopup('play');
+    this.playerActionPopup.classList.remove(this.className('action-popup_show'));
     this.playBtn.classList.replace(this.className('button_play'), this.className('button_pause'));
 
   }
 
   handleVideoPause = () => {
-    this.showPlayerActionPopup('pause');
+    // this.showPlayerActionPopup('pause');
+    console.log(this.playerActionPopup.classList)
+    this.playerActionPopup.classList.add(this.className('action-popup_show'));
     this.playBtn.classList.replace(this.className('button_pause'), this.className('button_play'));
   }
 

@@ -1,7 +1,7 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
 :root {
-  --player-popup-size: 80px;
+  --player-popup-size: 150px;
   --player-control-panel-height: 45px;
   --player-control-panel-padding: 2px;
   --player-progressbar-height: 6px;
@@ -52,12 +52,34 @@ video::-webkit-media-controls-enclosure {
     left: calc(50% - var(--player-popup-size) / 2);
     color: var(--player-main-color);
     opacity: 1;
-    transform: scale(0.2);
+    // transform: scale(0.2);
     transition: all 0.4s ease-out;
-    pointer-events: none;
+    // pointer-events: none;
+    display: none;
 
     &::before {
       font-size: var(--player-popup-size);
+    }
+
+    &:hover {      
+      .player__action-popup-play-btn {
+        fill: var(--player-main-color);
+      }
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    &-play-btn {
+      fill: var(--player-main-text-color);
+      transition: 0.2s;
+    }
+
+    &_show {
+      display: block;
     }
 
     &_play,
@@ -75,8 +97,8 @@ video::-webkit-media-controls-enclosure {
     flex-direction: column;
     color: var(--player-main-text-color);
     bottom: 0;
-    left: 0;
-    right: 0;
+    left: 2px;
+    right: 2px;
     height: var(--player-control-panel-height);
     transform: translateY(var(--player-button-size));
     background: var(--player-controls-bg-color);
@@ -284,19 +306,26 @@ video::-webkit-media-controls-enclosure {
     &:hover {
       height: calc(var(--player-progressbar-height) + 20px);
       top: -10px;
-  
+      
       .player__progress-bar-filler {
-        outline: 1px solid var(--player-main-text-color);
+        transform: scaleY(1.4);
       }
     }
-  
+    
     &-filler {
       background-color: var(--player-main-color);
-      height: var(--player-progressbar-height);
+      height: 100%;
       width: 0;
       pointer-events: none;
+      transform: scaleY(1);
     }
-  
+
+    &-filler-wrapper {
+      height: var(--player-progressbar-height);
+      background-color: var(--player-filler-bg);
+      width: 100%;
+    }
+
     &-time-label {
       position: absolute;
       left: 0;
@@ -304,6 +333,18 @@ video::-webkit-media-controls-enclosure {
       font-size: 0.9rem;
       text-shadow: 0px 0px 4px var(--player-dark-text-color);
       display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  $small-popup-size: 75px;
+  .player {
+    &__action-popup {
+      width: $small-popup-size;
+      height: $small-popup-size;
+      top: calc(50% - #{$small-popup-size} / 2);
+      left: calc(50% - #{$small-popup-size} / 2);
     }
   }
 }
