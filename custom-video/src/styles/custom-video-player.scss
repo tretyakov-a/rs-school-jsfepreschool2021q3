@@ -1,8 +1,6 @@
 @import '@fortawesome/fontawesome-free/css/all.min.css';
 
 :root {
-  --player-width: 640px;
-  --player-height: 480px;
   --player-popup-size: 80px;
   --player-control-panel-height: 45px;
   --player-control-panel-padding: 2px;
@@ -11,11 +9,14 @@
   --player-volume-slider-width: 60px;
 }
 
-/* Hide native controls in fullscreen mode */
-video::-webkit-media-controls {
-  display:none !important;
+*, ::before, ::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
+/* Hide native controls in fullscreen mode */
+video::-webkit-media-controls,
 video::-webkit-media-controls-enclosure {
   display:none !important;
 }
@@ -23,7 +24,7 @@ video::-webkit-media-controls-enclosure {
 .player {
   overflow: hidden;
   position: relative;
-  background: var(--controls-bg-color);
+  background: var(--player-controls-bg-color);
   cursor: pointer;
 
   &:fullscreen {
@@ -49,7 +50,7 @@ video::-webkit-media-controls-enclosure {
     height: var(--player-popup-size);
     top: calc(50% - var(--player-popup-size) / 2);
     left: calc(50% - var(--player-popup-size) / 2);
-    color: var(--main-color);
+    color: var(--player-main-color);
     opacity: 1;
     transform: scale(0.2);
     transition: all 0.4s ease-out;
@@ -72,13 +73,13 @@ video::-webkit-media-controls-enclosure {
     position: absolute;
     display: flex;
     flex-direction: column;
-    color: var(--main-text-color);
+    color: var(--player-main-text-color);
     bottom: 0;
     left: 0;
     right: 0;
     height: var(--player-control-panel-height);
     transform: translateY(var(--player-button-size));
-    background: var(--controls-bg-color);
+    background: var(--player-controls-bg-color);
     transition: transform 0.3s;
     z-index: 4;
     padding-top: var(--player-progressbar-height);
@@ -126,7 +127,7 @@ video::-webkit-media-controls-enclosure {
     list-style: none;
     right: 0;
     bottom: calc(100% + 5px);
-    background-color: var(--controls-menu-bg-color);
+    background-color: var(--player-menu-bg-color);
     display: none;
     opacity: 0;
     animation: 0.4s settingsMenuFadeIn forwards;
@@ -157,7 +158,7 @@ video::-webkit-media-controls-enclosure {
 
   &__duration {
     margin-left: 10px;
-    text-shadow: 0px 0px 2px var(--dark-color);
+    text-shadow: 0px 0px 2px var(--player-dark-text-color);
     font-size: 0.8rem;
     align-self: center;
   }
@@ -170,7 +171,7 @@ video::-webkit-media-controls-enclosure {
     position: relative;
   
     &:hover {
-      color: var(--main-color);
+      color: var(--player-main-color);
     }
     
     &-checkbox {
@@ -179,7 +180,7 @@ video::-webkit-media-controls-enclosure {
       top: 3px;
       width: 10px;
       height: 10px;
-      border: 1px solid var( --main-text-color);
+      border: 1px solid var(--player-main-text-color);
       background: transparent;
       border-radius: 50%;
     }
@@ -189,7 +190,7 @@ video::-webkit-media-controls-enclosure {
     }
   
     input:checked + &-checkbox {
-      background: var(--main-color);
+      background: var(--player-main-color);
     }
   }
 
@@ -200,13 +201,13 @@ video::-webkit-media-controls-enclosure {
     text-align: center;
     transition: all 0.2s;
     position: relative;
-    color: var(--main-text-color);
+    color: var(--player-main-text-color);
     border: none;
     background: none;
     font: inherit;
   
     &:hover {
-      color: var(--main-color);
+      color: var(--player-main-color);
     }
   
     &-icon {
@@ -285,12 +286,12 @@ video::-webkit-media-controls-enclosure {
       top: -10px;
   
       .player__progress-bar-filler {
-        outline: 1px solid var(--main-text-color);
+        outline: 1px solid var(--player-main-text-color);
       }
     }
   
     &-filler {
-      background-color: var(--main-color);
+      background-color: var(--player-main-color);
       height: var(--player-progressbar-height);
       width: 0;
       pointer-events: none;
@@ -301,7 +302,7 @@ video::-webkit-media-controls-enclosure {
       left: 0;
       top: -13px;
       font-size: 0.9rem;
-      text-shadow: 0px 0px 4px var(--dark-color);
+      text-shadow: 0px 0px 4px var(--player-dark-text-color);
       display: none;
     }
   }

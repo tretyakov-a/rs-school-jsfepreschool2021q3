@@ -7,16 +7,27 @@ import {
 import './styles/custom-video-player.scss';
 import playerControlsTemplate from './templates/player-controls.ejs';
 
+const defaultColors = {
+  theme: 'darkblue',
+  mainText: 'white',
+  darkText: 'black',
+  controlsBg: 'rgba(0, 0, 0, 0.6)',
+  settingsBg: 'rgba(0, 0, 0, 0.9)',
+};
+
 export default class CustomVideoPlayer {
-  constructor(video) {
+  constructor(video, options = {}) {
     if (!video) {
       throw new Error('Video is undefined');
     }
+
     this.prefix = 'player';
+    this.options = options;
     this.video = video;
     this.player = this._createPlayer();
+    this.setColors();
 
-    const select = s => this.player.querySelector(this.selector(s));
+    const select = s => this.player.querySelector(this.getSelector(s));
     
     this.playerActionPopup = select('action-popup');
     this.controlPanel = select('control-panel');
@@ -64,12 +75,25 @@ export default class CustomVideoPlayer {
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('mousemove', throttleDelayed(this.handleDocumentMouseMove));
 
-    this.controlPanel.addEventListener('click', this.controlPanelClickHandler);
+    this.controlPanel.addEventListener('click', this.handleControlPanelClick);
 
     this.video.volume = 0.1;
     this.video.pause();
   }
   
+  setColors = ( ) => {
+    const colors = this.options.colors || {};
+    const { theme, mainText, darkText, controlsBg, settingsBg } = {...defaultColors, ...colors };
+      
+    // const root = document.querySelector(':root');
+    const set = (prop, color) => this.player.style.setProperty(prop, color);
+    set('--player-main-color', theme);
+    set('--player-main-text-color', mainText);
+    set('--player-dark-text-color', darkText);
+    set('--player-controls-bg-color', controlsBg);
+    set('--player-menu-bg-color', settingsBg)
+  }
+
   _createPlayer = () => {
     const player = document.createElement('div');
     player.classList.add(this.prefix);
@@ -83,7 +107,7 @@ export default class CustomVideoPlayer {
     return player;
   }
 
-  selector = (name) => '.' + this.className(name);
+  getSelector = (name) => '.' + this.className(name);
 
   className = (name) => `${this.prefix}__${name}`
 
@@ -96,38 +120,41 @@ export default class CustomVideoPlayer {
     this.hideSettingsMenu();
   }
 
-  controlPanelClickHandler = (e) => {
-    const hasClass = (e, name) => e.target.classList.contains(this.className(name));
+  handleSettingsMenuClick = (_, radio) => {
+    const input = radio.querySelector('input');
+    switch (input.name) {
+      case 'playback': this.changePlaybackRate(input.value); return;
+      case 'skip': this.changeSkipInterval(input.value); return;
+      default: return;
+    }
+  }
+
+  handleButtonClick = (_, btn) => {
+    switch (btn.dataset.fn) {
+      case 'play': this.toggleVideoPlay(); return;
+      case 'forward': this.skipVideo(this.skipInterval); return;
+      case 'backward': this.skipVideo(-this.skipInterval); return;
+      case 'mute': this.toggleVideoMute(); return;
+      case 'settings': this.toggleSettingsMenu(); return;
+      case 'toggle-fullscreen': this.toggleFullscreen(); return;
+      default: return;
+    }
+  }
+
+  handleControlPanelClick = (e) => {
+    const closest = (e, name) => e.target.closest(this.getSelector(name));
     
-    if (hasClass(e, 'volume-slider')) {
-      this.handleVolumeSliderChange(e);
-      return;
+    const handlers = { 
+      'volume-slider': this.handleVolumeSliderChange,
+      'progress-bar': this.handleProgressBarClick,
+      'custom-radio': this.handleSettingsMenuClick,
+      'button': this.handleButtonClick
     }
-    if (hasClass(e, 'progress-bar')) {
-      this.handleProgressBarClick(e);
-      return;
-    }
-    const radio = e.target.closest(this.selector('custom-radio'));
-    if (radio) {
-      const input = radio.querySelector('input');
-      switch (input.name) {
-        case 'playback': this.changePlaybackRate(input.value); return;
-        case 'skip': this.changeSkipInterval(input.value); return;
-        default: return;
-      }
-    }
-    
-    const btn = e.target.closest(this.selector('button'));
-    if (btn) {
-      switch (btn.dataset.fn) {
-        case 'play': this.toggleVideoPlay(); return;
-        case 'forward': this.skipVideo(this.skipInterval); return;
-        case 'backward': this.skipVideo(-this.skipInterval); return;
-        case 'mute': this.toggleVideoMute(); return;
-        case 'settings': this.toggleSettingsMenu(); return;
-        case 'toggle-fullscreen': this.toggleFullscreen(); return;
-        default: return;
-      }
+
+    let el = null;
+    const handlerName = Object.keys(handlers).find(name => el = closest(e, name));
+    if (handlerName) {
+      handlers[handlerName](e, el);
     }
   }
 
