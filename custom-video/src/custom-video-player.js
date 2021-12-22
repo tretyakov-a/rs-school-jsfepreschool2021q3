@@ -18,14 +18,10 @@ const defaultColors = {
 
 export default class CustomVideoPlayer {
   constructor(video, options = {}) {
-    if (!video) {
-      throw new Error('Video is undefined');
-    }
-
     this.prefix = 'player';
     this.options = options;
     this.video = video;
-    this.player = this._createPlayer();
+    this.player = this.createPlayer();
     this.setColors();
 
     const select = s => this.player.querySelector(this.getSelector(s));
@@ -46,6 +42,7 @@ export default class CustomVideoPlayer {
 
     this.isSettingsMenuVisible = false;
     this.isProgressBarMouseDown = false;
+    this.isProgressBarMouseOver = false;
     this.isVolumeSliderMouseDown = false;
     this.isVolumeSliderMouseOver = false;
     this.isFullscreen = false;
@@ -53,6 +50,7 @@ export default class CustomVideoPlayer {
     this.skipInterval = 20;
     this.playerActionPopupDuration = 400;
     this.volumeSliderWidth = 60;
+    this.timeLabelWidth = 30;
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
@@ -76,11 +74,10 @@ export default class CustomVideoPlayer {
     this.progressBar.addEventListener('mouseup', this.handleProgressBarMouseUp);
     this.progressBar.addEventListener('mouseover', this.handleProgressBarMouseOver);
     this.progressBar.addEventListener('mouseout', this.handleProgressBarMouseOut);
-    this.progressBar.addEventListener('mousemove', throttleDelayed(this.handleProgressBarMouseMove));
 
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('mousemove', throttleDelayed(this.handleDocumentMouseMove));
-    document.addEventListener('mouseup', this.handleVolumeSliderMouseUp)
+    document.addEventListener('mouseup', this.handleDocumentMouseUp)
 
     this.controlPanel.addEventListener('click', this.handleControlPanelClick);
 
@@ -100,7 +97,7 @@ export default class CustomVideoPlayer {
     set('--player-filler-bg', fillerBg);
   }
 
-  _createPlayer = () => {
+  createPlayer = () => {
     const player = document.createElement('div');
     player.classList.add(this.prefix);
     this.video.parentNode.insertBefore(player, this.video);
@@ -152,7 +149,6 @@ export default class CustomVideoPlayer {
     
     const handlers = { 
       'volume-slider': this.handleVolumeSliderChange,
-      'progress-bar': this.handleProgressBarClick,
       'custom-radio': this.handleSettingsMenuClick,
       'button': this.handleButtonClick
     }
@@ -211,29 +207,42 @@ export default class CustomVideoPlayer {
     this.settingsMenu.style.display = this.isSettingsMenuVisible ? 'block' : 'none';
   }
 
+  handleUserAfk = () => {
+    const noCursor = this.className('_no-cursor');
+    this.isUserAfk = false;
+    this.showControlPanel();
+    this.player.classList.remove(noCursor);
+    clearTimeout(this.afkTimer);
+
+    this.afkTimer = setTimeout(() => {
+      this.isUserAfk = true;
+      this.hideControlPanel();
+      this.player.classList.add(noCursor);
+    }, this.afkDelay);
+  }
+
   handleDocumentClick = (e) => {
     if (isElementClicked(e, [this.className('settings-menu'), this.className('settings')])) {
       return;
     }
     this.hideSettingsMenu();
   }
-
+  
   handleDocumentMouseMove = (e) => {
-    const noCursor = this.className('_no-cursor');
     if (this.isFullscreen) {
-      this.isUserAfk = false;
-      this.showControlPanel();
-      this.player.classList.remove(noCursor);
-      clearTimeout(this.afkTimer);
-
-      this.afkTimer = setTimeout(() => {
-        this.isUserAfk = true;
-        this.hideControlPanel();
-        this.player.classList.add(noCursor);
-      }, this.afkDelay);
+      this.handleUserAfk()
     }
+    if (this.isVolumeSliderMouseDown) {
+      this.handleVolumeSliderChange(e);
+    }
+    if (this.isProgressBarMouseDown || this.isProgressBarMouseOver) {
+      this.handleProgressBarMouseMove(e);
+    }
+  }
 
-    this.handleVolumeSliderChange(e);
+  handleDocumentMouseUp = (e) => {
+    this.handleVolumeSliderMouseUp();
+    this.handleProgressBarMouseUp();
   }
 
   hideSettingsMenu = () => {
@@ -260,7 +269,6 @@ export default class CustomVideoPlayer {
   }
 
   handleVideoPause = () => {
-    console.log(this.playerActionPopup.classList)
     this.playerActionPopup.classList.add(this.className('action-popup_show'));
     this.playBtn.classList.replace(this.className('button_pause'), this.className('button_play'));
   }
@@ -280,16 +288,13 @@ export default class CustomVideoPlayer {
   }
 
   handleVolumeSliderChange = (e) => {
-    if (this.isVolumeSliderMouseDown) {
-      const { x: volumeSliderX } = this.volumeSlider.getBoundingClientRect();
-      let sliderX = e.screenX < volumeSliderX ? 0 : e.screenX % volumeSliderX;
-      if (sliderX > this.volumeSliderWidth) {
-        sliderX = this.volumeSliderWidth;
-      }
-      const volume = +(sliderX / this.volumeSliderWidth).toFixed(2);
-      this.video.muted = volume === 0;
-      this.video.volume = volume;
-    }
+    const { x: volumeSliderX, width } = this.volumeSlider.getBoundingClientRect();
+    const sliderWidth = this.isFullscreen ? 90 : width;
+    let sliderX = e.clientX < volumeSliderX
+      ? 0 : e.clientX > volumeSliderX + sliderWidth ? sliderWidth : e.clientX - volumeSliderX;
+    const volume = +(sliderX / sliderWidth).toFixed(2);
+    this.video.muted = volume === 0;
+    this.video.volume = volume;
   }
 
   handleProgress = () => {
@@ -299,40 +304,40 @@ export default class CustomVideoPlayer {
     this.progressBarFiller.style.width = `${percent}%`;
   }
 
-  handleProgressBarClick = (e) => {
-    this.video.currentTime = (e.offsetX / this.progressBar.offsetWidth) * this.video.duration;
-  }
-
   showTimeLabel = (time, offset) => {
     this.progressBarTimeLabel.textContent = timeToText(time);
     this.progressBarTimeLabel.style.left = `${offset}px`;
   }
 
   handleProgressBarMouseMove = (e) => {
-    const { offsetWidth } = this.progressBar;
-    const { offsetWidth: timeLabelWidth } = this.progressBarTimeLabel;
-    const time = (e.offsetX / offsetWidth) * this.video.duration;
-
-    let offset = e.offsetX - timeLabelWidth / 2;
-    if (offset < 0) {
-      offset = 0;
-    }
-    if (offset > offsetWidth - timeLabelWidth) {
-      offset = offsetWidth - timeLabelWidth;
-    }
+    const { x: progressBarX, width: progressBarWidth } = this.progressBar.getBoundingClientRect();
+    const progressX = e.clientX < progressBarX
+      ? 0 : e.clientX > progressBarX + progressBarWidth ? progressBarWidth : e.clientX - progressBarX;
+    const time = (progressX / progressBarWidth) * this.video.duration;
+    
     if (this.isProgressBarMouseDown) {
       this.video.currentTime = time;
     }
+    let offset = progressX - this.timeLabelWidth / 2;
+    if (offset < 0) {
+      offset = 0;
+    }
+    if (offset > progressBarWidth - this.timeLabelWidth) {
+      offset = progressBarWidth - this.timeLabelWidth;
+    }
+    this.progressBarTimeLabel.style.display = 'block';
     this.showTimeLabel(time, offset);
   }
 
-  handleProgressBarMouseOver = () => {
-    this.progressBarTimeLabel.style.display = 'block';
+  handleProgressBarMouseOver = (e) => {
+    this.isProgressBarMouseOver = true;
   }
 
   handleProgressBarMouseOut = () => {
-    this.progressBarTimeLabel.style.display = 'none';
-    this.isProgressBarMouseDown = false;
+    if (!this.isProgressBarMouseDown) {
+      this.progressBarTimeLabel.style.display = 'none';
+    }
+    this.isProgressBarMouseOver = false;
   }
 
   handleProgressBarMouseDown = (e) => {
@@ -341,9 +346,14 @@ export default class CustomVideoPlayer {
     this.handleProgressBarMouseMove(e);
   }
 
-  handleProgressBarMouseUp = () => {
-    this.video.play();
-    this.isProgressBarMouseDown = false;
+  handleProgressBarMouseUp = (e) => {
+    if (this.isProgressBarMouseDown) {
+      this.video.play();
+      this.isProgressBarMouseDown = false;
+      if (!this.isProgressBarMouseOver) {
+        this.handleProgressBarMouseOut(e);
+      }
+    }
   }
 
   handleVolumeSliderMouseDown = (e) => {

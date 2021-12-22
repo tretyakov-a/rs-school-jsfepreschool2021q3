@@ -30,6 +30,7 @@ video::-webkit-media-controls-enclosure {
   &:fullscreen {
     --player-control-panel-height: 65px;
     --player-button-size: calc(var(--player-control-panel-height) - var(--player-progressbar-height));
+    --player-volume-slider-width: 90px;
   }
   
   &_no-cursor {
@@ -181,11 +182,11 @@ video::-webkit-media-controls-enclosure {
   }
   
   &__button_forward &__button-icon::before {
-    content: "\f04e";
+    content: "\f2f9";
   }
   
   &__button_backward &__button-icon::before {
-    content: "\f04a";
+    content: "\f2ea";
   }
   
   &__button_volume-mute &__button-icon::before,
@@ -249,6 +250,11 @@ video::-webkit-media-controls-enclosure {
     text-shadow: 0px 0px 2px var(--player-dark-text-color);
     font-size: 0.8rem;
     align-self: center;
+    user-select: none;
+    cursor: default;
+    -webkit-user-drag: none;
+    -webkit-app-region: no-drag;
+    -webkit-user-select: none;
   }
 
   &__custom-radio {
@@ -265,20 +271,24 @@ video::-webkit-media-controls-enclosure {
     &-checkbox {
       position: absolute;
       left: 0px;
-      top: 3px;
-      width: 10px;
-      height: 10px;
-      border: 1px solid var(--player-main-text-color);
+      width: 100%;
+      height: 100%;
       background: transparent;
-      border-radius: 50%;
     }
   
     input {
       display: none;
     }
-  
-    input:checked + &-checkbox {
-      background: var(--player-main-color);
+    
+    input:checked ~ span {
+      color: var(--player-main-color);
+    }
+
+    input:checked + &-checkbox::before {
+      content: "\f00c";
+      font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      font-size: 0.6rem;
     }
   }
 
@@ -292,9 +302,6 @@ video::-webkit-media-controls-enclosure {
     align-items: center;
   
     &:hover {
-      height: calc(var(--player-progressbar-height) + 20px);
-      top: -10px;
-      
       .player__progress-bar-filler {
         transform: scaleY(1.4);
       }
@@ -317,10 +324,13 @@ video::-webkit-media-controls-enclosure {
     &-time-label {
       position: absolute;
       left: 0;
-      top: -13px;
+      width: 30px;
+      top: -22px;
       font-size: 0.9rem;
       text-shadow: 0px 0px 4px var(--player-dark-text-color);
       display: none;
+      pointer-events: none;
+      user-select: none;
     }
   }
 
@@ -348,6 +358,7 @@ video::-webkit-media-controls-enclosure {
     left: 1px;
     top: -2px;
     font-size: 0.7rem;
+    user-select: none;
   }
 
   &__volume-slider-wrapper {
