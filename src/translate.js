@@ -1,7 +1,6 @@
 let currentLanguage = 'en';
 const languages = ['en', 'ru'];
 const links = document.querySelectorAll('.language-switcher__link');
-const translatedElements = document.querySelectorAll('[data-translate]');
 const activeModificator = 'language-switcher__link_active';
 
 function handleTranslateLinkClick(e) {
@@ -23,6 +22,7 @@ function setActiveLink(language) {
 }
 
 function translate(language) {
+  const translatedElements = document.querySelectorAll('[data-translate]');
   currentLanguage = language;
   localStorage.setItem('language', currentLanguage);
   setActiveLink(language);
@@ -84,7 +84,9 @@ const i18Obj = {
     'price-descripton-3-span-5': 'Make up, visage, hairstyle',
     'order': 'Order shooting',
     'contact-me': 'Contact with me',
-    'send-message': 'Send message'
+    'send-message': 'Send message',
+    'skip-interval': 'Skip interval',
+    'playback-speed': 'Playback speed'
   },
   'ru' : {
     'skills': 'Навыки',
@@ -124,6 +126,8 @@ const i18Obj = {
     'price-descripton-3-span-5': 'Макияж, визаж, прическа',
     'order': 'Заказать съемку',
     'contact-me': 'Свяжитесь со мной',
-    'send-message': 'Отправить'
+    'send-message': 'Отправить',
+    'skip-interval': 'Интервал прокрутки',
+    'playback-speed': 'Скорость воспроизведения'
   }
 }

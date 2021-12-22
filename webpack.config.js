@@ -88,7 +88,14 @@ module.exports = (env) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel-loader'
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                sourceType: "unambiguous"
+              }
+            }
+          ]
         },
         // Loading html
         {
@@ -117,7 +124,7 @@ module.exports = (env) => {
         },
         // Loading images
         {
-          test: /\.(jpg|png|svg|gif|ico)$/,
+          test: /\.(jpg|png|svg|gif|ico|mp4)$/,
           type: 'asset/resource',
           generator: {
             // filename: 'images/[name]-[hash:8][ext]'
