@@ -52,10 +52,12 @@ video::-webkit-media-controls-enclosure {
     left: calc(50% - var(--player-popup-size) / 2);
     color: var(--player-main-color);
     opacity: 1;
-    // transform: scale(0.2);
     transition: all 0.4s ease-out;
-    // pointer-events: none;
     display: none;
+    border: none;
+    background: transparent;
+    outline: none;
+    cursor: pointer;
 
     &::before {
       font-size: var(--player-popup-size);
@@ -117,6 +119,8 @@ video::-webkit-media-controls-enclosure {
     font-weight: 900;
     content: "";
   }
+
+  
   &__buttons {
     height: var(--player-button-size);
     width: 100%;
@@ -127,95 +131,7 @@ video::-webkit-media-controls-enclosure {
   &__buttons-group {
     display: flex;
   }
-
-  &__volume {
-    position: relative;
-    overflow: hidden;
-    &:hover {
-      width: calc(var(--player-button-size) + var(--player-volume-slider-width) + 2px);
-    }
-  }
-
-  &__volume-slider {
-    position: absolute;
-    cursor: pointer;
-    width: var(--player-volume-slider-width);
-    left: var(--player-button-size);
-    top: calc((var(--player-button-size) - var(--player-progressbar-height)) / 2 - 4px);
-  }
-
-  &__settings-menu {
-    position: absolute;
-    list-style: none;
-    right: 0;
-    bottom: calc(100% + 5px);
-    background-color: var(--player-menu-bg-color);
-    display: none;
-    opacity: 0;
-    animation: 0.4s settingsMenuFadeIn forwards;
-
-    &-item {
-      cursor: pointer;
-      padding: 8px;
-      font-size: 0.8rem;
-      position: relative;
-    }
   
-    &-options {
-      margin-top: 5px;
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  @keyframes settingsMenuFadeIn {
-    from {
-      opacity: 0;
-    }
-  
-    to {
-      opacity: 1;
-    }
-  }
-
-  &__duration {
-    margin-left: 10px;
-    text-shadow: 0px 0px 2px var(--player-dark-text-color);
-    font-size: 0.8rem;
-    align-self: center;
-  }
-
-  &__custom-radio {
-    cursor: pointer;
-    display: block;
-    padding: 2px;
-    padding-left: 15px;
-    position: relative;
-  
-    &:hover {
-      color: var(--player-main-color);
-    }
-    
-    &-checkbox {
-      position: absolute;
-      left: 0px;
-      top: 3px;
-      width: 10px;
-      height: 10px;
-      border: 1px solid var(--player-main-text-color);
-      background: transparent;
-      border-radius: 50%;
-    }
-  
-    input {
-      display: none;
-    }
-  
-    input:checked + &-checkbox {
-      background: var(--player-main-color);
-    }
-  }
-
   &__button {
     height: 100%;
     width: var(--player-button-size);
@@ -294,6 +210,78 @@ video::-webkit-media-controls-enclosure {
     content: "\f066";
   }
 
+  &__settings-menu {
+    position: absolute;
+    list-style: none;
+    right: 0;
+    bottom: calc(100% + 5px);
+    background-color: var(--player-menu-bg-color);
+    display: none;
+    opacity: 0;
+    animation: 0.4s settingsMenuFadeIn forwards;
+
+    &-item {
+      cursor: pointer;
+      padding: 8px;
+      font-size: 0.8rem;
+      position: relative;
+    }
+  
+    &-options {
+      margin-top: 5px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  @keyframes settingsMenuFadeIn {
+    from {
+      opacity: 0;
+    }
+  
+    to {
+      opacity: 1;
+    }
+  }
+
+  &__duration {
+    margin-left: 10px;
+    text-shadow: 0px 0px 2px var(--player-dark-text-color);
+    font-size: 0.8rem;
+    align-self: center;
+  }
+
+  &__custom-radio {
+    cursor: pointer;
+    display: block;
+    padding: 2px;
+    padding-left: 15px;
+    position: relative;
+  
+    &:hover {
+      color: var(--player-main-color);
+    }
+    
+    &-checkbox {
+      position: absolute;
+      left: 0px;
+      top: 3px;
+      width: 10px;
+      height: 10px;
+      border: 1px solid var(--player-main-text-color);
+      background: transparent;
+      border-radius: 50%;
+    }
+  
+    input {
+      display: none;
+    }
+  
+    input:checked + &-checkbox {
+      background: var(--player-main-color);
+    }
+  }
+
   &__progress-bar {
     position: absolute;
     top: 0;
@@ -334,6 +322,47 @@ video::-webkit-media-controls-enclosure {
       text-shadow: 0px 0px 4px var(--player-dark-text-color);
       display: none;
     }
+  }
+
+  &__volume {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__volume_show {
+    width: calc(var(--player-button-size) + var(--player-volume-slider-width) + 2px);
+    color: var(--player-main-color);
+  }
+
+  &__volume-slider {
+    position: absolute;
+    cursor: pointer;
+    width: var(--player-volume-slider-width);
+    height: 50%;
+    left: var(--player-button-size);
+    top: calc(var(--player-button-size) / 4);
+  }
+  
+  &__volume-label {
+    position: absolute;
+    left: 1px;
+    top: -2px;
+    font-size: 0.7rem;
+  }
+
+  &__volume-slider-wrapper {
+    width: 100%;
+    height: 100%;
+    background-color: var(--player-filler-bg);
+    clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+    pointer-events: none;
+  }
+
+  &__volume-slider-filler {
+    width: 0%;
+    height: 100%;
+    background: var(--player-main-color);
+    pointer-events: none;
   }
 }
 

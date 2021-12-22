@@ -10,6 +10,7 @@ const videoPlayer = new CustomVideoPlayer(video, {
     darkText: 'black',
     controlsBg: 'rgba(0, 0, 0, 0.6)',
     settingsBg: 'rgba(0, 0, 0, 0.9)',
+    fillerBg: 'rgba(255, 255, 255, 0.2)',
   }
 });
 

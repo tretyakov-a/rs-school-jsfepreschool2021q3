@@ -35,8 +35,10 @@ export default class CustomVideoPlayer {
     this.settingsMenu = select('settings-menu');
     this.playBtn = select('play');
     this.volumeBtn = select('volume');
+    this.volumeLabel = select('volume-label');
     this.fullscreenBtn = select('toggle-fullscreen');
     this.volumeSlider = select('volume-slider');
+    this.volumeSliderFiller = select('volume-slider-filler');
     this.durationLabel = select('duration')
     this.progressBar = select('progress-bar');
     this.progressBarFiller = select('progress-bar-filler');
@@ -45,10 +47,12 @@ export default class CustomVideoPlayer {
     this.isSettingsMenuVisible = false;
     this.isProgressBarMouseDown = false;
     this.isVolumeSliderMouseDown = false;
+    this.isVolumeSliderMouseOver = false;
     this.isFullscreen = false;
     this.playbackRate = 1;
     this.skipInterval = 20;
     this.playerActionPopupDuration = 400;
+    this.volumeSliderWidth = 60;
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
@@ -63,11 +67,11 @@ export default class CustomVideoPlayer {
     this.video.addEventListener('volumechange', this.handleVolumeChange);
     this.video.addEventListener('timeupdate', this.handleProgress);
 
-    this.volumeSlider.addEventListener('mousemove', throttleDelayed(this.handleVolumeSliderChange));
     this.volumeSlider.addEventListener('mousedown', this.handleVolumeSliderMouseDown);
     this.volumeSlider.addEventListener('mouseup', this.handleVolumeSliderMouseUp);
-    this.volumeSlider.addEventListener('mouseout', this.handleVolumeSliderMouseOut);
-
+    this.volumeBtn.addEventListener('mouseover', this.handleVolumeSliderMouseOver);
+    this.volumeBtn.addEventListener('mouseout', this.handleVolumeSliderMouseOut);
+    
     this.progressBar.addEventListener('mousedown', this.handleProgressBarMouseDown);
     this.progressBar.addEventListener('mouseup', this.handleProgressBarMouseUp);
     this.progressBar.addEventListener('mouseover', this.handleProgressBarMouseOver);
@@ -76,6 +80,7 @@ export default class CustomVideoPlayer {
 
     document.addEventListener('click', this.handleDocumentClick);
     document.addEventListener('mousemove', throttleDelayed(this.handleDocumentMouseMove));
+    document.addEventListener('mouseup', this.handleVolumeSliderMouseUp)
 
     this.controlPanel.addEventListener('click', this.handleControlPanelClick);
 
@@ -197,8 +202,6 @@ export default class CustomVideoPlayer {
     if (muted && volume === 0) {
       return;
     }
-    // const popupModificator = muted ? 'volume-up' : 'volume-mute';
-    // this.showPlayerActionPopup(popupModificator);
     this.video.muted = !muted;
     this.handleVolumeChange();
   }
@@ -215,7 +218,7 @@ export default class CustomVideoPlayer {
     this.hideSettingsMenu();
   }
 
-  handleDocumentMouseMove = () => {
+  handleDocumentMouseMove = (e) => {
     const noCursor = this.className('_no-cursor');
     if (this.isFullscreen) {
       this.isUserAfk = false;
@@ -229,6 +232,8 @@ export default class CustomVideoPlayer {
         this.player.classList.add(noCursor);
       }, this.afkDelay);
     }
+
+    this.handleVolumeSliderChange(e);
   }
 
   hideSettingsMenu = () => {
@@ -249,35 +254,42 @@ export default class CustomVideoPlayer {
   }
 
   handleVideoPlay = () => {
-    // this.showPlayerActionPopup('play');
     this.playerActionPopup.classList.remove(this.className('action-popup_show'));
     this.playBtn.classList.replace(this.className('button_play'), this.className('button_pause'));
 
   }
 
   handleVideoPause = () => {
-    // this.showPlayerActionPopup('pause');
     console.log(this.playerActionPopup.classList)
     this.playerActionPopup.classList.add(this.className('action-popup_show'));
     this.playBtn.classList.replace(this.className('button_pause'), this.className('button_play'));
   }
 
   handleVolumeChange = () => {
-    if (this.video.muted) {
-      this.volumeSlider.value = 0;
+    if (this.video.muted) {      
+      this.volumeSlider.dataset.value = 0;
+      this.volumeSliderFiller.style.width = '0%';
       this.volumeBtn.classList.replace(this.className('button_volume-up'), this.className('button_volume-mute'));
     } else {
-      this.volumeSlider.value = this.video.volume;
+      const { volume } = this.video;
+      this.volumeSlider.dataset.value = volume;
+      this.volumeSliderFiller.style.width = `${volume * 100}%`;
       this.volumeBtn.classList.replace(this.className('button_volume-mute'), this.className('button_volume-up'));
     }
+    this.volumeLabel.textContent = this.volumeSliderFiller.style.width;
   }
 
   handleVolumeSliderChange = (e) => {
-    if (!(e.type === 'click') && !this.isVolumeSliderMouseDown) {
-      return;
+    if (this.isVolumeSliderMouseDown) {
+      const { x: volumeSliderX } = this.volumeSlider.getBoundingClientRect();
+      let sliderX = e.screenX < volumeSliderX ? 0 : e.screenX % volumeSliderX;
+      if (sliderX > this.volumeSliderWidth) {
+        sliderX = this.volumeSliderWidth;
+      }
+      const volume = +(sliderX / this.volumeSliderWidth).toFixed(2);
+      this.video.muted = volume === 0;
+      this.video.volume = volume;
     }
-    this.video.muted = +e.target.value === 0;
-    this.video.volume = e.target.value;
   }
 
   handleProgress = () => {
@@ -334,15 +346,35 @@ export default class CustomVideoPlayer {
     this.isProgressBarMouseDown = false;
   }
 
-  handleVolumeSliderMouseDown = () => {
+  handleVolumeSliderMouseDown = (e) => {
     this.isVolumeSliderMouseDown = true;
+    this.handleVolumeSliderChange(e);
+  }
+
+  hideVolumeSlider = () => {
+    this.volumeBtn.classList.remove(this.className('volume_show'));
+  }
+
+  showVolumeSlider = () => {
+    this.volumeBtn.classList.add(this.className('volume_show'));
   }
 
   handleVolumeSliderMouseUp = () => {
+    if (!this.isVolumeSliderMouseOver) {
+      this.hideVolumeSlider();
+    }
     this.isVolumeSliderMouseDown = false;
   }
 
   handleVolumeSliderMouseOut = () => {
-    this.isVolumeSliderMouseDown = false;
+    this.isVolumeSliderMouseOver = false;
+    if (!this.isVolumeSliderMouseDown) {
+      this.hideVolumeSlider();
+    }
+  }
+
+  handleVolumeSliderMouseOver = () => {
+    this.isVolumeSliderMouseOver = true;
+    this.showVolumeSlider();
   }
 }

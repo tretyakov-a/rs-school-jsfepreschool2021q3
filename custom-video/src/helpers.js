@@ -9,8 +9,9 @@ const throttle = (ms, fn) => {
       return;
     }
     cooldown = true;
+    fn.apply(null, args);
+
     setTimeout(() => {
-      fn.apply(null, args);
       cooldown = false;
       if (savedArgs) {
         wrapper.apply(null, savedArgs);
