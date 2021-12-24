@@ -26,3 +26,7 @@
    - Bubbly Button [Демо](https://codepen.io/irinainina/pen/XWJmajM)
    - Button Hover Effects [Демо](https://codepen.io/kjbrum/pen/wBBLXx)
    - Box-shadow Button [Демо](https://codepen.io/wwer91/pen/wRWJme)
+
+## Критерии оценки
+
+**Максимальная оценка за задание 75 баллов**  
