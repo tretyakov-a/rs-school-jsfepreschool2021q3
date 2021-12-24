@@ -6,7 +6,6 @@
   "scripts": {
     "start": "webpack serve --env mode=development submode=serve",
     "build": "webpack --env mode=production",
-    "build-dev": "webpack --env mode=development submode=build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tretyakov Alexander (tpetyakov@gmail.com)",
@@ -41,8 +40,8 @@
     "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "core-js": "^3.19.3",
-    "marked": "^4.0.7",
     "normalize.css": "^8.0.1"
   }
 }

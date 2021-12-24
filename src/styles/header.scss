@@ -357,5 +357,21 @@
 @media (max-width: 540px) {
   .header {
     padding: 0 $container-padding;
+
+    &__nav_show {
+      .menu-hamburger {
+        right: 20px;
+      }
+    }
+  }
+  .menu-hamburger_hide {
+    right: 20px;
+  }
+
+  .header-menu {
+    display: none;
+    position: absolute;
+    padding-top: 80px;
+    padding-left: 40px;
   }
 }

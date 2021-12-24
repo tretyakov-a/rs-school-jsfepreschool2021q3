@@ -5,19 +5,19 @@ const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const RemovePlugin = require("remove-files-webpack-plugin");
 
 module.exports = (env) => {
   const { mode = 'development', submode='build' } = env;
 
   const isProd = mode === 'production';
   const isDev = mode === 'development';
-  const isBuildDev = submode === 'build';
 
-  // const fileName = ext => isDev ? `main.${ext}` : `main-[hash:8].${ext}`;
-  const fileName = ext => isDev ? `main.${ext}` : `main.${ext}`;
+  const fileName = ext => isDev ? `main.${ext}` : `main-[hash:8].${ext}`;
+  // const fileName = ext => isDev ? `main.${ext}` : `main.${ext}`;
 
   const getStyleLoaders = () => [
-    isProd || isBuildDev
+    isProd
       ? MiniCssExtractPlugin.loader
       : 'style-loader',
     'css-loader'
@@ -39,8 +39,21 @@ module.exports = (env) => {
           },
         ],
       }),
+      new RemovePlugin({
+        after: {
+          test: [
+            {
+              folder: 'dist/images',
+              method: (absoluteItemPath) => {
+                  return new RegExp(/fa-.*\.svg$/, 'm').test(absoluteItemPath);
+              },
+              recursive: true
+            }
+          ]
+        }
+      }),
     ];
-    if (isProd || isBuildDev) {
+    if (isProd) {
       plugins.push(
         new MiniCssExtractPlugin({
           filename: fileName('css')
@@ -79,7 +92,7 @@ module.exports = (env) => {
       static: isDev,
       watchFiles: [
         './src/templates',
-        './src/index.ejs'
+        './src/index.hbs'
       ]
     },
     module: {
@@ -92,6 +105,7 @@ module.exports = (env) => {
             {
               loader: 'babel-loader',
               options: {
+                presets: ['@babel/preset-env'],
                 sourceType: "unambiguous"
               }
             }
@@ -127,8 +141,7 @@ module.exports = (env) => {
           test: /\.(jpg|png|svg|gif|ico|mp4)$/,
           type: 'asset/resource',
           generator: {
-            // filename: 'images/[name]-[hash:8][ext]'
-            filename: 'images/[path][name][ext]'
+            filename: 'images/[name]-[hash:8][ext]'
           }
         },
         // Loading fonts
@@ -136,8 +149,7 @@ module.exports = (env) => {
           test: /\.(ttf|otf|eot|woff|woff2)$/,
           type: 'asset/resource',
           generator: {
-            // filename: 'fonts/[name]-[hash:8][ext]'
-            filename: 'fonts/[name][ext]'
+            filename: 'fonts/[name]-[hash:8][ext]'
           }
         },
         // Loading scss/sass
