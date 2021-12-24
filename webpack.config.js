@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -30,14 +29,6 @@ module.exports = (env) => {
         minify: false,
         template: './index.hbs',
         filename: 'index.html'
-      }),
-      new CopyPlugin({
-        patterns: [
-          {
-            from: path.resolve(__dirname, 'src/assets/favicon.ico'),
-            to: path.resolve(__dirname, 'dist'),
-          },
-        ],
       }),
       new RemovePlugin({
         after: {
