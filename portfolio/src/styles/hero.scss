@@ -5,8 +5,7 @@
   height: 910px;
   text-align: left;
   background: url("../pictures/bg.jpg") no-repeat;
-  background-position: left center;
-  background-size: cover;
+  background-size: auto 100%;
   
   &__inner {
     max-width: 470px;

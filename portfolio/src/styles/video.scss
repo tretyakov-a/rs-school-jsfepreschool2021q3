@@ -1,9 +1,20 @@
 .video__player {
   width: 100%;
+  padding-bottom: 50.36%;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  &-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-container > div {
+    width: 100%;
+  }
 
   &-play-btn {
     z-index: 10;

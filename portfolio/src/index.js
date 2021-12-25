@@ -2,7 +2,7 @@
 import './styles/index.scss';
 import 'custom-video/dist/main.css';
 import CustomVideoPlayer from 'custom-video';
-import requirements from '../requirements.md';
+import requirements from '../req-1.md';
 import initHeaderMenu from './header-menu';
 import initPortfolio from './portfolio';
 import initTranslate from './translate';
@@ -25,4 +25,4 @@ initPortfolio();
 initTranslate();
 initTheme();
 
-// console.log(requirements);
+console.log(requirements);
