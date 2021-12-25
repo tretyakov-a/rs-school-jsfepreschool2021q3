@@ -52,8 +52,8 @@ ul {
   font-size: 20px;
   line-height: 40px;
   text-align: center;
-  width: 220px;
-  height: 55px;
+  width: $button-width;
+  height: $button-height;
   border: 2px solid $theme-color;
   color: $theme-color;
   background: $bg-color;

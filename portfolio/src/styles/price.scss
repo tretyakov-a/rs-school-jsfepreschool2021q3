@@ -4,17 +4,14 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: -$price-list-item-gap;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   &__list-item {
     flex-basis: calc((100% - 2 * #{$price-list-item-gap}) / 3);
     margin-bottom: $price-list-item-gap;
     border: 3px solid $theme-color;
-  }
-
-  &__list-item:not(:last-child) {
-    margin-right: 25px;
+    min-width: 320px;
   }
 }
 
@@ -51,15 +48,7 @@
 @media (max-width: 1024px) {
   .price {
     &__list {
-      justify-content: center;
-    }
-
-    &__list-item:not(:last-child) {
-      margin-right: 0px;
-    }
-
-    &__list-item:nth-child(2n + 1) {
-      margin-right: 40px;
+      justify-content: space-evenly;
     }
   }
 }
@@ -73,10 +62,6 @@
 
     &__list-item {
       width: 420px;
-    }
-
-    &__list-item:nth-child(2n + 1) {
-      margin-right: 0px;
     }
   }
 }

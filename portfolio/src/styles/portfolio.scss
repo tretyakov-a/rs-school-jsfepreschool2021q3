@@ -1,23 +1,21 @@
+$button-margin: 5px;
 
 .portfolio {
+
   margin-bottom: -$works-item-gap;
 
   &__buttons-group {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 55px;
-    width: fit-content;
+    width: calc(#{$button-width} * 4 + #{$button-margin} * 3);
     margin-left: auto;
     margin-right: auto;
   }
   
   &__button {
-    margin-bottom: 5px;
-  }
-
-  &__button:not(:last-child) {
-    margin-right: 5px;
+    margin-bottom: $button-margin;
   }
   
   &__works-container {
@@ -38,6 +36,7 @@
   &__works {
     display: none;
     flex-wrap: wrap;
+    justify-content: space-between;
 
     &_active {
       @include anim(worksFadeOut, ease-in, $animation-duration * 2);
@@ -66,11 +65,6 @@
       object-fit: cover;
     }
   }
-
-  &__works-item:not(:nth-child(3n)) {
-    margin-right: $works-item-gap;
-  }
-
 }
 
 @media (max-width: 1024px) {
@@ -78,27 +72,9 @@
     &__works-item {
       flex-basis: calc((100% - #{$works-item-gap}) / 2);
     }
-    &__works-item:not(:nth-child(3n)) {
-      margin-right: 0px;
-    }
-    &__works-item:nth-child(2n + 1) {
-      margin-right: $works-item-gap;
-    }
 
     &__buttons-group {
-      width: 445px;
-    }
-
-    &__button {
-      flex-basis: 220px;  
-    }
-
-    &__button:not(:last-child) {
-      margin-right: 0px;
-    }
-
-    &__button:nth-child(2n + 1) {
-      margin-right: 5px;
+      width: calc(#{$button-width} * 2 + #{$button-margin});
     }
   }
 }
@@ -110,10 +86,6 @@
     }
     &__works-item {
       flex-basis: 450px;
-    }
-    
-    &__works-item:nth-child(2n + 1) {
-      margin-right: 0px;
     }
   }
 }
@@ -130,10 +102,6 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-    }
-
-    &__button:nth-child(2n + 1) {
-      margin-right: 0px;
     }
   }
 }

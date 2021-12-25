@@ -2,6 +2,7 @@
   &__list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     margin-bottom: -$skills-list-item-gap;
   }
 
@@ -40,26 +41,13 @@
     &-text {
       font-size: 18px;
       line-height: 36px;
-      // padding: 0 20px;
       width: 88%;
     }
-  }
-
-  &__list-item:not(:last-child) {
-    margin-right: $skills-list-item-gap;
   }
 }
 
 @media (max-width: 1024px) {
   .skills {
-    &__list-item:not(:last-child) {
-      margin-right: 0px;
-    }
-
-    &__list-item:nth-child(2n + 1) {
-      margin-right: $skills-list-item-gap;
-    }
-
     &__list-item {
       flex-basis: calc((100% - #{$skills-list-item-gap}) / 2);
     }
@@ -99,10 +87,6 @@
   .skills {
     &__list {
       flex-direction: column;
-    }
-
-    &__list-item:not(:last-child) {
-      margin-right: 0px;
     }
 
     &__list-item {
