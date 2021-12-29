@@ -3,10 +3,10 @@ import './styles/index.scss';
 import 'custom-video/dist/main.css';
 import CustomVideoPlayer from 'custom-video';
 import requirements from '../req-1.md';
-import initHeaderMenu from './header-menu';
-import initPortfolio from './portfolio';
-import initTranslate from './translate';
-import initTheme from './theme';
+import initHeaderMenu from './js/header-menu';
+import initPortfolio from './js/portfolio';
+import initTranslate from './js/translate';
+import initTheme from './js/theme';
 
 const video = document.querySelector('.video__player-img');
 const videoPlayer = new CustomVideoPlayer(video, {
@@ -25,4 +25,4 @@ initPortfolio();
 initTranslate();
 initTheme();
 
-console.log(requirements);
+// console.log(requirements);

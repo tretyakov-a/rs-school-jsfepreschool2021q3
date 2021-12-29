@@ -9,12 +9,15 @@ const animationDuration = 200;
 
 function handleDocumentClick(e) {
   const isShowed = headerNav.classList.contains(headerNavShowModificator);
+  const isClickOnCloseBtn = e.target.closest('.menu-hamburger');
+  const isClickOutsideMenu = !e.path.find(el => el.classList && el.classList.contains('header-menu'));
+  const isClickOnLink = e.path.find(el => el.classList && el.classList.contains('header-menu__item-link'));
   
-  if (e.target.closest('.menu-hamburger') && !isShowed) {
+  if (isClickOnCloseBtn && !isShowed) {
     headerNav.classList.add(headerNavShowModificator);
   }
 
-  if (isShowed) {
+  if (isShowed && (isClickOutsideMenu || isClickOnLink)) {
     hide();
   }
 }
