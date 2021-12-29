@@ -12,8 +12,7 @@ module.exports = (env) => {
   const isProd = mode === 'production';
   const isDev = mode === 'development';
 
-  // const fileName = ext => isDev ? `main.${ext}` : `main-[hash:8].${ext}`;
-  const fileName = ext => isDev ? `main.${ext}` : `main.${ext}`;
+  const fileName = ext => isDev ? `main.${ext}` : `main-[hash:8].${ext}`;
 
   const getStyleLoaders = () => [
     isProd
@@ -25,19 +24,19 @@ module.exports = (env) => {
   const getPlugins = () => {
     const plugins = [
       new CleanWebpackPlugin(),
-      // new RemovePlugin({
-      //   after: {
-      //     test: [
-      //       {
-      //         folder: 'dist/images',
-      //         method: (absoluteItemPath) => {
-      //             return new RegExp(/fa-.*\.svg$/, 'm').test(absoluteItemPath);
-      //         },
-      //         recursive: true
-      //       }
-      //     ]
-      //   }
-      // }),
+      new RemovePlugin({
+        after: {
+          test: [
+            {
+              folder: 'dist/images',
+              method: (absoluteItemPath) => {
+                  return new RegExp(/fa-.*\.svg$/, 'm').test(absoluteItemPath);
+              },
+              recursive: true
+            }
+          ]
+        }
+      }),
     ];
     if (isDev) {
       plugins.push(
@@ -60,21 +59,13 @@ module.exports = (env) => {
 
   return {
     context: path.resolve(__dirname, 'src'),
-    entry: isProd ? './custom-video-player.js' : './index.js',
-    target: isProd ? 'node' : 'web',
-    output: isProd 
-      ? {
-        filename: fileName('js'),
-        library: 'customVideoPlayer',
-        libraryTarget: "umd",
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: ''
-      }
-      : {
-        filename: fileName('js'),
-        path: path.resolve(__dirname, 'dist'),
-        publicPath: ''
-      },
+    entry: './index.js',
+    target: 'web',
+    output: {
+      filename: fileName('js'),
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: ''
+    },
     mode: isProd ? 'production' : isDev && 'development',
     optimization: {
       minimize: true,
@@ -82,7 +73,7 @@ module.exports = (env) => {
         new CssMinimizerPlugin(),
         new TerserPlugin({
           terserOptions: {
-            mangle: false, // Note `mangle.properties` is `false` by default.
+            mangle: false,
             keep_classnames: true,
             keep_fnames: true,
           },
@@ -131,8 +122,7 @@ module.exports = (env) => {
           test: /\.(jpg|png|svg|gif|ico|mp4)$/,
           type: 'asset/resource',
           generator: {
-            // filename: 'images/[name]-[hash:8][ext]'
-            filename: 'images/[name][ext]'
+            filename: 'images/[name]-[hash:8][ext]'
           }
         },
         // Loading fonts
@@ -140,8 +130,7 @@ module.exports = (env) => {
           test: /\.(ttf|otf|eot|woff|woff2)$/,
           type: 'asset/resource',
           generator: {
-            // filename: 'fonts/[name]-[hash:8][ext]'
-            filename: 'fonts/[name][ext]'
+            filename: 'fonts/[name]-[hash:8][ext]'
           }
         },
         // Loading scss/sass
