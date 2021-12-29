@@ -1,17 +1,21 @@
 .contacts {
-  background: no-repeat url("../pictures/contacts/bg-contacts.jpg");
-  background-size: auto 700px;
-  background-position: center center;
-  padding: 60px $container-padding 195px;
-  margin-left: calc(-1 * #{$container-padding});
-  margin-right: calc(-1 * #{$container-padding});
+  width: 100%;
+  margin-top: 100px;
+  background-color: var(--header-bg-color);
+
+  &__container {
+    background: no-repeat url("../pictures/contacts/bg-contacts.jpg");
+    background-size: auto 700px;
+    background-position: center center;
+    padding: 60px $container-padding 195px;
+  }
   
   &__content {
     display: flex;
     justify-content: flex-end;
   }
 
-  &__container {
+  &__inner {
     width: 450px;
     text-align: left;
     justify-self: right;
@@ -74,7 +78,7 @@
       justify-content: center;
     }
 
-    &__container {
+    &__inner {
       width: 450px;
       text-align: center;
     }
@@ -83,7 +87,7 @@
 }
 
 @media (max-width: 540px) {
-  &__container {
+  &__inner {
     width: 100%;
     text-align: center;
   }

@@ -1,12 +1,26 @@
 .footer {
-  height: 150px;
-  padding: 0 $container-padding;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 50px;
+  background-color: var(--header-bg-color);
+  color: var(--text-with-bg-image);
+  
+  a {
+    color: var(--text-with-bg-image);
+  }
+  
+  a:hover {
+    color: $theme-color;
+  }
+
+  &__container {
+    height: 150px;
+    padding: 0 $container-padding;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 50px;
+  
+  }
 
   &__github-link {
     .year {

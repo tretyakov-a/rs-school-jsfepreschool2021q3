@@ -1,15 +1,18 @@
 .header {
-  height: $header-height;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  padding: 0 $container-padding;
-  background: transparent;
+  background-color: var(--header-bg-color);
+
+  &__container {
+    height: $header-height;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 10;
+    background: transparent;
+  }
 
   &__nav {
     display: flex;

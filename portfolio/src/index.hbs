@@ -13,17 +13,18 @@
   </title>
 </head>
 <body>
-  <div class="container">
-    {{>'./templates/header'}}
-    <main class="main">
-      {{>'./templates/hero'}}
+  {{>'./templates/header'}}
+  <main class="main">
+    {{>'./templates/hero'}}
+    <div class="container">
       {{>'./templates/skills'}}
       {{>'./templates/portfolio'}}
       {{>'./templates/video'}}
       {{>'./templates/price'}}
-      {{>'./templates/contacts'}}
-    </main>
-    {{>'./templates/footer'}}
+    </div>
+    {{>'./templates/contacts'}}
+  </main>
+  {{>'./templates/footer'}}
   </div>
 </body>
 </html>

@@ -25,4 +25,4 @@ initPortfolio();
 initTranslate();
 initTheme();
 
-// console.log(requirements);
+console.log(requirements);
