@@ -47,7 +47,7 @@
   }
   
   input::placeholder, textarea::placeholder {
-    color: rgba($theme-color, 0.4)
+    color: $theme-color;
   }
 
   textarea {
@@ -66,8 +66,15 @@
 
 
 @media (max-width: 768px) {
+  .contacts-form {
+    input::placeholder, textarea::placeholder {
+      text-shadow: 0px 0px 2px $header-bg-color;
+    }
+  }
   .contacts {
-    padding-bottom: 110px;
+    &__container {
+      padding-bottom: 110px;
+    }
     
     &__title {
       font-size: 32px;

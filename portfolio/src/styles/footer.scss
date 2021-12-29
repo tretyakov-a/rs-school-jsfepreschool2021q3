@@ -47,10 +47,12 @@
 
 @media (max-width: 768px) {
   .footer {
-    height: 190px;
-    flex-direction: column;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    &__container {
+      height: 190px;
+      flex-direction: column;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
     
     &__rsschool-link {
       padding-left: 0px;

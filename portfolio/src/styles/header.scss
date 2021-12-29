@@ -234,8 +234,11 @@
 
 @media (max-width: 768px) {
   .header {
-    padding-right: 64px;
-    padding-left: 60px;
+    
+    &__container {
+      padding-right: 64px;
+      padding-left: 60px;
+    }
 
     &__nav {
       flex-direction: row-reverse;
@@ -251,7 +254,6 @@
           left: 0;
           bottom: 0;
           right: 0;
-          pointer-events: none;
           z-index: 1;
         }
 
@@ -294,9 +296,9 @@
     }
   }
 
-  .header-menu, .menu-hamburger {
-    pointer-events: all;
-  }
+  // .header-menu, .menu-hamburger {
+  //   pointer-events: all;
+  // }
 
   .menu-hamburger {
     display: flex;
@@ -359,7 +361,9 @@
 
 @media (max-width: 540px) {
   .header {
-    padding: 0 $container-padding;
+    &__container {
+      padding: 0 $container-padding;
+    }
 
     &__nav_show {
       .menu-hamburger {
