@@ -188,8 +188,11 @@
     width: 32px;
     height: 32px;
     display: block;
+    border: none;
+    outline: none;
     border-radius: 50%;
     overflow: hidden;
+    cursor: pointer;
     transition: 0.2s;
 
     &_light {
@@ -295,10 +298,6 @@
       justify-content: flex-end;
     }
   }
-
-  // .header-menu, .menu-hamburger {
-  //   pointer-events: all;
-  // }
 
   .menu-hamburger {
     display: flex;
