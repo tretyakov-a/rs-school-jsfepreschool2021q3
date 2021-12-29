@@ -11,10 +11,10 @@
   <title>
     Portfolio
   </title>
-<script defer src="main-b61ed2f2.js"></script><link href="main-b61ed2f2.css" rel="stylesheet"></head>
+<script defer src="main-1812922f.js"></script><link href="main-1812922f.css" rel="stylesheet"></head>
 <body>
-  <div class="container">
-    <header class="header">
+  <header class="header">
+    <div class="header__container container">
       <div class="logo">
         <a href="#">
           <svg width="50" height="40" viewBox="0 0 50 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -60,8 +60,10 @@
           <a class="language-switcher__link" href="#" data-language="ru">ru</a>
         </div>
       </nav>
-    </header>    <main class="main">
-      <section class="hero">
+    </div>
+  </header>  <main class="main">
+    <section class="hero">
+      <div class="hero__container container">
         <div class="hero__inner">
           <h1 class="hero__title" data-translate="hero-title">Alexa Rise</h1>
           <p class="hero__text" data-translate="hero-text">
@@ -71,7 +73,9 @@
             Hire me
           </button>
         </div>
-      </section>      <section class="skills section" id="skills">
+      </div>
+    </section>    <div class="container">
+      <section class="skills section" id="skills">
         <div class="section__header-container skills__header-container">
           <h2 class="section__header" data-translate="skills">Skills</h2>
         </div>
@@ -270,8 +274,10 @@
           <h2 class="section__header" data-translate="video">Video</h2>
         </div>
         <div class="section__content">
-          <div class="video__player video-player">
-            <video class="video__player-img" src="images/video-3b27ffc7.mp4" controls></video>
+          <div class="video__player">
+            <div class="video__player-container">
+              <video class="video__player-img" src="images/video-3b27ffc7.mp4" controls></video>
+            </div>
           </div>
         </div>
       </section>      <section class="price section" id="price">
@@ -324,9 +330,11 @@
             </li>
           </ul>
         </div>
-      </section>      <section class="contacts section" id="contacts">
+      </section>    </div>
+    <section class="contacts" id="contacts">
+      <div class="contacts__container container">
         <div class="contacts__content section__content">
-          <div class="contacts__container">
+          <div class="contacts__inner">
             <h2 class="contacts__title" data-translate="contact-me">Contact me</h2>
             <form class="contacts__form contacts-form" action="#send">
               <div class="contacts-form__row">
@@ -346,15 +354,17 @@
             </form>
           </div>
         </div>
-      </section>    </main>
-    <footer class="footer">
+      </div>
+    </section>  </main>
+  <footer class="footer">
+    <div class="footer__container container">
       <div class="footer__github-link github-link">
         &copy;&nbsp;&nbsp;&nbsp;
         <span class="year">2022</span>
         <a href="https://github.com/tretyakov-a">github</a>
       </div>
       <div class="footer__rsschool-link rsschool-link">
-        <a href="https://app.rs.school/">Rolling Scopes School</a>
+        <a href="https://rs.school/js-stage0/">Rolling Scopes School</a>
       </div>
       <ul class="footer__socials socials">
         <li class="footer__socials-item socials-item">
@@ -386,6 +396,7 @@
           </a>
         </li>
       </ul>
-    </footer>  </div>
+    </div>
+  </footer>  </div>
 </body>
 </html>
