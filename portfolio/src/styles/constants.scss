@@ -3,14 +3,20 @@
   --header-bg-color: black;
   --text-color: white;
   --theme-color: #bdae82;
+  --header-color: #bdae82;
   --text-with-bg-image: white;
   --container-padding: 20px;
+  --btn-color: #bdae82;
+  --btn-bg: black;
 
   &.light {
     --bg-color: white;
     --text-color: black;
     --theme-color: #bdae82;
     --text-with-bg-image: white;
+    --header-color: black;
+    --btn-color: black;
+    --btn-bg: white;
   }
 }
 
@@ -31,6 +37,9 @@ $text-color: var(--text-color);
 $theme-color: var(--theme-color);
 $text-with-bg-image: var(--text-with-bg-image);
 $header-bg-color: var(--header-bg-color);
+$header-color: var(--header-color);
+$btn-color: var(--btn-color);
+$btn-bg: var(--btn-bg);
 
 $main-font: 'Inter', sans-serif;
 $headers-font: 'Merriweather', serif;

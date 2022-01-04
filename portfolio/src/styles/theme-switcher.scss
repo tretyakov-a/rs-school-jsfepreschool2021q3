@@ -52,3 +52,10 @@
     right: 64px;
   }
 }
+
+@media (max-width: 540px) {
+  .theme-switcher {
+    bottom: $container-padding;
+    right: $container-padding;
+  }
+}

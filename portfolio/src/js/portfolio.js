@@ -2,7 +2,7 @@
 const buttonsContainer = document.querySelector('.portfolio__buttons-group');
 const buttons = buttonsContainer.querySelectorAll('.button');
 const works = document.querySelectorAll('.portfolio__works');
-const btnActiveModificator = 'button_filled';
+const btnActiveModificator = 'button_active';
 const portfolioActiveModificator = 'portfolio__works_active';
 
 function handleButtonClick(e) {
