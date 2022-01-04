@@ -174,51 +174,12 @@
   }
 }
 
-.theme-switcher,
 .language-switcher {
   margin-left: 16px;
   font-weight: bold;
   font-size: 20px;
   line-height: 50px;
   color: $text-with-bg-image;
-}
-
-.theme-switcher {
-  &__link {
-    width: 32px;
-    height: 32px;
-    display: block;
-    border: none;
-    outline: none;
-    border-radius: 50%;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.2s;
-
-    &_light {
-      background: white;
-    }
-
-    &_dark {
-      background: black;
-    }
-
-    svg {
-      display: block;
-    }
-
-    &_dark {
-      fill: $theme-color;
-    }
-
-    &_light {
-      fill: $theme-color;
-    }
-  }
-
-  &__link:hover {
-    box-shadow: 0px 0px 4px 2px $theme-color;
-  }
 }
 
 .language-switcher {

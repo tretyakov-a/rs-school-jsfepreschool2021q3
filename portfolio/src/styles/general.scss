@@ -22,7 +22,6 @@ h1, h2, h3, h4 {
 
 a {
   text-decoration: none;
-  // color: $text-color;
   transition: 0.4s;
 }
 a:hover {
@@ -65,9 +64,6 @@ ul {
 
   &:hover {
     color: $text-color;
-    
-    // transform: translatey(-5px);
-    // box-shadow: 0 0.5em 0.5em -0.4em $theme-color;
     box-shadow: 0 0 0 20px transparent;
     animation: pulse 0.8s;
   }

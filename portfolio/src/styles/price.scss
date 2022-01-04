@@ -11,7 +11,7 @@
     flex-basis: calc((100% - 2 * #{$price-list-item-gap}) / 3);
     margin-bottom: $price-list-item-gap;
     border: 3px solid $theme-color;
-    min-width: 320px;
+    min-width: 280px;
   }
 }
 

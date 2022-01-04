@@ -34,6 +34,5 @@ function hide() {
 }
 
 export default function initHeaderMenu() {
-  // hamburger.addEventListener('click', toggle);
   document.addEventListener('click', handleDocumentClick);
 }
