@@ -1,11 +1,11 @@
 .contacts {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 75px;
   background-color: var(--header-bg-color);
 
   &__container {
     background: no-repeat url("../pictures/contacts/bg-contacts.jpg");
-    background-size: auto 700px;
+    background-size: auto 100%;
     background-position: center center;
     padding: 60px $container-padding 195px;
   }
@@ -41,9 +41,9 @@
     border: 2px solid $theme-color;
     font-size: 20px;
     line-height: 40px;
-    padding: 3px 20px;
+    padding: 3px 18px;
     color: $theme-color;
-    background: rgba($bg-color, 0.4);
+    background: $input-bg-color;
   }
   
   input::placeholder, textarea::placeholder {
@@ -72,6 +72,8 @@
     }
   }
   .contacts {
+    margin-top: 30px;
+
     &__container {
       padding-bottom: 110px;
     }

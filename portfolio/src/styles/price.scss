@@ -1,4 +1,7 @@
 .price {
+  --price-list-item-gap: 25px;
+  $price-list-item-gap: var(--price-list-item-gap);
+
   &__list {
     width: 100%;
     display: flex;
@@ -55,6 +58,8 @@
 
 @media (max-width: 768px) {
   .price {
+    --price-list-item-gap: 50px;
+
     &__list {
       flex-direction: column;
       align-items: center;

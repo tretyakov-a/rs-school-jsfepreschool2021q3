@@ -1,5 +1,6 @@
 :root {
   --bg-color: black;
+  --input-bg-color: rgba(0, 0, 0, 0.5);
   --header-bg-color: black;
   --text-color: white;
   --theme-color: #bdae82;
@@ -25,7 +26,6 @@ $container-width: 1440px;
 $container-padding: 20px;
 $header-height: 90px;
 $works-item-gap: 25px;
-$price-list-item-gap: 25px;
 $skills-list-item-gap: 40px;
 $animation-duration: 0.2s;
 
@@ -33,6 +33,7 @@ $button-width: 220px;
 $button-height: 55px;
 
 $bg-color: var(--bg-color);
+$input-bg-color: var(--input-bg-color);
 $text-color: var(--text-color);
 $theme-color: var(--theme-color);
 $text-with-bg-image: var(--text-with-bg-image);

@@ -18,21 +18,16 @@
     align-items: center;
     font-weight: normal;
     font-size: 20px;
-    line-height: 50px;
+    line-height: 20px;
   
   }
 
-  &__github-link {
-    .year {
-      font-size: 18px;
-    }
-    a {
-      margin-left: 12px;
-    }
+  &__copy, &__year {
+    margin-right: 15px;
   }
   
   &__rsschool-link {
-    padding-left: 23px;
+    padding-left: 20px;
   }
 
   &__socials {
@@ -50,18 +45,32 @@
     &__container {
       height: 190px;
       flex-direction: column;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding-top: 31px;
+      padding-bottom: 36px;
     }
     
     &__rsschool-link {
       padding-left: 0px;
     }
 
-    &__github-link,
-    &__rsschool-link,
-    &__socials  {
-      flex-basis: calc(100% / 3);
+    &__copy {
+      margin-right: 20px;
+    }
+
+    &__year {
+      margin-right: 25px;
+    }
+
+    &__github-link {
+      // flex-basis: 82px;
+      display: flex;
+      align-items: flex-start;
+      width: 175px;
+      justify-content: stretch;
+    }
+
+    &__rsschool-link {
+      flex-basis: 30px;
     }
   }
 }

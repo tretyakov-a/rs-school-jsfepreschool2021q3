@@ -10,6 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   &-play-btn {
@@ -19,16 +20,29 @@
     outline: none;
     cursor: pointer;
     background: transparent;
+    width: 150px;
+    height: 150px;
 
-    img {
-      width: 150px;
-      height: 150px;
-      object-fit: contain;
+    &:hover {
+      svg {
+        fill: $theme-color;
+      }
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: $text-color;
+      transition: 0.2s ease-in;
+      position: absolute;
+      left: 3px;
+      top: 0;
     }
   }
 
   &-img {
-    width: 100%;
+    // width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 }
@@ -37,13 +51,24 @@
   .video {
     margin-left: calc(-1 * #{$container-padding});
     margin-right: calc(-1 * #{$container-padding});
+
   }
 
   .video__player {
+    padding-bottom: 54.42%;
+
+    &-img {
+      height: auto;
+      width: 106%;
+      object-position: left 21px top 50%;
+    }
+
     &-play-btn {
-      img {
-        width: 75px;
-        height: 75px;
+      width: 75px;
+      height: 75px;
+
+      svg {
+        left: 0px;
       }
     }
   }

@@ -1,7 +1,6 @@
 $button-margin: 5px;
 
 .portfolio {
-
   margin-bottom: -$works-item-gap;
 
   &__buttons-group {
@@ -80,10 +79,13 @@ $button-margin: 5px;
 }
 @media (max-width: 768px) {
   .portfolio {
+    margin-top: 161px;
+
     &__works {
       flex-direction: column;
       align-items: center;
     }
+
     &__works-item {
       flex-basis: 450px;
     }

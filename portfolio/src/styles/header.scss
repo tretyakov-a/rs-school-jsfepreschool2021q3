@@ -175,15 +175,21 @@
 }
 
 .language-switcher {
-  margin-left: 16px;
+  margin-left: 15px;
   font-weight: bold;
   font-size: 20px;
   line-height: 50px;
   color: $text-with-bg-image;
-}
 
-.language-switcher {
+  span {
+    padding-left: 9px;
+    display: inline-block;
+    width: 20px;
+  }
+
   &__link {
+    display: inline-block;
+    width: 20px;
     color: $text-with-bg-image;
     
     &_active {
@@ -208,7 +214,7 @@
       flex-direction: row-reverse;
 
       &_show {
-        padding-right: 86px;
+        padding-right: 72px;
 
         .header__menu-container {
           width: auto;
@@ -254,7 +260,7 @@
     }
 
     &__menu-container {
-      width: 86px;
+      width: 72px;
       display: flex;
       justify-content: flex-end;
     }
@@ -317,6 +323,13 @@
     }
   }
   
+  .language-switcher {
+    margin-left: 0px;
+
+    span {
+      width: 30px;
+    }
+  }
 }
 
 @media (max-width: 540px) {
