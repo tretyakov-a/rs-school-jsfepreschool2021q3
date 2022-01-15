@@ -22,17 +22,33 @@
   
   }
 
-  &__copy, &__year {
-    margin-right: 15px;
+  &__github-link {
+    display: flex;
+    align-items: flex-start;
+    justify-content: stretch;
+  }
+
+  &__github-link,
+  &__socials {
+    flex: 1 0 10%;
+  }
+
+  &__copy {
+    margin-right: 20px;
+  }
+
+  &__year {
+    margin-right: 25px;
   }
   
   &__rsschool-link {
-    padding-left: 20px;
+    flex: 0 0 auto;
   }
 
   &__socials {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
 
   &__socials-item:not(:last-child) {
@@ -48,25 +64,14 @@
       padding-top: 31px;
       padding-bottom: 36px;
     }
-    
-    &__rsschool-link {
-      padding-left: 0px;
+
+    &__github-link,
+    &__socials {
+      flex: 1 0 auto;
     }
 
-    &__copy {
-      margin-right: 20px;
-    }
-
-    &__year {
-      margin-right: 25px;
-    }
-
-    &__github-link {
-      // flex-basis: 82px;
-      display: flex;
-      align-items: flex-start;
-      width: 175px;
-      justify-content: stretch;
+    &__socials {
+      align-items: flex-end;
     }
 
     &__rsschool-link {

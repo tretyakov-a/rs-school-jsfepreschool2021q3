@@ -73,3 +73,11 @@
     }
   }
 }
+
+@media (max-width: 700px) {
+  .video__player {
+    &-img {
+      object-position: center;
+    }
+  }
+}

@@ -88,6 +88,10 @@ ul {
   &_active {
     color: $btn-bg;
     background: $btn-color;
+
+    &:hover {
+      color: $text-color;
+    }
   }
 }
 

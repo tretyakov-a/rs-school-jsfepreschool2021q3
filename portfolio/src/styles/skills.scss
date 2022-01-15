@@ -18,15 +18,27 @@
     overflow: hidden;
 
     &-icon {
-      text-align: center;
-      font-size: 0;
+      width: 66px;
+      height: 50px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
       margin-bottom: 50px;
 
-      img {
-        width: 66px;
-        height: 50px;
-        object-fit: contain;
-        display: inline-block;
+      &_camera {
+        background-image: url("../assets/skills/camera.svg");
+      }
+
+      &_video {
+        background-image: url("../assets/skills/video.svg");
+      }
+
+      &_retouch {
+        background-image: url("../assets/skills/image.svg");
+      }
+
+      &_audio {
+        background-image: url("../assets/skills/mic.svg");
       }
     }
 

@@ -44,13 +44,13 @@ module.exports = (env) => {
         }
       }),
     ];
-    if (isProd) {
+    // if (isProd) {
       plugins.push(
         new MiniCssExtractPlugin({
           filename: fileName('css')
         })
       )
-    }
+    // }
     return plugins;
   };
 
@@ -62,9 +62,11 @@ module.exports = (env) => {
       path: path.resolve(__dirname, 'dist'),
       publicPath: ''
     },
-    mode: isProd ? 'production' : isDev && 'development',
+    // mode: isProd ? 'production' : isDev && 'development',
+    mode: 'development',
     optimization: {
-      minimize: isProd,
+      // minimize: isProd,
+      minimize: false,
       minimizer: [
         new CssMinimizerPlugin(),
         new TerserPlugin({
