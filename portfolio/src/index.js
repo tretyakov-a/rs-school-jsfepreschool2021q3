@@ -1,12 +1,12 @@
 
 import './styles/index.scss';
 import requirements from '../req-1.md';
-// import 'custom-video/dist/main.css';
-// import initTheme from './js/theme';
-// import CustomVideoPlayer from 'custom-video';
+import 'custom-video/dist/main.css';
+import initTheme from './js/theme';
+import CustomVideoPlayer from 'custom-video';
 import initHeaderMenu from './js/header-menu';
-// import initPortfolio from './js/portfolio';
-// import initTranslate from './js/translate';
+import initPortfolio from './js/portfolio';
+import initTranslate from './js/translate';
 
 // const video = document.querySelector('.video__player-img');
 // const videoPlayer = new CustomVideoPlayer(video, {
@@ -21,8 +21,8 @@ import initHeaderMenu from './js/header-menu';
 // });
 
 initHeaderMenu();
-// initPortfolio();
-// initTranslate();
-// initTheme();
+initPortfolio();
+initTranslate();
+initTheme();
 
 console.log(requirements);

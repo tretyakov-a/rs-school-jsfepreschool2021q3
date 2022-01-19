@@ -32,6 +32,7 @@
   width: $hamburger-size;
   height: $hamburger-size;
   padding: $vertical-padding 0;
+  margin-left: 30px;
   cursor: pointer;
   justify-content: space-between;
   flex-direction: column;
@@ -211,10 +212,10 @@
     }
 
     &__nav {
-      flex-direction: row-reverse;
+      // flex-direction: row-reverse;
 
       &_show {
-        padding-right: 72px;
+        padding-right: 80px;
 
         .header__menu-container {
           width: auto;
@@ -271,9 +272,9 @@
 
     &_hide {
       display: block;
-      position: absolute;
-      right: 64px;
-      top: 20px;
+      // position: absolute;
+      // right: 64px;
+      // top: 20px;
 
       .menu-hamburger {
         &__line {
@@ -328,11 +329,11 @@
   }
   
   .language-switcher {
-    margin-left: 0px;
+    // margin-left: 0px;
 
-    span {
-      width: 30px;
-    }
+    // span {
+    //   width: 30px;
+    // }
   }
 }
 
@@ -349,7 +350,7 @@
     }
   }
   .menu-hamburger_hide {
-    right: 20px;
+    // right: 20px;
   }
 
   .header-menu {

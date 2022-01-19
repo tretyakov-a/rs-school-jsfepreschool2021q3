@@ -1,61 +1,79 @@
+
 .theme-switcher {
-  position: absolute;
-  bottom: $container-padding;
-  right: $container-padding;
+  position: relative;
   font-weight: bold;
   font-size: 20px;
-  line-height: 50px;
+  // line-height: 50px;
+  width: 45px;
+  height: 45px;
   color: $text-with-bg-image;
-}
+  margin-left: 30px;
+  overflow: hidden;
+  // border-radius: 50%;
 
-.theme-switcher {
-  &__link {
-    position: relative;
-    width: 34px;
-    height: 34px;
+  $duration: 0.4s;
+
+  @keyframes iconSlideIn {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+  }
+
+  @keyframes iconSlideOut {
+    from {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+  }
+
+  &:hover {
+    svg {
+      fill: $theme-color;
+    }
+  }
+
+  &:active {
+    svg {
+      fill: $theme-color;
+      transform: translateY(5%);
+    }
+  }
+
+  &__icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 45px;
+    height: 45px;
     display: block;
-    border: 2px solid var(--theme-color);
+    border: none;
+    background: none;
     outline: none;
-    border-radius: 50%;
-    overflow: hidden;
     cursor: pointer;
-    transition: 0.2s;
 
-    &::before {
-      content: "";
-      display: block;
-      position: absolute;
-      height: 100%;
-      width: 50%;
-      left: 0;
-      top: 0;
-      background: var(--theme-color);
+    &_hide {
+      @include anim(iconSlideOut, ease, $duration);
     }
 
-    &_light {
-      background: white;
+    &_show {
+      @include anim(iconSlideIn, ease, $duration);
     }
 
-    &_dark {
-      background: black;
+    svg {
+      fill: white;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      transition: $animation-duration;
     }
-  }
-
-  &__link:hover {
-    box-shadow: 0px 0px 4px 2px $theme-color;
-  }
-}
-
-@media (max-width: 768px) {
-  .theme-switcher {
-    bottom: 29px;
-    right: 64px;
-  }
-}
-
-@media (max-width: 540px) {
-  .theme-switcher {
-    bottom: $container-padding;
-    right: $container-padding;
   }
 }

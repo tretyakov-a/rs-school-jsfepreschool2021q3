@@ -64,7 +64,7 @@ ul {
 
   &:hover {
     color: $btn-bg;
-    background: $btn-color;
+    background: $theme-color;
     box-shadow: 0 0 0 20px transparent;
     animation: pulse 0.8s;
   }
@@ -87,10 +87,11 @@ ul {
 
   &_active {
     color: $btn-bg;
-    background: $btn-color;
+    background: $theme-color;
 
     &:hover {
       color: $text-color;
+      background: $theme-color;
     }
   }
 }

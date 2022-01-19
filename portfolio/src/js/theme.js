@@ -1,6 +1,10 @@
 
-const link = document.querySelector('.theme-switcher__link');
+const link = document.querySelector('.theme-switcher');
+const darkIcon = document.querySelector('.theme-switcher__icon[data-theme="dark"]');
+const lightIcon = document.querySelector('.theme-switcher__icon[data-theme="light"]');
 const root = document.querySelector(':root');
+const hideModificator = 'theme-switcher__icon_hide';
+const showModificator = 'theme-switcher__icon_show';
 let currentTheme = 'dark';
 
 function handleThemeSwitcherClick(e) {
@@ -11,13 +15,22 @@ function handleThemeSwitcherClick(e) {
 function changeTheme(theme) {
   currentTheme = theme;
   localStorage.setItem('theme', theme);
-  const prevTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  const isDarkTheme = currentTheme === 'dark';
+  const prevTheme = isDarkTheme ? 'light' : 'dark';
 
   root.classList.remove(prevTheme);
   root.classList.add(currentTheme);
 
-  link.classList.remove(`theme-switcher__link_${prevTheme}`);
-  link.classList.add(`theme-switcher__link_${currentTheme}`);
+  lightIcon.classList.remove(hideModificator, showModificator);
+  darkIcon.classList.remove(hideModificator, showModificator);
+
+  if (isDarkTheme) {
+    darkIcon.classList.add(showModificator);
+    lightIcon.classList.add(hideModificator);
+  } else {
+    darkIcon.classList.add(hideModificator);
+    lightIcon.classList.add(showModificator);
+  }
 }
 
 export default function init() {
@@ -27,4 +40,5 @@ export default function init() {
   }
 
   link.addEventListener('click', handleThemeSwitcherClick);
+  link.addEventListener('mousedown', e => e.preventDefault());
 }
