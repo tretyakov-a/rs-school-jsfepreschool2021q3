@@ -3,13 +3,11 @@
   position: relative;
   font-weight: bold;
   font-size: 20px;
-  // line-height: 50px;
+  margin: 0 30px;
   width: 45px;
   height: 45px;
   color: $text-with-bg-image;
-  margin-left: 30px;
   overflow: hidden;
-  // border-radius: 50%;
 
   $duration: 0.4s;
 
@@ -76,4 +74,10 @@
       transition: $animation-duration;
     }
   }
+}
+
+@media (max-width: 540px) {
+  .theme-switcher {
+    margin: 0 15px;
+  } 
 }

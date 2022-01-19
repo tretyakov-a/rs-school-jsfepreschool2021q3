@@ -17,6 +17,7 @@
   &__nav {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
   }
 
   &__menu-hamburger {
@@ -32,7 +33,6 @@
   width: $hamburger-size;
   height: $hamburger-size;
   padding: $vertical-padding 0;
-  margin-left: 30px;
   cursor: pointer;
   justify-content: space-between;
   flex-direction: column;
@@ -165,11 +165,13 @@
     }
   }
 
-  @keyframes menuFadeOut {
+  @keyframes menuSlideOut {
     from {
+      transform: translateX(0);
       opacity: 1;
     }
     to {
+      transform: translateX(100%);
       opacity: 0;
     }
   }
@@ -212,10 +214,8 @@
     }
 
     &__nav {
-      // flex-direction: row-reverse;
-
       &_show {
-        padding-right: 80px;
+        padding-right: 50px;
 
         .header__menu-container {
           width: auto;
@@ -262,7 +262,6 @@
     }
 
     &__menu-container {
-      width: 72px;
       display: flex;
       justify-content: flex-end;
     }
@@ -273,9 +272,6 @@
 
     &_hide {
       display: block;
-      // position: absolute;
-      // right: 64px;
-      // top: 20px;
 
       .menu-hamburger {
         &__line {
@@ -325,16 +321,14 @@
 
     &_hide {
       display: flex;
-      @include anim(menuFadeOut);
+      @include anim(menuSlideOut);
     }
   }
-  
-  .language-switcher {
-    // margin-left: 0px;
+}
 
-    // span {
-    //   width: 30px;
-    // }
+@media (max-width: 620px) {
+  .header-menu {
+    width: 100%;
   }
 }
 
@@ -350,13 +344,8 @@
       }
     }
   }
-  .menu-hamburger_hide {
-    // right: 20px;
-  }
 
   .header-menu {
-    display: none;
-    position: absolute;
     padding-top: 80px;
     padding-left: 40px;
   }
