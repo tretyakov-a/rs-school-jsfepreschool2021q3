@@ -229,6 +229,7 @@
         }
 
         .header-menu {
+          overflow-y: auto;
           display: flex;
           @include anim(menuSlideIn);
         }

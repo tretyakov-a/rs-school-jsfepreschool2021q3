@@ -58,12 +58,12 @@ ul {
   height: $button-height;
   border: 2px solid $theme-color;
   color: $btn-color;
-  background: $btn-bg;
+  background: none;
   cursor: pointer;
   transition: 0.4s;
 
   &:hover {
-    color: $btn-bg;
+    color: $text-with-bg-image;
     background: $theme-color;
     box-shadow: 0 0 0 20px transparent;
     animation: pulse 0.8s;
@@ -80,7 +80,7 @@ ul {
     background: $theme-color;
 
     &:hover {
-      color: $text-color;
+      color: $text-with-bg-image;
       background: $theme-color;
     }
   }
@@ -90,7 +90,7 @@ ul {
     background: $theme-color;
 
     &:hover {
-      color: $text-color;
+      // color: $text-color;
       background: $theme-color;
     }
   }
