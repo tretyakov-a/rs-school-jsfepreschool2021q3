@@ -5,18 +5,28 @@ const lightIcon = document.querySelector('.theme-switcher__icon[data-theme="ligh
 const root = document.querySelector(':root');
 const hideModificator = 'theme-switcher__icon_hide';
 const showModificator = 'theme-switcher__icon_show';
-let currentTheme = 'dark';
+const THEMES = {
+  DARK: 'dark',
+  LIGHT: 'light'
+}
+let currentTheme = THEMES.DARK;
+let isChangeInProcess = false;
+const animationDuration = 400;
 
 function handleThemeSwitcherClick(e) {
-  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  currentTheme = currentTheme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK;
   changeTheme(currentTheme);
 }
 
 function changeTheme(theme) {
+  if (isChangeInProcess) {
+    return;
+  }
+  isChangeInProcess = true;
   currentTheme = theme;
   localStorage.setItem('theme', theme);
-  const isDarkTheme = currentTheme === 'dark';
-  const prevTheme = isDarkTheme ? 'light' : 'dark';
+  const isDarkTheme = currentTheme === THEMES.DARK;
+  const prevTheme = isDarkTheme ? THEMES.LIGHT : THEMES.DARK;
 
   root.classList.remove(prevTheme);
   root.classList.add(currentTheme);
@@ -31,6 +41,10 @@ function changeTheme(theme) {
     darkIcon.classList.add(hideModificator);
     lightIcon.classList.add(showModificator);
   }
+
+  setTimeout(() => {
+    isChangeInProcess = false;
+  }, animationDuration);
 }
 
 export default function init() {
