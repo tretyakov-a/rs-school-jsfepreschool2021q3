@@ -3,7 +3,7 @@ import './styles/index.scss';
 import requirements from '../req-1.md';
 import 'custom-video/dist/main.css';
 import initTheme from './js/theme';
-import CustomVideoPlayer from 'custom-video';
+// import CustomVideoPlayer from 'custom-video';
 import initHeaderMenu from './js/header-menu';
 import initPortfolio from './js/portfolio';
 import initTranslate from './js/translate';

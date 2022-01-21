@@ -1,11 +1,8 @@
 
-const hamburger = document.querySelector('.menu-hamburger');
-const headerMenu = document.querySelector('.header-menu');
 const headerNav = document.querySelector('.header__nav');
 const headerNavShowModificator = 'header__nav_show';
-const hideModificator = 'header-menu_hide';
-const humburgerHideModificator = 'menu-hamburger_hide';
-const animationDuration = 200;
+const headerNavHideModificator = 'header__nav_hide';
+const animationDuration = 400;
 
 function handleDocumentClick(e) {
   const isShowed = headerNav.classList.contains(headerNavShowModificator);
@@ -24,12 +21,10 @@ function handleDocumentClick(e) {
 
 function hide() {
   headerNav.classList.remove(headerNavShowModificator);
-  hamburger.classList.add(humburgerHideModificator);
-  headerMenu.classList.add(hideModificator);
+  headerNav.classList.add(headerNavHideModificator);
 
   setTimeout(() => {
-    headerMenu.classList.remove(hideModificator);
-    hamburger.classList.remove(humburgerHideModificator);
+    headerNav.classList.remove(headerNavHideModificator);
   }, animationDuration);
 }
 

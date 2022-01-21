@@ -33,6 +33,7 @@
   width: $hamburger-size;
   height: $hamburger-size;
   padding: $vertical-padding 0;
+  margin-left: 32px;
   cursor: pointer;
   justify-content: space-between;
   flex-direction: column;
@@ -105,7 +106,7 @@
       transform: rotate(-45deg);
       top: $hamburger-size / 2;
       left: -6px;
-      width: 63.6px;
+      width: $cross-line-size;
     }
   }
 
@@ -207,39 +208,56 @@
 
 @media (max-width: 768px) {
   .header {
-    
     &__container {
       padding-right: 64px;
       padding-left: 60px;
     }
 
+    &__menu-container {
+      display: none;
+      justify-content: flex-end;
+      width: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
     &__nav {
-      &_show {
-        padding-right: 50px;
+      &_show, &_hide {
+        padding-right: 82px;
 
         .header__menu-container {
-          width: auto;
-          background: rgba(0, 0, 0, 0.5);
-          position: fixed;
-          top: 0;
-          left: 0;
-          bottom: 0;
-          right: 0;
-          z-index: 1;
+          display: flex;
         }
 
         .header-menu {
           overflow-y: auto;
           display: flex;
-          @include anim(menuSlideIn);
         }
 
         .menu-hamburger {
           display: block;
-          position: absolute;
+          position: fixed;
           right: 64px;
           top: 20px;
 
+          &__line {
+            position: absolute;
+            background: $text-color;
+          }
+        }
+      }
+
+      &_show {
+        .header-menu {
+          @include anim(menuSlideIn);
+        }
+
+        .menu-hamburger {
           &__line:nth-child(1) {
             @include anim(rotateClockwise);
           }
@@ -252,47 +270,35 @@
           &__line:nth-child(3) {
             @include anim(rotateAntiClockwise);
           }
+        }
+      }
 
-          &__line {
-            position: absolute;
-            background: $text-color;
+      &_hide {
+        .header-menu {
+          @include anim(menuSlideOut);
+        }
+
+        .menu-hamburger {
+          &__line:nth-child(1) {
+            @include anim(rotateClockwiseReverse);
+          }
+    
+          &__line:nth-child(2) {
+            display: block;
+            top: 25px;
+            @include anim(lineScaleIn);
+          }
+    
+          &__line:nth-child(3) {
+            @include anim(rotateAntiClockwiseReverse);
           }
         }
       }
-    }
-
-    &__menu-container {
-      display: flex;
-      justify-content: flex-end;
     }
   }
 
   .menu-hamburger {
     display: flex;
-
-    &_hide {
-      display: block;
-
-      .menu-hamburger {
-        &__line {
-          position: absolute;
-          background: $text-color;
-        }
-        &__line:nth-child(1) {
-          @include anim(rotateClockwiseReverse);
-        }
-  
-        &__line:nth-child(2) {
-          display: block;
-          top: 25px;
-          @include anim(lineScaleIn);
-        }
-  
-        &__line:nth-child(3) {
-          @include anim(rotateAntiClockwiseReverse);
-        }
-      }
-    }
   }
 
   .header-menu {
@@ -318,11 +324,6 @@
       line-height: 73px;
       color: $text-color;
     }
-
-    &_hide {
-      display: flex;
-      @include anim(menuSlideOut);
-    }
   }
 }
 
@@ -338,9 +339,11 @@
       padding: 0 $container-padding;
     }
 
-    &__nav_show {
-      .menu-hamburger {
-        right: 20px;
+    &__nav {
+      &_show, &_hide {
+        .menu-hamburger {
+          right: 20px;
+        }
       }
     }
   }

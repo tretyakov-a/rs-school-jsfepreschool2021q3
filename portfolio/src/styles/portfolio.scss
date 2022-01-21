@@ -38,7 +38,7 @@ $button-margin: 5px;
     justify-content: space-between;
 
     &_active {
-      @include anim(worksFadeOut, ease-in, $animation-duration * 2);
+      @include anim(worksFadeOut, ease-in);
       display: flex;
     }
   }

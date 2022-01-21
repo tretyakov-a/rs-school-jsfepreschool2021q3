@@ -1,5 +1,4 @@
 
-
 const animationDuration = 400;
 
 function handleButtonClick(e) {
