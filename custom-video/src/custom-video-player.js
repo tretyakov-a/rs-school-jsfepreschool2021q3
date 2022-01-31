@@ -39,6 +39,7 @@ export default class CustomVideoPlayer {
     this.durationLabel = select('duration')
     this.progressBar = select('progress-bar');
     this.progressBarFiller = select('progress-bar-filler');
+    this.progressBarThumb = select('progress-bar-thumb');
     this.progressBarTimeLabel = select('progress-bar-time-label');
 
     this.isSettingsMenuVisible = false;
@@ -55,7 +56,6 @@ export default class CustomVideoPlayer {
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
-    this.isMobile = this.checkMobile();
     
     this.player.addEventListener('mouseenter', this.showControlPanel);
     this.player.addEventListener('mouseleave', this.hideControlPanel);
@@ -84,13 +84,16 @@ export default class CustomVideoPlayer {
 
     this.controlPanel.addEventListener('click', this.handleControlPanelClick);
 
+    this.isMobile = this.checkMobile();
     this.video.volume = 0.1;
+    this.video.muted = true;
     this.video.pause();
   }
   
   handleLoadStart = () => {
     this.durationLabel.textContent = '';
     this.progressBarFiller.style.width = '0%';
+    this.progressBarThumb.style.left = `calc(0% - 6px)`;
     this.handleVideoPause();
   }
 
@@ -237,8 +240,8 @@ export default class CustomVideoPlayer {
   set isMobile(value) {
     if (value !== this._isMobile) {
       const action = value ? 'add' : 'remove';
-      this.volumeSlider.parentElement.classList[action](this.className('volume-slider_show'));
-      this.controlPanel.classList[action](this.className('control-panel_show'));
+      this.volumeSlider.parentElement.classList[action](this.className('volume-slider_mobile'));
+      this.controlPanel.classList[action](this.className('control-panel_mobile'));
     }
     this._isMobile = value;
   }
@@ -301,6 +304,7 @@ export default class CustomVideoPlayer {
   }
 
   handleVolumeChange = () => {
+    console.log('Volume changed', this.video.volume);
     if (this.video.muted) {      
       this.volumeSlider.dataset.value = 0;
       this.volumeSliderFiller.style.width = '0%';
@@ -329,6 +333,7 @@ export default class CustomVideoPlayer {
     this.durationLabel.textContent = `${timeToText(currentTime)} / ${timeToText(duration)}`;
     const percent = (currentTime / duration) * 100;
     this.progressBarFiller.style.width = `${percent}%`;
+    this.progressBarThumb.style.left = `calc(${percent}% - 6px)`;
   }
 
   showTimeLabel = (time, offset) => {
@@ -353,7 +358,9 @@ export default class CustomVideoPlayer {
       offset = progressBarWidth - this.timeLabelWidth;
     }
     this.progressBarTimeLabel.style.display = 'block';
-    this.showTimeLabel(time, offset);
+    if (!this.isMobile) {
+      this.showTimeLabel(time, offset);
+    }
   }
 
   handleProgressBarMouseOver = (e) => {
@@ -368,6 +375,7 @@ export default class CustomVideoPlayer {
   }
 
   handleProgressBarMouseDown = (e) => {
+    e.preventDefault();
     this.video.pause();
     this.isProgressBarMouseDown = true;
     this.handleProgressBarMouseMove(e);
