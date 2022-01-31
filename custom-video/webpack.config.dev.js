@@ -23,6 +23,11 @@ module.exports = (env) => {
   
   const getPlugins = () => {
     const plugins = [
+      new HtmlWebpackPlugin({
+        minify: false,
+        template: './index.ejs',
+        filename: 'index.html'
+      }),
       new CleanWebpackPlugin(),
       new RemovePlugin({
         after: {
@@ -38,15 +43,6 @@ module.exports = (env) => {
         }
       }),
     ];
-    if (isDev) {
-      plugins.push(
-        new HtmlWebpackPlugin({
-          minify: false,
-          template: './index.ejs',
-          filename: 'index.html'
-        }),
-      )
-    }
     if (isProd) {
       plugins.push(
         new MiniCssExtractPlugin({

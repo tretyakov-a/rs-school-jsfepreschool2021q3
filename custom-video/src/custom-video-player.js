@@ -32,6 +32,7 @@ export default class CustomVideoPlayer {
     this.playBtn = select('play');
     this.volumeBtn = select('volume');
     this.volumeLabel = select('volume-label');
+    this.volumeContainer = select('volume-container');
     this.fullscreenBtn = select('toggle-fullscreen');
     this.volumeSlider = select('volume-slider');
     this.volumeSliderFiller = select('volume-slider-filler');
@@ -54,6 +55,7 @@ export default class CustomVideoPlayer {
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
+    this.isMobile = this.checkMobile();
     
     this.player.addEventListener('mouseenter', this.showControlPanel);
     this.player.addEventListener('mouseleave', this.hideControlPanel);
@@ -64,11 +66,12 @@ export default class CustomVideoPlayer {
     this.video.addEventListener('pause', this.handleVideoPause);
     this.video.addEventListener('volumechange', this.handleVolumeChange);
     this.video.addEventListener('timeupdate', this.handleProgress);
+    this.video.addEventListener('loadstart', this.handleLoadStart);
 
     this.volumeSlider.addEventListener('mousedown', this.handleVolumeSliderMouseDown);
     this.volumeSlider.addEventListener('mouseup', this.handleVolumeSliderMouseUp);
-    this.volumeBtn.addEventListener('mouseover', this.handleVolumeSliderMouseOver);
-    this.volumeBtn.addEventListener('mouseout', this.handleVolumeSliderMouseOut);
+    this.volumeContainer.addEventListener('mouseover', this.handleVolumeSliderMouseOver);
+    this.volumeContainer.addEventListener('mouseout', this.handleVolumeSliderMouseOut);
     
     this.progressBar.addEventListener('mousedown', this.handleProgressBarMouseDown);
     this.progressBar.addEventListener('mouseup', this.handleProgressBarMouseUp);
@@ -85,7 +88,13 @@ export default class CustomVideoPlayer {
     this.video.pause();
   }
   
-  setColors = ( ) => {
+  handleLoadStart = () => {
+    this.durationLabel.textContent = '';
+    this.progressBarFiller.style.width = '0%';
+    this.handleVideoPause();
+  }
+
+  setColors = () => {
     const colors = this.options.colors || {};
     const { theme, mainText, darkText, controlsBg, settingsBg, fillerBg } = {...defaultColors, ...colors };
     const set = (prop, color) => this.player.style.setProperty(prop, color);
@@ -221,7 +230,25 @@ export default class CustomVideoPlayer {
     }, this.afkDelay);
   }
 
+  get isMobile() {
+    return this._isMobile;
+  }
+
+  set isMobile(value) {
+    if (value !== this._isMobile) {
+      const action = value ? 'add' : 'remove';
+      this.volumeSlider.parentElement.classList[action](this.className('volume-slider_show'));
+      this.controlPanel.classList[action](this.className('control-panel_show'));
+    }
+    this._isMobile = value;
+  }
+
+  checkMobile = () => {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
   handleDocumentClick = (e) => {
+    this.isMobile = this.checkMobile();
     if (isElementClicked(e, [this.className('settings-menu'), this.className('settings')])) {
       return;
     }
@@ -362,11 +389,11 @@ export default class CustomVideoPlayer {
   }
 
   hideVolumeSlider = () => {
-    this.volumeBtn.classList.remove(this.className('volume_show'));
+    this.volumeSlider.parentElement.classList.remove(this.className('volume-slider_show'));
   }
 
   showVolumeSlider = () => {
-    this.volumeBtn.classList.add(this.className('volume_show'));
+    this.volumeSlider.parentElement.classList.add(this.className('volume-slider_show'));
   }
 
   handleVolumeSliderMouseUp = () => {

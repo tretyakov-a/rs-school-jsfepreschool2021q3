@@ -76,17 +76,21 @@
         <div class="player__button-icon">
         </div>
       </button>
-      <button class="player__volume player__button player__button_volume-up" data-fn="mute" title="click: mute">
-        <div class="player__button-icon">
-        </div>
-        <div class="player__volume-slider" data-value="0.1">
-          <div class="player__volume-label"></div>
-          <div class="player__volume-slider-wrapper">
-            <div class="player__volume-slider-filler">
+      <div class="player__volume-container">
+        <button class="player__volume player__button player__button_volume-up" data-fn="mute" title="click: mute">
+          <div class="player__button-icon">
+          </div>
+        </button>
+        <div class="player__volume-slider-container">
+          <div class="player__volume-slider" data-value="0.1">
+            <div class="player__volume-label"></div>
+            <div class="player__volume-slider-wrapper">
+              <div class="player__volume-slider-filler">
+              </div>
             </div>
           </div>
         </div>
-      </button>
+      </div>
       <div class="player__duration"></div>
     </div>
     <div class="player__buttons-group">

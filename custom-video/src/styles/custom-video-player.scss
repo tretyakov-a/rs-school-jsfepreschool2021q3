@@ -109,7 +109,7 @@ video::-webkit-media-controls-enclosure {
     z-index: 4;
     padding-top: var(--player-progressbar-height);
   
-    &_show {
+    &_show, &_mobile {
       transform: translateY(0px);
     }
   }
@@ -337,11 +337,10 @@ video::-webkit-media-controls-enclosure {
   &__volume {
     position: relative;
     overflow: hidden;
-  }
 
-  &__volume_show {
-    width: calc(var(--player-button-size) + var(--player-volume-slider-width) + 2px);
-    color: var(--player-main-color);
+    &-container {
+      display: flex;
+    }
   }
 
   &__volume-slider {
@@ -349,8 +348,30 @@ video::-webkit-media-controls-enclosure {
     cursor: pointer;
     width: var(--player-volume-slider-width);
     height: 50%;
-    left: var(--player-button-size);
+    left: 0;
     top: calc(var(--player-button-size) / 4);
+    // color: var(--player-main-color);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--player-main-color);
+
+      .player__volume-slider-filler {
+        background: var(--player-main-color);
+      }
+    }
+
+    &-container {
+      position: relative;
+      height: 100%;
+      width: 0px;
+      overflow: hidden;
+      transition: 0.4s ease;
+    }
+
+    &_show, &_mobile {
+      width: calc(var(--player-volume-slider-width) + 2px);
+    }
   }
   
   &__volume-label {
@@ -372,8 +393,9 @@ video::-webkit-media-controls-enclosure {
   &__volume-slider-filler {
     width: 0%;
     height: 100%;
-    background: var(--player-main-color);
+    background: var(--main-text-color);
     pointer-events: none;
+    transition: background-color 0.2s ease;
   }
 }
 

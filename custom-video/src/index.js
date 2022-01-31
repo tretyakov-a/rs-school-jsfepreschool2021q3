@@ -14,4 +14,4 @@ const videoPlayer = new CustomVideoPlayer(video, {
   }
 });
 
-// console.log(requirements);
+console.log(requirements);
