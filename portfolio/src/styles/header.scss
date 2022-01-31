@@ -29,6 +29,7 @@
   $vertical-padding: 11px;
   $line-height: 3px;
   $cross-line-size: 62px;
+  $center: $hamburger-size / 2 - $line-height / 2;
 
   width: $hamburger-size;
   height: $hamburger-size;
@@ -52,80 +53,99 @@
     box-shadow: 0px 0px 5px 0px var(--burger-shadow-color);
   }
 
-  @mixin clockwiseFrom {
+  @mixin lineCenterPosition {
     transform: rotate(0deg);
+    left: 0;
+    width: $hamburger-size;
+    top: $center;
+  }
+
+  @mixin topLineStartPosition {
     top: $vertical-padding;
     left: 0;
     width: $hamburger-size;
     background: var(--burger-color);
   }
 
-  @mixin clockwiseTo {
+  @mixin topLineEndPosition {
     transform: rotate(45deg);
-    top: $hamburger-size / 2;
     left: -6px;
     width: $cross-line-size;
+    top: $center;
     background: $text-color;
   }
 
-  @keyframes rotateClockwise {
-    from {
-      @include clockwiseFrom;
-    }
-    to {
-      @include clockwiseTo;
-    }
-  }
-  
-  @keyframes rotateClockwiseReverse {
-    from {
-      @include clockwiseTo;
-    }
-    to {
-      @include clockwiseFrom;
-    }
-  }
-
-  @mixin antiClockwiseFrom {
-    transform: rotate(0deg);
+  @mixin bottomLineStartPosition {
     top: $hamburger-size - $vertical-padding - $line-height;
     left: 0;
     width: $hamburger-size;
     background: var(--burger-color);
   }
 
-  @mixin antiClockwiseTo {
+  @mixin bottomLineEndPosition {
     transform: rotate(-45deg);
-    top: $hamburger-size / 2;
     left: -6px;
     width: $cross-line-size;
+    top: $center;
     background: $text-color;
   }
 
-  @keyframes rotateAntiClockwise {
-    from {
-      @include antiClockwiseFrom;
+  @keyframes burgerToCrossTopLine {
+    0% {
+      @include topLineStartPosition;
     }
-    to {
-      @include antiClockwiseTo;
+    50% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include topLineEndPosition;
     }
   }
 
-  @keyframes rotateAntiClockwiseReverse {
-    from {
-      @include antiClockwiseTo;
+  @keyframes burgerToCrossBottomLine {
+    0% {
+      @include bottomLineStartPosition;
     }
-    to {
-      @include antiClockwiseFrom;
+    50% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include bottomLineEndPosition;
+    }
+  }
+
+  @keyframes crossToBurgerTopLine {
+    0% {
+      @include topLineEndPosition;
+    }
+    50% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include topLineStartPosition;
+    }
+  }
+
+  @keyframes crossToBurgerBottomLine {
+    0% {
+      @include bottomLineEndPosition;
+    }
+    50% {
+      @include lineCenterPosition;
+    }
+    100% {
+      @include bottomLineStartPosition;
     }
   }
 
   @keyframes lineScaleIn {
     from {
+      top: $center;
       transform: scaleX(0);
       background: $text-color;
     }
     to {
+      top: $center;
       transform: scaleX(100%);
       background: var(--burger-color);
     }
@@ -133,10 +153,12 @@
 
   @keyframes lineScaleOut {
     from {
+      top: $center;
       transform: scaleX(100%);
       background: var(--burger-color);
     }
     to {
+      top: $center;
       transform: scaleX(0);
       background: $text-color;
     }
@@ -282,6 +304,7 @@
 
           &__line {
             position: absolute;
+            box-shadow: none;
           }
         }
       }
@@ -297,16 +320,15 @@
 
         .menu-hamburger {
           &__line:nth-child(1) {
-            @include anim(rotateClockwise);
+            @include anim(burgerToCrossTopLine);            
           }
     
           &__line:nth-child(2) {
-            top: 25px;
             @include anim(lineScaleOut);
           }
     
           &__line:nth-child(3) {
-            @include anim(rotateAntiClockwise);
+            @include anim(burgerToCrossBottomLine);
           }
         }
       }
@@ -322,17 +344,15 @@
 
         .menu-hamburger {
           &__line:nth-child(1) {
-            @include anim(rotateClockwiseReverse);
+            @include anim(crossToBurgerTopLine);
           }
     
           &__line:nth-child(2) {
-            display: block;
-            top: 25px;
             @include anim(lineScaleIn);
           }
     
           &__line:nth-child(3) {
-            @include anim(rotateAntiClockwiseReverse);
+            @include anim(crossToBurgerBottomLine);
           }
         }
       }
