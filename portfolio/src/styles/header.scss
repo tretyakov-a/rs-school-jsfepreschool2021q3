@@ -38,7 +38,8 @@
   justify-content: space-between;
   flex-direction: column;
   z-index: 10;
-  position: relative;
+  position: absolute;
+  right: $container-padding;
   background: transparent;
   border: none;
   outline: none;
@@ -46,92 +47,107 @@
   &__line {
     width: $hamburger-size;
     height: $line-height;
-    background: $text-with-bg-image;
+    background: var(--burger-color);
     transition: 0.2s;
+    box-shadow: 0px 0px 5px 0px var(--burger-shadow-color);
   }
 
-  @keyframes rotateClockwiseReverse {
+  @mixin clockwiseFrom {
+    transform: rotate(0deg);
+    top: $vertical-padding;
+    left: 0;
+    width: $hamburger-size;
+    background: var(--burger-color);
+  }
+
+  @mixin clockwiseTo {
+    transform: rotate(45deg);
+    top: $hamburger-size / 2;
+    left: -6px;
+    width: $cross-line-size;
+    background: $text-color;
+  }
+
+  @keyframes rotateClockwise {
     from {
-      transform: rotate(45deg);
-      top: $hamburger-size / 2;
-      left: -6px;
-      width: $cross-line-size;
+      @include clockwiseFrom;
     }
     to {
-      transform: rotate(0deg);
-      top: $vertical-padding;
-      left: 0;
-      width: $hamburger-size;
+      @include clockwiseTo;
+    }
+  }
+  
+  @keyframes rotateClockwiseReverse {
+    from {
+      @include clockwiseTo;
+    }
+    to {
+      @include clockwiseFrom;
+    }
+  }
+
+  @mixin antiClockwiseFrom {
+    transform: rotate(0deg);
+    top: $hamburger-size - $vertical-padding - $line-height;
+    left: 0;
+    width: $hamburger-size;
+    background: var(--burger-color);
+  }
+
+  @mixin antiClockwiseTo {
+    transform: rotate(-45deg);
+    top: $hamburger-size / 2;
+    left: -6px;
+    width: $cross-line-size;
+    background: $text-color;
+  }
+
+  @keyframes rotateAntiClockwise {
+    from {
+      @include antiClockwiseFrom;
+    }
+    to {
+      @include antiClockwiseTo;
     }
   }
 
   @keyframes rotateAntiClockwiseReverse {
     from {
-      transform: rotate(-45deg);
-      top: $hamburger-size / 2;
-      left: -6px;
-      width: $cross-line-size;
+      @include antiClockwiseTo;
     }
     to {
-      transform: rotate(0deg);
-      top: $hamburger-size - $vertical-padding - $line-height;
-      left: 0;
-      width: $hamburger-size;
-    }
-  }
-
-  @keyframes rotateClockwise {
-    from {
-      transform: rotate(0deg);
-      top: $vertical-padding;
-      left: 0;
-      width: $hamburger-size;
-    }
-    to {
-      transform: rotate(45deg);
-      top: $hamburger-size / 2;
-      left: -6px;
-      width: $cross-line-size;
-    }
-  }
-
-  @keyframes rotateAntiClockwise {
-    from {
-      transform: rotate(0deg);
-      top: $hamburger-size - $vertical-padding - $line-height;
-      left: 0;
-      width: $hamburger-size;
-    }
-    to {
-      transform: rotate(-45deg);
-      top: $hamburger-size / 2;
-      left: -6px;
-      width: $cross-line-size;
+      @include antiClockwiseFrom;
     }
   }
 
   @keyframes lineScaleIn {
     from {
       transform: scaleX(0);
+      background: $text-color;
     }
     to {
       transform: scaleX(100%);
+      background: var(--burger-color);
     }
   }
 
   @keyframes lineScaleOut {
     from {
       transform: scaleX(100%);
+      background: var(--burger-color);
     }
     to {
       transform: scaleX(0);
+      background: $text-color;
     }
   }
 }
 
-.menu-hamburger:hover {
-  .menu-hamburger__line {
-    background: $theme-color;
+@media (hover: hover) {
+  .menu-hamburger:hover {
+    .menu-hamburger__line {
+      background: var(--burger-hover-color);
+    }
   }
 }
 
@@ -213,6 +229,24 @@
       padding-left: 60px;
     }
 
+    @keyframes overlayFadeIn {
+      from {
+        background: transparent;
+      }
+      to {
+        background: rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    @keyframes overlayFadeOut {
+      from {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      to {
+        background: transparent;
+      }
+    }
+
     &__menu-container {
       display: none;
       justify-content: flex-end;
@@ -224,12 +258,13 @@
       right: 0;
       z-index: 1;
       background: rgba(0, 0, 0, 0.5);
+      transition: 0.4s;
     }
 
     &__nav {
-      &_show, &_hide {
-        padding-right: 82px;
+      padding-right: 82px;
 
+      &_show, &_hide {
         .header__menu-container {
           display: flex;
         }
@@ -247,12 +282,15 @@
 
           &__line {
             position: absolute;
-            background: $text-color;
           }
         }
       }
 
       &_show {
+        .header__menu-container {
+          @include anim(overlayFadeIn);
+        }
+
         .header-menu {
           @include anim(menuSlideIn);
         }
@@ -274,6 +312,10 @@
       }
 
       &_hide {
+        .header__menu-container {
+          @include anim(overlayFadeOut);
+        }
+
         .header-menu {
           @include anim(menuSlideOut);
         }
@@ -298,7 +340,12 @@
   }
 
   .menu-hamburger {
+    right: 64px;
     display: flex;
+
+    &_fixed {
+      position: fixed;
+    }
   }
 
   .header-menu {
@@ -348,8 +395,24 @@
     }
   }
 
+  .menu-hamburger {
+    right: $container-padding;
+  }
+
   .header-menu {
     padding-top: 80px;
     padding-left: 40px;
+  }
+}
+
+@media (max-width: 420px) {
+  .menu-hamburger {
+    margin-left: 15px;
+  }
+
+  .header {
+    &__nav {
+      padding-right: 65px;
+    }
   }
 }

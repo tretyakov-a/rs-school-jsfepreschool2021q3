@@ -99,6 +99,9 @@
 
 @media (max-width: 540px) {
   .skills {
+
+    padding: 0;
+
     &__list {
       flex-direction: column;
     }

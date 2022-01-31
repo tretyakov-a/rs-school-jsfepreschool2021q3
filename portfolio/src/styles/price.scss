@@ -53,6 +53,10 @@
     &__list {
       justify-content: space-evenly;
     }
+
+    &__list-item {
+      flex-basis: 420px;
+    }
   }
 }
 
@@ -67,6 +71,7 @@
 
     &__list-item {
       width: 420px;
+      flex-basis: auto;
     }
   }
 }

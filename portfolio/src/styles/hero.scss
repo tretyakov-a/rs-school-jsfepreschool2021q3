@@ -30,6 +30,11 @@
     margin-bottom: 25px;
     color: $text-with-bg-image;
   }
+
+  &__button {
+    display: block;
+    line-height: $button-height;
+  }
 }
 
 @media (max-width: 768px) {
@@ -62,10 +67,15 @@
 
 @media (max-width: 540px) {
   .hero {
+    &__title, &__text {
+      text-shadow: 0px 0px 5px var(--text-shadow-color);
+    }
+
     &__container {
       padding-top: 150px;
       height: 590px;
       padding-left: $container-padding;
+      background-position: center;
     }
   }
 }

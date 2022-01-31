@@ -51,17 +51,16 @@
   .video {
     margin-left: calc(-1 * #{$container-padding});
     margin-right: calc(-1 * #{$container-padding});
-
   }
 
   .video__player {
     padding-bottom: 54.42%;
 
-    &-img {
-      height: auto;
-      width: 106%;
-      object-position: left 21px top 50%;
-    }
+    // &-img {
+    //   height: auto;
+    //   width: 106%;
+    //   object-position: left 21px top 50%;
+    // }
 
     &-play-btn {
       width: 75px;
@@ -74,10 +73,10 @@
   }
 }
 
-@media (max-width: 700px) {
-  .video__player {
-    &-img {
-      object-position: center;
+@media (max-width: 540px) {
+  .video {
+    &__header-container {
+      width: calc(100% - #{$container-padding} * 2);
     }
   }
 }

@@ -79,7 +79,6 @@ $button-margin: 5px;
 }
 @media (max-width: 768px) {
   .portfolio {
-    margin-top: 161px;
 
     &__works {
       flex-direction: column;
@@ -97,9 +96,7 @@ $button-margin: 5px;
     &__works-item {
       flex-basis: 100%;
     }
-    &__button {
-      flex-basis: 100%;  
-    }
+
     &__buttons-group {
       flex-direction: column;
       align-items: center;

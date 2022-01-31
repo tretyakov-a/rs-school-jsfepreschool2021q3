@@ -2,13 +2,18 @@
   --bg-color: black;
   --input-bg-color: rgba(0, 0, 0, 0.5);
   --header-bg-color: black;
+  --text-shadow-color: black;
   --text-color: white;
   --theme-color: #bdae82;
   --header-color: #bdae82;
   --text-with-bg-image: white;
   --container-padding: 20px;
   --btn-color: #bdae82;
-  --btn-bg: black;
+  --btn-filled-color: black;
+  --btn-bg: transparent;
+  --burger-color: white;
+  --burger-hover-color: var(--theme-color);
+  --burger-shadow-color: black;
 
   &.light {
     --bg-color: white;
@@ -17,7 +22,10 @@
     --text-with-bg-image: white;
     --header-color: black;
     --btn-color: black;
-    // --btn-bg: white;
+    --btn-bg: var(--theme-color);
+    --burger-color: var(--theme-color);
+    --burger-hover-color: rgba(189, 174, 130, 0.8);
+    --burger-shadow-color: transparent;
   }
 }
 

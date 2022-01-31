@@ -24,9 +24,6 @@ a {
   text-decoration: none;
   transition: 0.4s;
 }
-a:hover {
-  color: $theme-color;
-}
 
 img {
   display: block;
@@ -49,6 +46,39 @@ ul {
   width: 100%;
 }
 
+.top-button {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  bottom: 20px;
+  right: $container-padding;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+  text-align: center;
+  font-size: 30px;
+  border-radius: 50%;
+  border: 2px solid var(--burger-color);
+  color: var(--burger-color);
+  opacity: 0.6;
+
+  &_show {
+    display: block;
+  }
+}
+
+@media (hover: hover) {
+  .top-button:hover {
+    border-color: var(--burger-hover-color);
+    color: var(--burger-hover-color);
+    opacity: 1;
+  }
+
+  a:hover {
+    color: $theme-color;
+  }
+}
+
 .button {
   position: relative;
   overflow: hidden;
@@ -66,19 +96,19 @@ ul {
 
   &:hover {
     color: $text-with-bg-image;
-    background: $theme-color;
-    box-shadow: 0 0 0 20px transparent;
-    animation: pulse 0.8s;
+    background: var(--btn-bg);
+    // box-shadow: 0 0 0 10px transparent;
+    // animation: pulse 0.4s;
   }
 
   @keyframes pulse{
     0% {
-      box-shadow: 0 0 0 0 $theme-color
+      box-shadow: 0 0 0 0 $theme-color;
     }
   }
 
   &_filled {
-    color: $btn-bg;
+    color: var(--btn-filled-color);
     background: $theme-color;
 
     &:hover {
@@ -88,24 +118,23 @@ ul {
   }
 
   &_active {
-    color: $btn-bg;
+    color: var(--text-with-bg-image);
     background: $theme-color;
 
     &:hover {
-      // color: $text-color;
       background: $theme-color;
+      animation: none;
     }
   }
 
   &_ripple {
+    overflow: hidden;
     .circle {
       position: absolute;
-      background-color: #fff;
-      width: 100px;
-      height: 100px;
+      background-color: white;
       border-radius: 50%;
       transform: translate(-50%, -50%) scale(0);
-      animation: circleScale 0.4s ease-out;
+      animation: circleScale 0.4s linear;
     }
     
     @keyframes circleScale {
@@ -214,14 +243,14 @@ ul {
 @media (max-width: 540px) {
   
   .section {
-    margin-top: 20px;
+    margin-top: 40px;
 
     &__header-container {
       margin-bottom: 20px;
     }
 
     &__header-container {
-      width: 90%;
+      width: 100%;
     }
   }
 }
