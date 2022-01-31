@@ -621,57 +621,73 @@ ul {
     transition: 0.2s;
     box-shadow: 0px 0px 5px 0px var(--burger-shadow-color); }
 
-@keyframes rotateClockwise {
-  from {
-    transform: rotate(0deg);
+@keyframes burgerToCrossTopLine {
+  0% {
     top: 11px;
     left: 0;
     width: 50px;
     background: var(--burger-color); }
-  to {
+  50% {
+    transform: rotate(0deg);
+    left: 0;
+    width: 50px;
+    top: 23.5px; }
+  100% {
     transform: rotate(45deg);
-    top: 25px;
     left: -6px;
     width: 62px;
+    top: 23.5px;
     background: var(--text-color); } }
 
-@keyframes rotateClockwiseReverse {
-  from {
-    transform: rotate(45deg);
-    top: 25px;
+@keyframes burgerToCrossBottomLine {
+  0% {
+    top: 36px;
+    left: 0;
+    width: 50px;
+    background: var(--burger-color); }
+  50% {
+    transform: rotate(0deg);
+    left: 0;
+    width: 50px;
+    top: 23.5px; }
+  100% {
+    transform: rotate(-45deg);
     left: -6px;
     width: 62px;
+    top: 23.5px;
+    background: var(--text-color); } }
+
+@keyframes crossToBurgerTopLine {
+  0% {
+    transform: rotate(45deg);
+    left: -6px;
+    width: 62px;
+    top: 23.5px;
     background: var(--text-color); }
-  to {
+  50% {
     transform: rotate(0deg);
+    left: 0;
+    width: 50px;
+    top: 23.5px; }
+  100% {
     top: 11px;
     left: 0;
     width: 50px;
     background: var(--burger-color); } }
 
-@keyframes rotateAntiClockwise {
-  from {
+@keyframes crossToBurgerBottomLine {
+  0% {
+    transform: rotate(-45deg);
+    left: -6px;
+    width: 62px;
+    top: 23.5px;
+    background: var(--text-color); }
+  50% {
     transform: rotate(0deg);
-    top: 36px;
     left: 0;
     width: 50px;
-    background: var(--burger-color); }
-  to {
-    transform: rotate(-45deg);
-    top: 25px;
-    left: -6px;
-    width: 62px;
-    background: var(--text-color); } }
-
-@keyframes rotateAntiClockwiseReverse {
-  from {
-    transform: rotate(-45deg);
-    top: 25px;
-    left: -6px;
-    width: 62px;
-    background: var(--text-color); }
-  to {
-    transform: rotate(0deg);
+    top: 23.5px; }
+  100% {
     top: 36px;
     left: 0;
     width: 50px;
@@ -679,17 +695,21 @@ ul {
 
 @keyframes lineScaleIn {
   from {
+    top: 23.5px;
     transform: scaleX(0);
     background: var(--text-color); }
   to {
+    top: 23.5px;
     transform: scaleX(100%);
     background: var(--burger-color); } }
 
 @keyframes lineScaleOut {
   from {
+    top: 23.5px;
     transform: scaleX(100%);
     background: var(--burger-color); }
   to {
+    top: 23.5px;
     transform: scaleX(0);
     background: var(--text-color); } }
 
@@ -787,30 +807,28 @@ ul {
       right: 64px;
       top: 20px; }
       .header__nav_show .menu-hamburger__line, .header__nav_hide .menu-hamburger__line {
-        position: absolute; }
+        position: absolute;
+        box-shadow: none; }
     .header__nav_show .header__menu-container {
-      animation: overlayFadeIn 0.4s ease-in forwards; }
+      animation: overlayFadeIn 0.4s ease forwards; }
     .header__nav_show .header-menu {
-      animation: menuSlideIn 0.4s ease-in forwards; }
+      animation: menuSlideIn 0.4s ease forwards; }
     .header__nav_show .menu-hamburger__line:nth-child(1) {
-      animation: rotateClockwise 0.4s ease-in forwards; }
+      animation: burgerToCrossTopLine 0.4s ease forwards; }
     .header__nav_show .menu-hamburger__line:nth-child(2) {
-      top: 25px;
-      animation: lineScaleOut 0.4s ease-in forwards; }
+      animation: lineScaleOut 0.4s ease forwards; }
     .header__nav_show .menu-hamburger__line:nth-child(3) {
-      animation: rotateAntiClockwise 0.4s ease-in forwards; }
+      animation: burgerToCrossBottomLine 0.4s ease forwards; }
     .header__nav_hide .header__menu-container {
-      animation: overlayFadeOut 0.4s ease-in forwards; }
+      animation: overlayFadeOut 0.4s ease forwards; }
     .header__nav_hide .header-menu {
-      animation: menuSlideOut 0.4s ease-in forwards; }
+      animation: menuSlideOut 0.4s ease forwards; }
     .header__nav_hide .menu-hamburger__line:nth-child(1) {
-      animation: rotateClockwiseReverse 0.4s ease-in forwards; }
+      animation: crossToBurgerTopLine 0.4s ease forwards; }
     .header__nav_hide .menu-hamburger__line:nth-child(2) {
-      display: block;
-      top: 25px;
-      animation: lineScaleIn 0.4s ease-in forwards; }
+      animation: lineScaleIn 0.4s ease forwards; }
     .header__nav_hide .menu-hamburger__line:nth-child(3) {
-      animation: rotateAntiClockwiseReverse 0.4s ease-in forwards; }
+      animation: crossToBurgerBottomLine 0.4s ease forwards; }
   .menu-hamburger {
     right: 64px;
     display: flex; }
