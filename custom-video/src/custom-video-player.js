@@ -28,6 +28,7 @@ export default class CustomVideoPlayer {
     
     this.playerActionPopup = select('action-popup');
     this.frameOverlay = select('frame-overlay');
+    this.frameOverlayBg = select('frame-overlay-bg');
     this.controlPanel = select('control-panel');
     this.settingsMenu = select('settings-menu');
     this.playBtn = select('play');
@@ -59,7 +60,7 @@ export default class CustomVideoPlayer {
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
-    this.currentTime = 0;
+    this.currentTime = null;
     
     this.player.addEventListener('mouseenter', this.showControlPanel);
     this.player.addEventListener('mouseleave', this.hideControlPanel);
@@ -109,7 +110,7 @@ export default class CustomVideoPlayer {
     this.progressBarTooltip.style.top = `-${height + 16}px`;
     this.progressBarTooltipBg.style.height = `${height}px`;
     this.progressBarTooltipBg.style.backgroundImage = `url(${src})`;
-    this.frameOverlay.style.backgroundImage = `url(${src})`;
+    this.frameOverlayBg.style.backgroundImage = `url(${src})`;
   }
 
   setColors = () => {
@@ -296,7 +297,7 @@ export default class CustomVideoPlayer {
   }
 
   skipVideo = (value) => {
-    this.video.currentTime = this.currentTime;
+    this.video.currentTime += parseFloat(value);
   }
 
   showPlayerActionPopup = (modificator) => {
@@ -367,14 +368,17 @@ export default class CustomVideoPlayer {
     const progressX = e.clientX < progressBarX
       ? 0 : e.clientX > progressBarX + progressBarWidth ? progressBarWidth : e.clientX - progressBarX;
     const time = (progressX / progressBarWidth) * this.video.duration;
-    
-    if (this.isProgressBarMouseDown) {
+
+    if (this.isProgressBarMouseDown || this.isMobile) {
       const bgIndex = Math.floor(time / this.options.frameSprite.step);
       if (bgIndex !== this.tooltipCurrentBgIndex) {
-        const ratio = this.frameOverlay.offsetWidth / this.options.frameSprite.width;
-        const bgOffset = bgIndex * this.options.frameSprite.height * ratio;
-        this.frameOverlay.style.backgroundPosition = `0 -${bgOffset}px`;
+        const whRatio = this.options.frameSprite.width / this.options.frameSprite.height;
+        const widthRatio = this.frameOverlay.offsetWidth / this.options.frameSprite.width;
+        const bgOffset = bgIndex * this.options.frameSprite.height * widthRatio;
+        this.frameOverlayBg.style.backgroundPosition = `0 -${bgOffset}px`;
+        this.frameOverlayBg.style.height = `${Math.floor(this.frameOverlay.offsetWidth / whRatio)}px`;
       }
+
       this.currentTime = time;
       this.handleProgress(null, this.currentTime);
     }
@@ -409,8 +413,8 @@ export default class CustomVideoPlayer {
     e.preventDefault();
     this.video.pause();
     this.isProgressBarMouseDown = true;
-    this.frameOverlay.style.display = 'block';
-    this.handleProgressBarMouseMove(e);
+    this.frameOverlay.style.display = 'flex';
+    setTimeout(() => this.handleProgressBarMouseMove(e));
   }
 
   handleProgressBarMouseUp = (e) => {

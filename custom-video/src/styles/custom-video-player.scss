@@ -97,15 +97,20 @@ video::-webkit-media-controls-enclosure {
 
   &__frame-overlay {
     display: none;
+    align-items: center;
     position: absolute;
     z-index: 4;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    filter: blur(1px);
+    background-color: black;
+
+    &-bg {
+      width: 100%;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
   }
   
   &__control-panel {
@@ -158,6 +163,11 @@ video::-webkit-media-controls-enclosure {
     border: none;
     background: none;
     font: inherit;
+    
+    &:active {
+      transform: scale(0.95);
+    }
+
     &:hover {
       color: var(--player-main-color);
     }
