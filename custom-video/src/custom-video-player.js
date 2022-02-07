@@ -40,7 +40,9 @@ export default class CustomVideoPlayer {
     this.progressBar = select('progress-bar');
     this.progressBarFiller = select('progress-bar-filler');
     this.progressBarThumb = select('progress-bar-thumb');
-    this.progressBarTimeLabel = select('progress-bar-time-label');
+    this.progressBarTooltip = select('progress-bar-tooltip');
+    this.progressBarTooltipTime = select('progress-bar-tooltip-time');
+    this.progressBarTooltipBg = select('progress-bar-tooltip-bg');
 
     this.isSettingsMenuVisible = false;
     this.isProgressBarMouseDown = false;
@@ -52,7 +54,7 @@ export default class CustomVideoPlayer {
     this.skipInterval = 20;
     this.playerActionPopupDuration = 400;
     this.volumeSliderWidth = 60;
-    this.timeLabelWidth = 30;
+    this.timeLabelWidth = 100;
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
@@ -86,7 +88,6 @@ export default class CustomVideoPlayer {
 
     this.isMobile = this.checkMobile();
     this.video.volume = 0.1;
-    this.video.muted = true;
     this.video.pause();
   }
   
@@ -94,7 +95,13 @@ export default class CustomVideoPlayer {
     this.durationLabel.textContent = '';
     this.progressBarFiller.style.width = '0%';
     this.progressBarThumb.style.left = `calc(0% - 6px)`;
+    this.loadFrameSprite();
     this.handleVideoPause();
+  }
+
+  loadFrameSprite = () => {
+    const img = document.createElement('img');
+    img.src = this.options.frameSprite.src;
   }
 
   setColors = () => {
@@ -304,7 +311,6 @@ export default class CustomVideoPlayer {
   }
 
   handleVolumeChange = () => {
-    console.log('Volume changed', this.video.volume);
     if (this.video.muted) {      
       this.volumeSlider.dataset.value = 0;
       this.volumeSliderFiller.style.width = '0%';
@@ -336,9 +342,13 @@ export default class CustomVideoPlayer {
     this.progressBarThumb.style.left = `calc(${percent}% - 6px)`;
   }
 
-  showTimeLabel = (time, offset) => {
-    this.progressBarTimeLabel.textContent = timeToText(time);
-    this.progressBarTimeLabel.style.left = `${offset}px`;
+  showTooltip = (time, offset) => {
+    this.progressBarTooltip.style.display = 'block';
+    this.progressBarTooltip.style.left = `${offset}px`;
+    this.progressBarTooltipTime.textContent = `${timeToText(time)}`;
+    const bgOffset = Math.floor(time / this.options.frameSprite.step) * this.options.frameSprite.height;
+    this.progressBarTooltipBg.style.backgroundImage = `url(${this.options.frameSprite.src})`;
+    this.progressBarTooltipBg.style.backgroundPosition = `0 -${bgOffset}px`;
   }
 
   handleProgressBarMouseMove = (e) => {
@@ -357,9 +367,8 @@ export default class CustomVideoPlayer {
     if (offset > progressBarWidth - this.timeLabelWidth) {
       offset = progressBarWidth - this.timeLabelWidth;
     }
-    this.progressBarTimeLabel.style.display = 'block';
     if (!this.isMobile) {
-      this.showTimeLabel(time, offset);
+      this.showTooltip(time, offset);
     }
   }
 
@@ -369,7 +378,7 @@ export default class CustomVideoPlayer {
 
   handleProgressBarMouseOut = () => {
     if (!this.isProgressBarMouseDown) {
-      this.progressBarTimeLabel.style.display = 'none';
+      this.progressBarTooltip.style.display = 'none';
     }
     this.isProgressBarMouseOver = false;
   }
