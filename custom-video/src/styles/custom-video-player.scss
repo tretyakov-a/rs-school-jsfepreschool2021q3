@@ -345,9 +345,6 @@ video::-webkit-media-controls-enclosure {
     &-tooltip {
       position: absolute;
       left: 0;
-      width: 100px;
-      height: 72px;
-      top: -72px;
       display: none;
       pointer-events: none;
       user-select: none;
@@ -362,7 +359,6 @@ video::-webkit-media-controls-enclosure {
 
       &-bg {
         width: 100%;
-        height: 56px;
         border: 1px solid var(--player-main-text-color);
         border-radius: 3px;
         background-repeat: no-repeat;

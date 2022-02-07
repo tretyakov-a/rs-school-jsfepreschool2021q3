@@ -1,14 +1,14 @@
 import './styles/index.scss';
 import CustomVideoPlayer from './custom-video-player';
 import requirements from '../requirements.md';
-import frameSpriteSrc from './assets/video4-frames-5s.png';
+import frameSpriteSrc from './assets/sprite.png';
 
 const video = document.querySelector('video');
 const videoPlayer = new CustomVideoPlayer(video, {
   frameSprite: {
     src: frameSpriteSrc,
-    width: 100,
-    height: 56,
+    width: 150,
+    height: 84,
     step: 5
   },
   colors: {

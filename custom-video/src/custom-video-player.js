@@ -54,7 +54,7 @@ export default class CustomVideoPlayer {
     this.skipInterval = 20;
     this.playerActionPopupDuration = 400;
     this.volumeSliderWidth = 60;
-    this.timeLabelWidth = 100;
+    this.tooltipCurrentBgIndex = 0;
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
@@ -100,8 +100,12 @@ export default class CustomVideoPlayer {
   }
 
   loadFrameSprite = () => {
+    const { width, height, src } = this.options.frameSprite;
     const img = document.createElement('img');
-    img.src = this.options.frameSprite.src;
+    img.src = src;
+    this.progressBarTooltip.style.width = `${width}px`;
+    this.progressBarTooltip.style.top = `-${height + 16}px`;
+    this.progressBarTooltipBg.style.height = `${height}px`;
   }
 
   setColors = () => {
@@ -346,9 +350,13 @@ export default class CustomVideoPlayer {
     this.progressBarTooltip.style.display = 'block';
     this.progressBarTooltip.style.left = `${offset}px`;
     this.progressBarTooltipTime.textContent = `${timeToText(time)}`;
-    const bgOffset = Math.floor(time / this.options.frameSprite.step) * this.options.frameSprite.height;
-    this.progressBarTooltipBg.style.backgroundImage = `url(${this.options.frameSprite.src})`;
-    this.progressBarTooltipBg.style.backgroundPosition = `0 -${bgOffset}px`;
+    const bgIndex = Math.floor(time / this.options.frameSprite.step);
+    if (bgIndex !== this.tooltipCurrentBgIndex) {
+      this.tooltipCurrentBgIndex = bgIndex;
+      const bgOffset = bgIndex * this.options.frameSprite.height;
+      this.progressBarTooltipBg.style.backgroundImage = `url(${this.options.frameSprite.src})`;
+      this.progressBarTooltipBg.style.backgroundPosition = `0 -${bgOffset}px`;
+    }
   }
 
   handleProgressBarMouseMove = (e) => {
@@ -360,12 +368,12 @@ export default class CustomVideoPlayer {
     if (this.isProgressBarMouseDown) {
       this.video.currentTime = time;
     }
-    let offset = progressX - this.timeLabelWidth / 2;
+    let offset = progressX - this.options.frameSprite.width / 2;
     if (offset < 0) {
       offset = 0;
     }
-    if (offset > progressBarWidth - this.timeLabelWidth) {
-      offset = progressBarWidth - this.timeLabelWidth;
+    if (offset > progressBarWidth - this.options.frameSprite.width) {
+      offset = progressBarWidth - this.options.frameSprite.width;
     }
     if (!this.isMobile) {
       this.showTooltip(time, offset);
