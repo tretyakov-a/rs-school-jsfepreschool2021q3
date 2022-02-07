@@ -92,13 +92,13 @@ export default class CustomVideoPlayer {
     this.isMobile = this.checkMobile();
     this.video.volume = 0.1;
     this.video.pause();
+    this.loadFrameSprite();
   }
   
   handleLoadStart = () => {
     this.durationLabel.textContent = '';
     this.progressBarFiller.style.width = '0%';
     this.progressBarThumb.style.left = `calc(0% - 6px)`;
-    this.loadFrameSprite();
     this.handleVideoPause();
   }
 
@@ -106,11 +106,13 @@ export default class CustomVideoPlayer {
     const { width, height, src } = this.options.frameSprite;
     const img = document.createElement('img');
     img.src = src;
-    this.progressBarTooltip.style.width = `${width}px`;
-    this.progressBarTooltip.style.top = `-${height + 16}px`;
-    this.progressBarTooltipBg.style.height = `${height}px`;
-    this.progressBarTooltipBg.style.backgroundImage = `url(${src})`;
-    this.frameOverlayBg.style.backgroundImage = `url(${src})`;
+    img.addEventListener('load', () => {
+      this.progressBarTooltip.style.width = `${width}px`;
+      this.progressBarTooltip.style.top = `-${height + 16}px`;
+      this.progressBarTooltipBg.style.height = `${height}px`;
+      this.progressBarTooltipBg.style.backgroundImage = `url(${src})`;
+      this.frameOverlayBg.style.backgroundImage = `url(${src})`;
+    });
   }
 
   setColors = () => {

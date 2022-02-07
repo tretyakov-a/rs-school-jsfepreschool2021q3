@@ -127,6 +127,7 @@ video::-webkit-media-controls-enclosure {
     transition: transform 0.3s;
     z-index: 5;
     padding-top: var(--player-progressbar-filler-height);
+    cursor: default;
   
     &_show, &_mobile {
       transform: translateY(0px);
