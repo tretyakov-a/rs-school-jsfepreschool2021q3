@@ -27,6 +27,7 @@ export default class CustomVideoPlayer {
     const select = s => this.player.querySelector(this.getSelector(s));
     
     this.playerActionPopup = select('action-popup');
+    this.frameOverlay = select('frame-overlay');
     this.controlPanel = select('control-panel');
     this.settingsMenu = select('settings-menu');
     this.playBtn = select('play');
@@ -58,6 +59,7 @@ export default class CustomVideoPlayer {
     this.afkDelay = 2000;
     this.isUserAfk = true;
     this.afkTimer = null;
+    this.currentTime = 0;
     
     this.player.addEventListener('mouseenter', this.showControlPanel);
     this.player.addEventListener('mouseleave', this.hideControlPanel);
@@ -81,7 +83,7 @@ export default class CustomVideoPlayer {
     this.progressBar.addEventListener('mouseout', this.handleProgressBarMouseOut);
 
     document.addEventListener('click', this.handleDocumentClick);
-    document.addEventListener('mousemove', throttleDelayed(this.handleDocumentMouseMove));
+    document.addEventListener('mousemove', this.handleDocumentMouseMove);
     document.addEventListener('mouseup', this.handleDocumentMouseUp)
 
     this.controlPanel.addEventListener('click', this.handleControlPanelClick);
@@ -106,6 +108,8 @@ export default class CustomVideoPlayer {
     this.progressBarTooltip.style.width = `${width}px`;
     this.progressBarTooltip.style.top = `-${height + 16}px`;
     this.progressBarTooltipBg.style.height = `${height}px`;
+    this.progressBarTooltipBg.style.backgroundImage = `url(${src})`;
+    this.frameOverlay.style.backgroundImage = `url(${src})`;
   }
 
   setColors = () => {
@@ -292,7 +296,7 @@ export default class CustomVideoPlayer {
   }
 
   skipVideo = (value) => {
-    this.video.currentTime += parseFloat(value);
+    this.video.currentTime = this.currentTime;
   }
 
   showPlayerActionPopup = (modificator) => {
@@ -338,10 +342,10 @@ export default class CustomVideoPlayer {
     this.video.volume = volume;
   }
 
-  handleProgress = () => {
-    const { currentTime, duration } = this.video;
-    this.durationLabel.textContent = `${timeToText(currentTime)} / ${timeToText(duration)}`;
-    const percent = (currentTime / duration) * 100;
+  handleProgress = (e, time = this.video.currentTime) => {
+    const { duration } = this.video;
+    this.durationLabel.textContent = `${timeToText(time)} / ${timeToText(duration)}`;
+    const percent = (time / duration) * 100;
     this.progressBarFiller.style.width = `${percent}%`;
     this.progressBarThumb.style.left = `calc(${percent}% - 6px)`;
   }
@@ -353,8 +357,7 @@ export default class CustomVideoPlayer {
     const bgIndex = Math.floor(time / this.options.frameSprite.step);
     if (bgIndex !== this.tooltipCurrentBgIndex) {
       this.tooltipCurrentBgIndex = bgIndex;
-      const bgOffset = bgIndex * this.options.frameSprite.height;
-      this.progressBarTooltipBg.style.backgroundImage = `url(${this.options.frameSprite.src})`;
+      const bgOffset = this.tooltipCurrentBgIndex * this.options.frameSprite.height;
       this.progressBarTooltipBg.style.backgroundPosition = `0 -${bgOffset}px`;
     }
   }
@@ -366,27 +369,38 @@ export default class CustomVideoPlayer {
     const time = (progressX / progressBarWidth) * this.video.duration;
     
     if (this.isProgressBarMouseDown) {
-      this.video.currentTime = time;
+      const bgIndex = Math.floor(time / this.options.frameSprite.step);
+      if (bgIndex !== this.tooltipCurrentBgIndex) {
+        const ratio = this.frameOverlay.offsetWidth / this.options.frameSprite.width;
+        const bgOffset = bgIndex * this.options.frameSprite.height * ratio;
+        this.frameOverlay.style.backgroundPosition = `0 -${bgOffset}px`;
+      }
+      this.currentTime = time;
+      this.handleProgress(null, this.currentTime);
     }
-    let offset = progressX - this.options.frameSprite.width / 2;
-    if (offset < 0) {
-      offset = 0;
+
+    let tooltipOffset = progressX - this.options.frameSprite.width / 2;
+    if (tooltipOffset < 0) {
+      tooltipOffset = 0;
     }
-    if (offset > progressBarWidth - this.options.frameSprite.width) {
-      offset = progressBarWidth - this.options.frameSprite.width;
+    if (tooltipOffset > progressBarWidth - this.options.frameSprite.width) {
+      tooltipOffset = progressBarWidth - this.options.frameSprite.width;
     }
+
     if (!this.isMobile) {
-      this.showTooltip(time, offset);
+      this.showTooltip(time, tooltipOffset);
     }
   }
 
   handleProgressBarMouseOver = (e) => {
     this.isProgressBarMouseOver = true;
+    this.progressBar.classList.add(this.className('progress-bar_hover'));
   }
 
   handleProgressBarMouseOut = () => {
     if (!this.isProgressBarMouseDown) {
       this.progressBarTooltip.style.display = 'none';
+      this.progressBar.classList.remove(this.className('progress-bar_hover'));
     }
     this.isProgressBarMouseOver = false;
   }
@@ -395,13 +409,16 @@ export default class CustomVideoPlayer {
     e.preventDefault();
     this.video.pause();
     this.isProgressBarMouseDown = true;
+    this.frameOverlay.style.display = 'block';
     this.handleProgressBarMouseMove(e);
   }
 
   handleProgressBarMouseUp = (e) => {
     if (this.isProgressBarMouseDown) {
+      this.video.currentTime = this.currentTime;
       this.video.play();
       this.isProgressBarMouseDown = false;
+      this.frameOverlay.style.display = 'none';
       if (!this.isProgressBarMouseOver) {
         this.handleProgressBarMouseOut(e);
       }
