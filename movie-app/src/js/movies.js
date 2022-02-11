@@ -1,4 +1,4 @@
-import movieCardTemplate from './templates/movie-card.ejs';
+import movieCardTemplate from '../templates/movie-card.ejs';
 
 export default function renderMovies(items) {
   return items.reduce((movies, item) => {

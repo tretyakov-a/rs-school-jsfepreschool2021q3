@@ -1,17 +1,19 @@
 import './styles/index.scss';
-import OmdbApiService from './services/omdbApiService';
-import DummyService from './services/dummyService';
-import renderMovies from './movies';
+import OmdbApiService from './js/services/omdbApiService';
+import DummyService from './js/services/dummyService';
+import renderMovies from './js/movies';
 import movieFullCardTemplate from './templates/movie-card-full.ejs';
 import searchListItemTemplate from './templates/search-list-item.ejs';
 import loaderTemplate from './templates/loader.ejs';
-import { debounce } from './helpers';
+import { debounce } from './js/helpers';
 
 import imagePlaceholder from './assets/img-placeholder.svg';
 
 // TODO: add pagination
 // TODO: add some animations for: popup, search-list
 // TODO: refactor index.js
+// TODO: replace API to TMDB
+// TODO: в поле ввода есть крестик при клике по которому поисковый запрос из поля ввода удаляется и отображается placeholder
 
 const searchForm = document.querySelector('.search-form');
 const searchInput = searchForm.querySelector('.search-form__input');
