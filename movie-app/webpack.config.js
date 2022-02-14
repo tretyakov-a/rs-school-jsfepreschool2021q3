@@ -92,6 +92,7 @@ module.exports = (env) => {
       ]
     },
     target: 'web',
+    devtool: 'source-map',
     devServer: {
       hot: isDev,
       liveReload: isDev,

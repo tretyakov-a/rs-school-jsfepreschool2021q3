@@ -1,4 +1,5 @@
 import './styles/index.scss';
+import requirements from '../requirements.md';
 import OmdbApiService from './js/services/omdbApiService';
 import DummyService from './js/services/dummyService';
 import renderMovies from './js/movies';
@@ -39,21 +40,22 @@ async function handleSearchFormSubmit(e) {
   hideSearchList();
   let data = null;
   if (searchData.Search) {
-    if (currentLoadedData.search !== currentSearch) {
+    if (currentLoadedData.search === currentSearch && currentLoadedData.data.length === currentSearchData.Search.length) {
+      data = currentLoadedData.data;
+    } else {
       moviesList.innerHTML = loaderTemplate();
       
       const ids = searchData.Search.map(({ imdbID }) => imdbID);
       data = await apiService.fetchMoviesById(ids);
       currentLoadedData.search = currentSearch;
       currentLoadedData.data = data;
-    } else {
-      data = currentLoadedData.data;
     }
   }
 
   handleImgLoadErrors(moviesList);
   
   moviesList.innerHTML = data ? renderMovies(data) : errorMessage;
+  searchInput.blur();
 }
 
 function handleImgLoadErrors(container) {
@@ -132,11 +134,23 @@ async function handleSearchInput(e) {
 }
 
 async function handleSearchListClick(e) {
-  moviesList.innerHTML = loaderTemplate();
+  if (e.target.dataset.id) {
+    moviesList.innerHTML = loaderTemplate();
 
-  if (e.target.dataset) {
     const id = e.target.dataset.id;
-    const data = [await apiService.fetchMovieById(id)];
+
+    let data = null;
+    if (currentSearch === currentLoadedData.search && currentLoadedData.data) {
+      const loadedDataItem = currentLoadedData.data.find(item => item.imdbID === id);
+      if (loadedDataItem) {
+        data = [loadedDataItem];
+      }
+    }
+    if (!data || data.length === 0) {
+      data = [await apiService.fetchMovieById(id)];
+      currentLoadedData.search = currentSearch;
+      currentLoadedData.data = data;
+    }
     const movies = renderMovies(data);
     moviesList.innerHTML = movies;
     
@@ -191,3 +205,4 @@ async function init() {
 }
 
 init();
+console.log(requirements);

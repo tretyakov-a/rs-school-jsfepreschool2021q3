@@ -33,3 +33,7 @@ ul {
   margin: 0 auto;
   padding: 0 var(--container-padding);
 }
+
+.main {
+  min-height: calc(100vh - 2 * var(--header-height) - 2 * var(--container-padding));
+}

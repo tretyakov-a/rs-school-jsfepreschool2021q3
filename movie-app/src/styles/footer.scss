@@ -1,8 +1,8 @@
 .footer {
-  height: 60px;
-  margin-top: 20px;
+  height: var(--header-height);
+  margin-top: var(--container-padding);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
   &__github-link {

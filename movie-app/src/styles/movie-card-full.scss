@@ -6,6 +6,15 @@
   display: flex;
   overflow: hidden;
 
+  &__title-right-overlay {
+    position: absolute;
+    z-index: 2;
+    width: 30px;
+    height: 100%;
+    right: 0px;
+    background: linear-gradient(90deg, transparent 0%, white 50%);
+  }
+
   &__title-container {
     position: relative;
     width: calc(100% - 30px);
@@ -16,6 +25,7 @@
 
   &__title {
     position: absolute;
+    z-index: 1;
     font-size: 23px;
     line-height: 38px;
     white-space: nowrap;
