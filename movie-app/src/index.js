@@ -9,12 +9,6 @@ import { debounce, isClickOutside } from './js/helpers';
 
 import imagePlaceholder from './assets/img-placeholder.svg';
 
-// TODO: add pagination
-// TODO: add some animations for: popup, search-list
-// TODO: refactor index.js
-// TODO: replace API to TMDB
-// TODO: в поле ввода есть крестик при клике по которому поисковый запрос из поля ввода удаляется и отображается placeholder
-
 const searchForm = document.querySelector('.search-form');
 const searchInput = searchForm.querySelector('.search-form__input');
 const searchList = searchForm.querySelector('.search-form__search-list')
@@ -36,28 +30,30 @@ const errorMessage = '<p style="padding-left: 10px;">No movies found</p>';
 async function handleSearchFormSubmit(e) {
   e && e.preventDefault();
 
-  hideSearchList();
   const searchInputValue = searchInput.value;
   if (searchInputValue === '') {
     return;
   }
   const searchData = await search(searchInputValue);
 
-  if (currentLoadedData.search !== currentSearch) {
-    hideSearchList();
-    let html = null;
-    if (searchData.Search) {
+  hideSearchList();
+  let data = null;
+  if (searchData.Search) {
+    if (currentLoadedData.search !== currentSearch) {
       moviesList.innerHTML = loaderTemplate();
+      
       const ids = searchData.Search.map(({ imdbID }) => imdbID);
-      const data = await apiService.fetchMoviesById(ids);
+      data = await apiService.fetchMoviesById(ids);
       currentLoadedData.search = currentSearch;
       currentLoadedData.data = data;
-      html = renderMovies(data);
-
-      handleImgLoadErrors(moviesList);
+    } else {
+      data = currentLoadedData.data;
     }
-    moviesList.innerHTML = html || errorMessage;
   }
+
+  handleImgLoadErrors(moviesList);
+  
+  moviesList.innerHTML = data ? renderMovies(data) : errorMessage;
 }
 
 function handleImgLoadErrors(container) {
@@ -116,6 +112,7 @@ async function handleSearchInput(e) {
     currentSearch = '';
     currentSearchData = null;
     searchList.innerHTML = '';
+    clearButton.classList.add('search-form__button_hide');
     hideSearchList();
     return;
   }
@@ -138,16 +135,13 @@ async function handleSearchListClick(e) {
   moviesList.innerHTML = loaderTemplate();
 
   if (e.target.dataset) {
-    hideSearchList();
     const id = e.target.dataset.id;
-    searchInput.value = '';
-    
     const data = [await apiService.fetchMovieById(id)];
-    currentLoadedData.data = data;
     const movies = renderMovies(data);
     moviesList.innerHTML = movies;
     
     handleImgLoadErrors(moviesList);
+    hideSearchList();
   }
 }
 
@@ -169,7 +163,7 @@ function hideSearchList() {
 
 function handleDocumentClick(e) {
   if (isClickOutside(e, 'search-form')) {
-    searchInput.blur();
+    hideSearchList();
   }
 }
 
@@ -180,14 +174,9 @@ function handleSearchInputFocus(e) {
   showSearchList();
 }
 
-function handleSearchInputBlur(e) {
-  hideSearchList();
-}
-
 searchForm.addEventListener('submit', handleSearchFormSubmit);
 searchInput.addEventListener('input', debounce(500, handleSearchInput));
 searchInput.addEventListener('focus', handleSearchInputFocus);
-searchInput.addEventListener('blur', handleSearchInputBlur);
 clearButton.addEventListener('click', handleClearButtonClick);
 searchList.addEventListener('click', handleSearchListClick);
 moviesList.addEventListener('click', handleMovieListClick);

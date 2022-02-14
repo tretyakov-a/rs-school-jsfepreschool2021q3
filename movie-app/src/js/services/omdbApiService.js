@@ -25,7 +25,9 @@ export default class OmdbApiService {
       const data = await response.json();
       if (data.Ratings) {
         const rotten = data.Ratings.find(item => item.Source === 'Rotten Tomatoes');
-        data.rotten = rotten.Value;
+        if (rotten) {
+          data.rotten = rotten.Value;
+        }
       }
       return data;
 
