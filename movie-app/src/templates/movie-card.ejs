@@ -14,10 +14,12 @@
         <img src="<%= require('../assets/imdb.png') %>" alt="imdb" width="35" height="17">
         <%= locals.imdbRating %>&nbsp;/&nbsp;10
       </span>
-      <span class="movie-card__metascore">
-        <img src="<%= require('../assets/rotten.png') %>" alt="rotten tomatoes" width="16" height="17">
-        <%= locals.Metascore %>%
-      </span>
+      <% if (locals.rotten) { %>
+        <span class="movie-card__rotten">
+          <img src="<%= require('../assets/rotten.png') %>" alt="rotten tomatoes" width="16" height="17">
+          <%= locals.rotten %>
+        </span>
+      <% } %>
     </div>
     <div class="movie-card__info">
       <span class="movie-card__genre"><%= locals.Genre %></span>

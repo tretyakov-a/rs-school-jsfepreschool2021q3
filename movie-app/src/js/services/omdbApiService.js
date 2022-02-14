@@ -3,8 +3,8 @@ export default class OmdbApiService {
     this.apiKey = OMDB_API_KEY;
     this.baseQuery = `https://www.omdbapi.com/?apikey=${this.apiKey}&`;
     this.searchQuery = `${this.baseQuery}s=`;
-    this.titleQuery = `${this.baseQuery}t=`;
-    this.idQuery = `${this.baseQuery}i=`;
+    this.titleQuery = `${this.baseQuery}plot=full&t=`;
+    this.idQuery = `${this.baseQuery}plot=full&i=`;
   }
 
   _getSearchQuery(str) {
@@ -23,6 +23,10 @@ export default class OmdbApiService {
     try {
       const response = await fetch(query);
       const data = await response.json();
+      if (data.Ratings) {
+        const rotten = data.Ratings.find(item => item.Source === 'Rotten Tomatoes');
+        data.rotten = rotten.Value;
+      }
       return data;
 
     } catch (error) {

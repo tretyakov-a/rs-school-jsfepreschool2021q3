@@ -55,10 +55,12 @@
           <img src="<%= require('../assets/imdb.png') %>" alt="imdb" width="35" height="17">
           <%= locals.imdbRating %>&nbsp;/&nbsp;10
         </span>
-        <span class="movie-card-full__ratings-item">
-          <img src="<%= require('../assets/rotten.png') %>" alt="rotten tomatoes" width="16" height="17">
-          <%= locals.Metascore %>%
-        </span>
+        <% if (locals.rotten) { %>
+          <span class="movie-card-full__ratings-item">
+            <img src="<%= require('../assets/rotten.png') %>" alt="rotten tomatoes" width="16" height="17">
+            <%= locals.rotten %>
+          </span>
+        <% } %>
       </div>
     </div>
   </div>

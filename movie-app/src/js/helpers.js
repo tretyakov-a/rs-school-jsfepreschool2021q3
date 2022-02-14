@@ -8,3 +8,7 @@ export const debounce = (ms, fn) => {
   }
   return wrapper;
 }
+
+export function isClickOutside(e, element) {
+  return e && !e.path.find(el => el.classList && el.classList.contains(element));
+}

@@ -5,7 +5,7 @@ import renderMovies from './js/movies';
 import movieFullCardTemplate from './templates/movie-card-full.ejs';
 import searchListItemTemplate from './templates/search-list-item.ejs';
 import loaderTemplate from './templates/loader.ejs';
-import { debounce } from './js/helpers';
+import { debounce, isClickOutside } from './js/helpers';
 
 import imagePlaceholder from './assets/img-placeholder.svg';
 
@@ -18,6 +18,7 @@ import imagePlaceholder from './assets/img-placeholder.svg';
 const searchForm = document.querySelector('.search-form');
 const searchInput = searchForm.querySelector('.search-form__input');
 const searchList = searchForm.querySelector('.search-form__search-list')
+const clearButton = searchForm.querySelector('.search-form__button_clear');
 const moviesList = document.querySelector('.movies-list');
 const popup = document.querySelector('.popup');
 
@@ -43,6 +44,7 @@ async function handleSearchFormSubmit(e) {
   const searchData = await search(searchInputValue);
 
   if (currentLoadedData.search !== currentSearch) {
+    hideSearchList();
     let html = null;
     if (searchData.Search) {
       moviesList.innerHTML = loaderTemplate();
@@ -57,7 +59,6 @@ async function handleSearchFormSubmit(e) {
     moviesList.innerHTML = html || errorMessage;
   }
 }
-
 
 function handleImgLoadErrors(container) {
   setTimeout(() => {
@@ -90,10 +91,6 @@ function handleMovieListClick(e) {
   }
 }
 
-function isClickOutside(e, element) {
-  return e && !e.path.find(el => el.classList && el.classList.contains(element));
-}
-
 function handlePopupClick(e) {
   if (isClickOutside(e, 'popup__card')) {
     popup.classList.remove('popup_show');
@@ -113,13 +110,17 @@ async function search(value) {
 }
 
 async function handleSearchInput(e) {
-  const searchInputValue = e.target.value;
+  const searchInputValue = searchInput.value;
 
   if (searchInputValue === '') {
+    currentSearch = '';
+    currentSearchData = null;
+    searchList.innerHTML = '';
     hideSearchList();
     return;
   }
-  searchList.classList.add('search-form__search-list_show');
+  clearButton.classList.remove('search-form__button_hide');
+  showSearchList();
   searchList.innerHTML = loaderTemplate();
   
   const searchData = await search(searchInputValue);
@@ -140,7 +141,7 @@ async function handleSearchListClick(e) {
     hideSearchList();
     const id = e.target.dataset.id;
     searchInput.value = '';
-
+    
     const data = [await apiService.fetchMovieById(id)];
     currentLoadedData.data = data;
     const movies = renderMovies(data);
@@ -150,27 +151,54 @@ async function handleSearchListClick(e) {
   }
 }
 
+function handleClearButtonClick(e) {
+  searchInput.value = '';
+  clearButton.classList.add('search-form__button_hide');
+  handleSearchInput();
+}
+
+function showSearchList() {
+  document.addEventListener('click', handleDocumentClick);
+  searchList.classList.add('search-form__search-list_show');
+}
+
 function hideSearchList() {
+  document.removeEventListener('click', handleDocumentClick);
   searchList.classList.remove('search-form__search-list_show');
 }
 
-function handleDocumentCLick(e) {
+function handleDocumentClick(e) {
   if (isClickOutside(e, 'search-form')) {
-    hideSearchList();
+    searchInput.blur();
   }
+}
+
+function handleSearchInputFocus(e) {
+  if (currentSearch === '') {
+    return;
+  }
+  showSearchList();
+}
+
+function handleSearchInputBlur(e) {
+  hideSearchList();
 }
 
 searchForm.addEventListener('submit', handleSearchFormSubmit);
 searchInput.addEventListener('input', debounce(500, handleSearchInput));
+searchInput.addEventListener('focus', handleSearchInputFocus);
+searchInput.addEventListener('blur', handleSearchInputBlur);
+clearButton.addEventListener('click', handleClearButtonClick);
 searchList.addEventListener('click', handleSearchListClick);
 moviesList.addEventListener('click', handleMovieListClick);
 popup.addEventListener('click', handlePopupClick);
-document.addEventListener('click', handleDocumentCLick);
 
-function init() {
+
+async function init() {
   searchInput.value = 'star wars';
+  await handleSearchInput();
+  await handleSearchFormSubmit();
   searchInput.focus();
-  handleSearchFormSubmit();
 }
 
 init();

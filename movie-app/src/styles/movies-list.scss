@@ -2,22 +2,21 @@
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  column-gap: var(--list-item-gap);
+  row-gap: var(--list-item-gap);
 
   &__item {
     flex-basis: calc((100% - 3 * var(--list-item-gap)) / 4);
-    margin-bottom: var(--list-item-gap);
+    // margin-bottom: var(--list-item-gap);
     cursor: pointer;
     transition: 0.2s;
     border-radius: 5px;
     overflow: hidden;
   }
-  
-  &__item:not(:nth-child(4n)) {
-    margin-right: var(--list-item-gap);
-  }
-  
+
   &__item:hover {
-    box-shadow: 0px 0px 6px 4px var(--main-light-color);
+    box-shadow: 0px 0px 15px -5px var(--main-color);
   }
 
 }
@@ -27,12 +26,6 @@
     &__item {
       flex-basis: calc((100% - 2 * var(--list-item-gap)) / 3);
     }
-    &__item:not(:nth-child(4n)) {
-      margin-right: 0;
-    }
-    &__item:not(:nth-child(3n)) {
-      margin-right: var(--list-item-gap);
-    }
   }
 }
 
@@ -40,12 +33,6 @@
   .movies-list {
     &__item {
       flex-basis: calc((100% - var(--list-item-gap)) / 2);
-    }
-    &__item:not(:nth-child(3n)) {
-      margin-right: 0;
-    }
-    &__item:not(:nth-child(2n)) {
-      margin-right: var(--list-item-gap);
     }
   }
 }
@@ -57,9 +44,7 @@
     
     &__item {
       width: 300px;
-    }
-    &__item:not(:nth-child(2n)) {
-      margin-right: 0;
+      flex-basis: auto;
     }
   }
 }
