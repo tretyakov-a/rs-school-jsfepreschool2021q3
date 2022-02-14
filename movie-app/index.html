@@ -11,7 +11,7 @@
   <title>
     Movie app
   </title>
-<script defer src="main-11bb29ac.js"></script><link href="main-11bb29ac.css" rel="stylesheet"></head>
+<script defer src="main-acd9e90e.js"></script><link href="main-acd9e90e.css" rel="stylesheet"></head>
 <body>
   <div class="popup">
   <div class="popup__inner container">
@@ -30,11 +30,14 @@
   </div>
   <div class="header__search-form-container">
     <form class="search-form" action="#">
-      <input class="search-form__input" type="text" name="search" id="search" placeholder="Search for movies">
+      <input class="search-form__input" type="text" name="search" id="search" placeholder="Search for movies" autocomplete="off">
       <ul class="search-form__search-list">
 
       </ul>
-      <button class="search-form__button">
+      <button class="search-form__button search-form__button_clear search-form__button_hide" type="button">
+        <i class="fas fa-times"></i>
+      </button>
+      <button class="search-form__button search-form__button_submit">
         <i class="fas fa-search"></i>
       </button>
     </form>
