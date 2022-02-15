@@ -6,6 +6,7 @@ import renderMovies from './js/movies';
 import movieFullCardTemplate from './templates/movie-card-full.ejs';
 import searchListItemTemplate from './templates/search-list-item.ejs';
 import loaderTemplate from './templates/loader.ejs';
+import errorTemplate from './templates/error.ejs';
 import { debounce, isClickOutside } from './js/helpers';
 
 import imagePlaceholder from './assets/img-placeholder.svg';
@@ -21,41 +22,43 @@ const apiService = new OmdbApiService();
 // const apiService = new DummyService();
 
 let currentLoadedData = {
-  search: null,
+  query: null,
   data: null
 };
-let currentSearch = '';
-let currentSearchData = null;
-const errorMessage = '<p style="padding-left: 10px;">No movies found</p>';
+
+let currentSearch = {
+  query: null,
+  data: null
+}
+
+let isLoadedAll = false;
+let isLoadedOne = false;
 
 async function handleSearchFormSubmit(e) {
   e && e.preventDefault();
 
   const searchInputValue = searchInput.value;
-  if (searchInputValue === '') {
+  if (searchInputValue === '' || (isLoadedAll && currentLoadedData.query === currentSearch.query)) {
     return;
   }
+
   const searchData = await search(searchInputValue);
 
   hideSearchList();
   let data = null;
   if (searchData.Search) {
-    if (currentLoadedData.search === currentSearch && currentLoadedData.data.length === currentSearchData.Search.length) {
-      data = currentLoadedData.data;
-    } else {
       moviesList.innerHTML = loaderTemplate();
-      
       const ids = searchData.Search.map(({ imdbID }) => imdbID);
       data = await apiService.fetchMoviesById(ids);
-      currentLoadedData.search = currentSearch;
+      currentLoadedData.query = currentSearch.query;
       currentLoadedData.data = data;
-    }
   }
 
   handleImgLoadErrors(moviesList);
   
-  moviesList.innerHTML = data ? renderMovies(data) : errorMessage;
+  moviesList.innerHTML = data ? renderMovies(data) : errorTemplate();
   searchInput.blur();
+  isLoadedAll = true;
 }
 
 function handleImgLoadErrors(container) {
@@ -97,12 +100,12 @@ function handlePopupClick(e) {
 
 async function search(value) {
   let searchData = null;
-  if (value === currentSearch) {
-    searchData = currentSearchData;
+  if (value === currentSearch.query) {
+    searchData = currentSearch.data;
   } else {
+    currentSearch.query = value;
     searchData = await apiService.search(value);
-    currentSearch = value;
-    currentSearchData = searchData;
+    currentSearch.data = searchData;
   }
   return searchData;
 }
@@ -111,36 +114,51 @@ async function handleSearchInput(e) {
   const searchInputValue = searchInput.value;
 
   if (searchInputValue === '') {
-    currentSearch = '';
-    currentSearchData = null;
+    currentSearch.query = '';
+    currentSearch.data = null;
     searchList.innerHTML = '';
     clearButton.classList.add('search-form__button_hide');
     hideSearchList();
     return;
   }
+  
+  if (currentLoadedData.query === searchInputValue && currentLoadedData.data) {
+    currentSearch.query = searchInputValue;
+    isLoadedAll = true;
+    isLoadedOne = true;
+    hideSearchList();
+    return;
+  }
+
   clearButton.classList.remove('search-form__button_hide');
+  isLoadedAll = false;
+  isLoadedOne = false;
   showSearchList();
   searchList.innerHTML = loaderTemplate();
   
   const searchData = await search(searchInputValue);
-
-  let html = null;
-  if (searchData.Search) {
-    html = searchData.Search
-      .map(item => searchListItemTemplate(item))
-      .join('');
+  if (searchInputValue !== currentSearch.query) {
+    return;
   }
-  searchList.innerHTML = html || errorMessage;
+  
+  searchList.innerHTML = searchData.Search ? renderSearchList(searchData.Search) : errorTemplate();
+}
+
+function renderSearchList(data) {
+  return data
+    .map(item => searchListItemTemplate(item))
+    .join('');
 }
 
 async function handleSearchListClick(e) {
   if (e.target.dataset.id) {
+    hideSearchList();
     moviesList.innerHTML = loaderTemplate();
 
     const id = e.target.dataset.id;
 
     let data = null;
-    if (currentSearch === currentLoadedData.search && currentLoadedData.data) {
+    if (currentSearch.query === currentLoadedData.query && currentLoadedData.data) {
       const loadedDataItem = currentLoadedData.data.find(item => item.imdbID === id);
       if (loadedDataItem) {
         data = [loadedDataItem];
@@ -148,14 +166,14 @@ async function handleSearchListClick(e) {
     }
     if (!data || data.length === 0) {
       data = [await apiService.fetchMovieById(id)];
-      currentLoadedData.search = currentSearch;
+      currentLoadedData.query = currentSearch.query;
       currentLoadedData.data = data;
     }
     const movies = renderMovies(data);
     moviesList.innerHTML = movies;
     
     handleImgLoadErrors(moviesList);
-    hideSearchList();
+    isLoadedOne = true;
   }
 }
 
@@ -166,6 +184,9 @@ function handleClearButtonClick(e) {
 }
 
 function showSearchList() {
+  if (isLoadedAll || isLoadedOne) {
+    return;
+  }
   document.addEventListener('click', handleDocumentClick);
   searchList.classList.add('search-form__search-list_show');
 }
@@ -182,14 +203,14 @@ function handleDocumentClick(e) {
 }
 
 function handleSearchInputFocus(e) {
-  if (currentSearch === '') {
+  if (!currentSearch.query) {
     return;
   }
   showSearchList();
 }
 
 searchForm.addEventListener('submit', handleSearchFormSubmit);
-searchInput.addEventListener('input', debounce(500, handleSearchInput));
+searchInput.addEventListener('input', debounce(250, handleSearchInput));
 searchInput.addEventListener('focus', handleSearchInputFocus);
 clearButton.addEventListener('click', handleClearButtonClick);
 searchList.addEventListener('click', handleSearchListClick);
